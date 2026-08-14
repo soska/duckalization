@@ -25,10 +25,32 @@ Because identity is content-derived:
 | --- | --- |
 | `@duckalization/id` | The hashing/canonicalization algorithm. Shared by everything that must agree on IDs. Treat as frozen. |
 | `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Ships the `duckalize` CLI. |
+| `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
 
-Planned: `runtime` (client `__()` with memoized hashing), `bundler-plugin`
-(unplugin transform that pre-bakes IDs at build time so no hashing ships to
-the client), `translate` (agent-driven translation of missing entries).
+Planned: `bundler-plugin` (unplugin transform that pre-bakes IDs at build time
+so no hashing ships to the client), `react` (provider + `useSyncExternalStore`
+hook over `runtime`), `translate` (agent-driven translation of missing entries).
+
+### Runtime usage
+
+```ts
+import { createDuck } from '@duckalization/runtime';
+
+const duck = createDuck({ sourceLocale: 'en' });
+export const { __ } = duck;              // the function the extractor scans for
+
+duck.load('es', esCatalog);
+duck.setLocale('es');
+
+__('Sign in');                            // → 'Iniciar sesión'
+__('Welcome back, {name}', { name });     // typed: forgetting `name` is a TS error
+__({ one: '{count} item', other: '{count} items' }, { count });
+```
+
+Source-locale rendering never hashes or looks anything up — the string in the
+code *is* the message. Missing translations fall back to the inline text and
+fire the `onMissing` hook (dev default: warn once per entry). Servers create
+one instance per request; `subscribe` is shaped for `useSyncExternalStore`.
 
 ## Usage
 

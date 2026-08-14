@@ -1,0 +1,31 @@
+{
+  "name": "@duckalization/runtime",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Tiny framework-agnostic runtime for content-addressed i18n: lookup, fallback, plurals, interpolation.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@duckalization/id": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.3",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
