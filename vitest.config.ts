@@ -8,6 +8,12 @@ export default defineConfig({
       '@duckalization/id': fileURLToPath(
         new URL('./packages/id/src/index.ts', import.meta.url)
       ),
+      '@duckalization/extract': fileURLToPath(
+        new URL('./packages/extract/src/index.ts', import.meta.url)
+      ),
+      '@duckalization/runtime': fileURLToPath(
+        new URL('./packages/runtime/src/index.ts', import.meta.url)
+      ),
     },
   },
   test: {

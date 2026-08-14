@@ -26,10 +26,26 @@ Because identity is content-derived:
 | `@duckalization/id` | The hashing/canonicalization algorithm. Shared by everything that must agree on IDs. Treat as frozen. |
 | `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Ships the `duckalize` CLI. |
 | `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
+| `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
 
-Planned: `bundler-plugin` (unplugin transform that pre-bakes IDs at build time
-so no hashing ships to the client), `react` (provider + `useSyncExternalStore`
-hook over `runtime`), `translate` (agent-driven translation of missing entries).
+Planned: `react` (provider + `useSyncExternalStore` hook over `runtime`),
+`translate` (agent-driven translation of missing entries).
+
+### Bundler plugin usage
+
+```ts
+// vite.config.ts
+import DuckalizationPlugin from '@duckalization/bundler-plugin';
+
+export default defineConfig({
+  plugins: [DuckalizationPlugin.vite()],
+});
+```
+
+The transform is idempotent (three-argument calls are left alone) and reuses
+the extractor's parser, so injected IDs are byte-identical to extracted ones.
+Unextractable calls surface as build warnings (`failOnError: true` upgrades
+them to errors); `duckalize extract` remains the strict gate.
 
 ### Runtime usage
 

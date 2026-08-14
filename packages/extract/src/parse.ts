@@ -187,6 +187,7 @@ export async function extractFromSource(
       context: meta.context,
       explicitId: meta.id !== undefined,
       ref: refAt(node),
+      call: { argsEnd: args[args.length - 1]!.end, argCount: args.length },
     });
   }
 

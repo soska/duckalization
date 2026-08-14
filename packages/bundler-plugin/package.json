@@ -1,0 +1,35 @@
+{
+  "name": "@duckalization/bundler-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Build-time ID injection for duckalization: pre-bakes content-derived IDs into __() calls so no hashing ships to the client.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@duckalization/extract": "workspace:*",
+    "magic-string": "^0.30.21",
+    "unplugin": "^2.3.11"
+  },
+  "devDependencies": {
+    "@duckalization/id": "workspace:^",
+    "@duckalization/runtime": "workspace:^",
+    "@types/node": "^24.10.3",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
