@@ -1,0 +1,27 @@
+{
+  "name": "@duckalization/id",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Content-derived message IDs shared by the duckalization extractor, runtime, and bundler plugin.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
