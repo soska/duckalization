@@ -1,5 +1,9 @@
 # duckalization
 
+> **Working with an AI agent?** Point it at [`llms.txt`](./llms.txt) — a single
+> self-contained reference covering the call-shape rules, every package's API,
+> catalog translation instructions, and setup in a new project.
+
 Content-addressed i18n tooling. The source-language text in your code is the
 source of truth — there are no translation keys to invent, dedupe, or police.
 IDs are derived from the message content itself.
@@ -27,9 +31,33 @@ Because identity is content-derived:
 | `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Ships the `duckalize` CLI. |
 | `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
 | `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
+| `@duckalization/react` | Provider + hooks over `runtime`: `useDuck()` (subscribed `__` via `useSyncExternalStore`) and `useLocale()`. Re-exports `createDuck`, so it's the only dependency a React app needs. |
 
-Planned: `react` (provider + `useSyncExternalStore` hook over `runtime`),
-`translate` (agent-driven translation of missing entries).
+Planned: `translate` (agent-driven translation of missing entries).
+
+### React usage
+
+```tsx
+// i18n.ts — module scope on the client, per-request on the server
+import { createDuck } from '@duckalization/react';
+export const duck = createDuck({ sourceLocale: 'en' });
+
+// App.tsx
+<DuckProvider duck={duck}>
+  <App />
+</DuckProvider>
+
+// any component
+function Header() {
+  const { __ } = useDuck();               // re-renders on locale/catalog changes
+  const [locale, setLocale] = useLocale();
+  return <h1>{__('Sign in')}</h1>;
+}
+```
+
+`useDuck` subscribes through `useSyncExternalStore`, so `setLocale` and lazy
+`load` calls re-render exactly the components that translate. The destructured
+`__` is the bare identifier `duckalize extract` scans for.
 
 ### Bundler plugin usage
 

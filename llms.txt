@@ -1,0 +1,247 @@
+# duckalization
+
+Content-addressed i18n for TypeScript/JavaScript. There are no translation
+keys: the source-language text written in code IS the source of truth, and
+every message's catalog ID is derived from its content.
+
+Core invariant (frozen, shared by every package via `@duckalization/id`):
+
+    id = base36( cyrb53( context ? context + "\u0000" + canonical(message)
+                                 : canonical(message) ) )
+
+- `canonical(string)` is the exact text — no trimming, no case folding,
+  no whitespace collapsing. `"Sign in"` and `"Sign in "` are different messages.
+- `canonical(pluralObject)` serializes forms in fixed CLDR order
+  (zero, one, two, few, many, other) joined with `"\u0001"`, so property
+  order in code never matters.
+- Same text + same context → same ID, everywhere, forever. Editing the text
+  intentionally produces a NEW ID: the old translation orphans itself and the
+  new text shows up as untranslated. This replaces key-renaming rituals.
+
+Packages (pnpm monorepo, all ESM, Node >= 20.19):
+
+- `@duckalization/id`       — the hash. Frozen. Everything imports it.
+- `@duckalization/extract`  — scans source (oxc parser), emits catalogs. CLI: `duckalize`.
+- `@duckalization/runtime`  — client lookup/fallback/plurals/interpolation (~1.5kB gzip).
+- `@duckalization/bundler-plugin` — optional unplugin; pre-bakes IDs at build time.
+- `@duckalization/react`    — DuckProvider + useDuck()/useLocale() over runtime.
+
+================================================================================
+## 1. Writing translatable code (rules for authoring app code)
+================================================================================
+
+The extractor statically analyzes calls to `__(...)` (configurable names).
+Every rule below is enforced by `duckalize extract` with a file:line error.
+
+DO — these are the only four valid call shapes:
+
+    __('Sign in')                                  // plain message
+    __('Welcome back, {name}', { name })           // placeholders + values
+    __('Book', { context: 'verb' })                // disambiguation
+    __({ one: '{count} item', other: '{count} items' }, { count })  // plural
+
+Options object semantics: it is ONE bag holding interpolation values plus two
+reserved metadata keys, `context` and `id`. Reserved keys MUST be inline
+string literals (the extractor must see them). Value entries may be any
+expression.
+
+    __('Checkout', { id: 'checkout.cta' })   // explicit ID override (escape hatch,
+                                             // use only when a stable external ID is required)
+
+DON'T — each of these is an extraction ERROR (build fails, nothing written):
+
+    __(`Hello ${name}`)        // template-expressions: use '{name}' + values instead
+    __(someVariable)           // dynamic-message: message must be a static literal
+    __('')                     // empty-message
+    __({ single: 'x' })        // invalid-plural: keys must be CLDR forms
+    __({ one: 'x' })           // invalid-plural: 'other' form is required
+    __('Hi', { context: v })   // invalid-meta: context/id must be inline literals
+
+Details:
+- Placeholder syntax is `{name}` (`[A-Za-z0-9_]+`). Never use JS template
+  interpolation inside messages. Do not name a placeholder `context`, `id`,
+  or (in non-plural messages) rely on `count` — those are reserved.
+- Expressionless template literals are fine: __(`Sign in`) === __('Sign in').
+- TS wrappers are unwrapped: `__({...} as const)` works.
+- Plural messages: keys from {zero, one, two, few, many, other}; `other` is
+  mandatory; every form must be a static string; pass `count` (number) in the
+  options — it selects the form via Intl.PluralRules AND interpolates {count}.
+- The same string in N places is ONE catalog entry (automatic dedup). If the
+  same spelling has different meanings (noun/verb, screen A vs B), give the
+  variants distinct `context` values — that is the ONLY correct fix for the
+  `id-collision` error, and for translation-differs-by-meaning situations.
+- Only bare-identifier calls are matched. `i18n.__('x')` is NOT extracted.
+  Keep `__` a plain imported/destructured binding.
+- To fix a typo or reword: just edit the string. The ID changes, the old
+  entry orphans, retranslation happens on the next translate pass. Never add
+  `_v2`-style suffixes.
+
+================================================================================
+## 2. Extraction: CLI, config, outputs
+================================================================================
+
+    duckalize extract              # writes <outDir>/<sourceLocale>.json + .meta.json
+    duckalize extract --dry-run    # report only
+    Flags: --cwd <path> --config <path> --out-dir <path> --silent
+
+Exit code 1 and NO files written if any diagnostic is an error (all
+extraction diagnostics are errors; the codes are: parse-error,
+dynamic-message, template-expressions, empty-message, invalid-plural,
+invalid-meta, id-collision).
+
+Optional `duckalization.config.json` at project root (all fields optional):
+
+    {
+      "include": ["src/**/*.{ts,tsx,js,jsx,mts,mjs,cts,cjs}"],   // default
+      "exclude": ["**/node_modules/**", "**/dist/**", "**/*.d.ts",
+                  "**/*.test.*", "**/*.spec.*"],                  // default
+      "functions": ["__"],                                        // default
+      "outDir": "locales",                                        // default
+      "sourceLocale": "en"                                        // default
+    }
+
+Outputs (keys sorted, deterministic — diffs are meaningful):
+
+    locales/en.json        — flat catalog: { "<id>": "text" | {one,other,...} }
+    locales/en.meta.json   — sidecar per id:
+                             { "message": ..., "context"?: "...",
+                               "refs": ["src/File.tsx:12:5", ...] }
+
+Programmatic API (`@duckalization/extract`):
+
+    import { extract, writeOutputs } from '@duckalization/extract';
+    const result = await extract({ cwd });   // pure: reads sources, writes nothing
+    // result: { catalog, meta, diagnostics, stats, config }
+    if (!result.diagnostics.some(d => d.severity === 'error'))
+      await writeOutputs(result, result.config);
+
+================================================================================
+## 3. Runtime (`@duckalization/runtime`)
+================================================================================
+
+    import { createDuck } from '@duckalization/runtime';
+
+    const duck = createDuck({
+      sourceLocale: 'en',        // default 'en' — locale of the inline strings
+      locale: 'en',              // default sourceLocale
+      onMissing: (id, message, locale) => {},  // or false; default warns once
+    });                                        // per entry outside production
+
+    export const { __ } = duck;   // bound; destructuring is safe and is the
+                                  // extractable calling pattern
+
+    duck.load('es', catalogObject);  // merge; repeated calls accumulate chunks
+    duck.setLocale('es');
+    duck.getLocale();
+    duck.subscribe(fn);              // () => unsubscribe; fires on load/setLocale
+    duck.getVersion();               // monotonic counter for useSyncExternalStore
+
+Behavior of `__(message, options?, injectedId?)`:
+- Active locale === sourceLocale → returns the inline text (interpolated).
+  No hashing, no lookup. Untranslated apps pay ~nothing.
+- Otherwise resolves ID (injectedId → options.id → memoized hash), looks up
+  the catalog for the exact locale, then the base language ('es-MX' → 'es').
+  Miss → onMissing fires and the inline source text is returned. Rendering
+  never throws over a missing translation.
+- Plural form selection uses `Intl.PluralRules(locale)`. Translated plural
+  entries MAY carry forms the source lacks (Russian few/many) — the runtime
+  picks whatever the locale's rules select, falling back to `other`.
+- `injectedId` (3rd arg) is written ONLY by the bundler plugin. Never write
+  it by hand; humans/agents use `{ id }` in options.
+- SSR: create one duck per request. Never share a mutable instance across
+  concurrently rendered locales.
+- TypeScript checks placeholders at compile time: `__('Hi {name}')` without a
+  `name` value is a type error. If you see that error, add the value — do not
+  restructure the message to dodge the type.
+
+================================================================================
+## 4. Bundler plugin (`@duckalization/bundler-plugin`) — optional
+================================================================================
+
+Rewrites at build time so the runtime never hashes (hash tree-shakes out):
+
+    __('Sign in')            →  __('Sign in', undefined, "28ki3q224lm")
+    __('msg', { name })      →  __('msg', { name }, "<id>")
+
+    // vite.config.ts
+    import DuckalizationPlugin from '@duckalization/bundler-plugin';
+    plugins: [DuckalizationPlugin.vite()]     // .rollup() .webpack() .esbuild()
+
+    Options: { functions?: string[]; include?: RegExp; exclude?: RegExp;
+               failOnError?: boolean /* default false: warn */ }
+
+Idempotent (3-arg calls skipped). Apps behave identically without the plugin —
+it is a performance optimization, never a correctness requirement.
+
+================================================================================
+## 5. React (`@duckalization/react`)
+================================================================================
+
+Re-exports `createDuck`; a React app needs only this package.
+
+    // i18n.ts (module scope client-side; per-request on the server)
+    import { createDuck } from '@duckalization/react';
+    export const duck = createDuck({ sourceLocale: 'en' });
+
+    // root
+    <DuckProvider duck={duck}><App /></DuckProvider>
+
+    // components
+    const { __ } = useDuck();          // subscribed: re-renders on setLocale/load
+    const [locale, setLocale] = useLocale();
+    return <h1>{__('Sign in')}</h1>;
+
+`useDuck()` throws outside a provider. Rich text is out of scope by design:
+messages are plain strings; render markdown/formatting around them.
+
+================================================================================
+## 6. Translating a catalog (instructions for a translation agent)
+================================================================================
+
+Input: `locales/<source>.json` + `locales/<source>.meta.json`.
+Output: `locales/<target>.json` — same shape, SAME IDs, translated values.
+
+Rules:
+1. Keys are opaque IDs. Copy them verbatim. Never invent, rename, or drop one.
+2. Preserve `{placeholder}` tokens exactly (same names, same braces). Reorder
+   them freely to fit the target grammar.
+3. Use `meta.refs` (open the file/line) and `meta.context` to resolve
+   ambiguity; `context: "verb"` on "Book" means the action, not the noun.
+4. Plural entries: produce the forms the TARGET language needs per CLDR
+   (e.g. ru: one/few/many/other; ja: other only). `other` is always required.
+   You may output more or fewer forms than the source has.
+5. String entries stay strings; plural entries stay objects.
+6. A partial catalog is safe to ship: missing IDs render the source text.
+7. Never edit the source catalog or the meta sidecar; they are generated.
+
+Orphan cleanup: an ID present in a target catalog but absent from the source
+catalog is stale (its source text changed or was removed) and can be deleted.
+
+================================================================================
+## 7. Using it today (monorepo not yet on npm)
+================================================================================
+
+From a sibling project, reference the built packages with the file: protocol
+(pnpm symlinks and resolves workspace deps transitively):
+
+    cd /path/to/duckalization && pnpm install && pnpm build
+    # in the consuming app:
+    pnpm add /path/to/duckalization/packages/runtime \
+             /path/to/duckalization/packages/react
+    pnpm add -D /path/to/duckalization/packages/extract \
+                /path/to/duckalization/packages/bundler-plugin
+
+Minimal wiring checklist for a new app:
+1. `pnpm add` runtime (or react) as above; extract as a dev dependency.
+2. Create `src/i18n.ts`: `createDuck()`, export `{ __ }` (and the duck).
+3. Write UI text via the four valid call shapes (section 1).
+4. `duckalize extract` → commit `locales/en.json` + `locales/en.meta.json`.
+5. Translate (section 6) → `locales/es.json` etc.
+6. `duck.load('es', esCatalog)` (static import or lazy) + `setLocale`.
+7. Optional: add the bundler plugin (section 4).
+
+Invariants to never violate:
+- Do not modify `@duckalization/id`'s canonicalization or hash.
+- Do not hand-edit generated catalogs of the source locale; re-run extract.
+- Do not write the 3rd `__()` argument by hand.
+- Keep `__` a bare identifier; do not wrap it in a namespace or method.

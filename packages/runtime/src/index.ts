@@ -93,7 +93,9 @@ export function createDuck(config: DuckConfig = {}): Duck {
     return base === locale ? undefined : catalogs.get(base)?.[id];
   };
 
+  let version = 0;
   const notify = () => {
+    version++;
     for (const listener of listeners) listener();
   };
 
@@ -146,6 +148,9 @@ export function createDuck(config: DuckConfig = {}): Duck {
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);
+    },
+    getVersion() {
+      return version;
     },
   };
 }

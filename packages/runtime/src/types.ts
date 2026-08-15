@@ -70,4 +70,6 @@ export interface Duck {
   getLocale(): string;
   /** Notifies on locale/catalog changes. Shaped for useSyncExternalStore. */
   subscribe(listener: () => void): () => void;
+  /** Monotonic counter bumped on every locale/catalog change — the snapshot for useSyncExternalStore. */
+  getVersion(): number;
 }
