@@ -1,0 +1,29 @@
+{
+  "name": "@duckalization/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The duckalize CLI: extract, translate, and review commands for content-addressed i18n.",
+  "bin": {
+    "duckalize": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@duckalization/extract": "workspace:*",
+    "@duckalization/translate": "workspace:*",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.3",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

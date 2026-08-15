@@ -21,7 +21,10 @@ Core invariant (frozen, shared by every package via `@duckalization/id`):
 Packages (pnpm monorepo, all ESM, Node >= 20.19):
 
 - `@duckalization/id`       — the hash. Frozen. Everything imports it.
-- `@duckalization/extract`  — scans source (oxc parser), emits catalogs. CLI: `duckalize`.
+- `@duckalization/extract`  — scans source (oxc parser), emits catalogs (library).
+- `@duckalization/translate`— status diffing, translation briefs, validated apply,
+                              glossary/style enforcement, review metadata (library).
+- `@duckalization/cli`      — the `duckalize` bin: extract, translate, review commands.
 - `@duckalization/runtime`  — client lookup/fallback/plurals/interpolation (~1.5kB gzip).
 - `@duckalization/bundler-plugin` — optional unplugin; pre-bakes IDs at build time.
 - `@duckalization/react`    — DuckProvider + useDuck()/useLocale() over runtime.
@@ -97,7 +100,13 @@ Optional `duckalization.config.json` at project root (all fields optional):
                   "**/*.test.*", "**/*.spec.*"],                  // default
       "functions": ["__"],                                        // default
       "outDir": "locales",                                        // default
-      "sourceLocale": "en"                                        // default
+      "sourceLocale": "en",                                       // default
+      "targetLocales": ["es", "pt"],                              // for translate
+      "style": {                                                  // tone guides, per locale
+        "*":  "UI copy: concise, sentence case.",                 // '*' = all locales
+        "es": "./locales/style/es.md"                             // inline text or .md path
+      },
+      "glossary": "locales/glossary.json"                         // default
     }
 
 Outputs (keys sorted, deterministic — diffs are meaningful):
@@ -195,27 +204,69 @@ Re-exports `createDuck`; a React app needs only this package.
 messages are plain strings; render markdown/formatting around them.
 
 ================================================================================
-## 6. Translating a catalog (instructions for a translation agent)
+## 6. The translation workflow (`duckalize translate` / `duckalize review`)
 ================================================================================
 
-Input: `locales/<source>.json` + `locales/<source>.meta.json`.
-Output: `locales/<target>.json` — same shape, SAME IDs, translated values.
+    duckalize translate status            # per-locale: translated/missing/orphaned
+    duckalize translate check             # CI gate: exit 1 if anything is missing
+    duckalize translate brief [locale…]   # work orders → locales/.work/<locale>.brief.json
+    duckalize translate apply <file…>     # validate agent output, merge, record review meta
+    duckalize translate prune [locale…]   # archive+remove orphaned ids
+    duckalize translate lint [locale…]    # run the apply-time checks on existing catalogs
+    duckalize review status [locale…]     # approved/machine/edited/unreviewed counts
+    duckalize review approve <locale> [--id <id>…] [--by <name>]
 
-Rules:
-1. Keys are opaque IDs. Copy them verbatim. Never invent, rename, or drop one.
-2. Preserve `{placeholder}` tokens exactly (same names, same braces). Reorder
-   them freely to fit the target grammar.
-3. Use `meta.refs` (open the file/line) and `meta.context` to resolve
-   ambiguity; `context: "verb"` on "Book" means the action, not the noun.
-4. Plural entries: produce the forms the TARGET language needs per CLDR
-   (e.g. ru: one/few/many/other; ja: other only). `other` is always required.
-   You may output more or fewer forms than the source has.
-5. String entries stay strings; plural entries stay objects.
-6. A partial catalog is safe to ship: missing IDs render the source text.
-7. Never edit the source catalog or the meta sidecar; they are generated.
+The loop: `brief` → an agent translates the brief → `apply`. The brief is
+SELF-CONTAINED (entries + context + call-site source excerpts + glossary
+subset + style guide + the locale's real CLDR plural categories) — the
+translating agent needs no repo access.
 
-Orphan cleanup: an ID present in a target catalog but absent from the source
-catalog is stale (its source text changed or was removed) and can be deleted.
+### Translating a brief (instructions for a translation agent)
+
+Follow the brief's embedded `instructions`. Respond with ONLY:
+
+    { "locale": "es",
+      "translations": { "<id>": "…" | { "one": "…", "other": "…" }, … },
+      "notes": { "<id>": { "confidence": "low|medium|high",
+                            "alternatives": ["…"], "note": "…" } } }
+
+1. Copy IDs verbatim. Never invent, rename, or drop one.
+2. String entries stay strings; plural entries stay objects.
+3. Preserve `{placeholder}` tokens exactly; reorder freely for grammar.
+4. Plural entries: produce the forms the brief's `pluralCategories` lists;
+   `other` is always required. More or fewer forms than the source is fine.
+5. Glossary: `doNotTranslate` terms must appear verbatim (validated as a hard
+   error at apply time); prefer `approvedTranslation` where given (validated
+   as a warning); `note` explains the product meaning.
+6. Follow the `style` guide for tone, register, and dialect.
+7. `notes` are optional but recorded in review metadata — include confidence.
+
+### What apply validates (errors reject the whole file; nothing is written)
+
+errors:   unknown-id, type-mismatch, empty-translation, missing-other,
+          invalid-plural-form, unknown-placeholder (typo'd {token}),
+          glossary-dnt (brand term was translated)
+warnings: missing-placeholder (dropped token — sometimes legitimate),
+          unexpected-plural-form (form this locale never selects),
+          glossary-term (approved translation not used), orphaned-id (lint)
+
+### Glossary (`locales/glossary.json`)
+
+    { "Soundbite":  { "translate": false, "note": "Product feature name" },
+      "assignment": { "note": "A homework unit a teacher assigns",
+                      "translations": { "es": "tarea", "pt": "tarefa" } } }
+
+### Review metadata (`locales/<locale>.review.json`, committed)
+
+Written by `apply` (status "machine", content hash, by/at, agent notes).
+`review status` derives effective state: hash drift = hand-edited ("edited");
+`review approve` records sign-off. Review state is keyed by content-derived
+ID, so it self-invalidates when the English text changes. Catalog diffs are
+deterministic — a git PR is the intended review surface.
+
+Orphans: an ID in a target catalog but not the source is stale; `prune`
+archives it to `locales/.archive/<locale>.json` before removal. A partial
+catalog is always safe to ship: missing IDs render the inline source text.
 
 ================================================================================
 ## 7. Using it today (monorepo not yet on npm)
@@ -228,17 +279,22 @@ From a sibling project, reference the built packages with the file: protocol
     # in the consuming app:
     pnpm add /path/to/duckalization/packages/runtime \
              /path/to/duckalization/packages/react
-    pnpm add -D /path/to/duckalization/packages/extract \
+    pnpm add -D /path/to/duckalization/packages/cli \
                 /path/to/duckalization/packages/bundler-plugin
 
 Minimal wiring checklist for a new app:
-1. `pnpm add` runtime (or react) as above; extract as a dev dependency.
+1. `pnpm add` runtime (or react) as above; cli as a dev dependency.
 2. Create `src/i18n.ts`: `createDuck()`, export `{ __ }` (and the duck).
 3. Write UI text via the four valid call shapes (section 1).
-4. `duckalize extract` → commit `locales/en.json` + `locales/en.meta.json`.
-5. Translate (section 6) → `locales/es.json` etc.
-6. `duck.load('es', esCatalog)` (static import or lazy) + `setLocale`.
-7. Optional: add the bundler plugin (section 4).
+4. Config: set `targetLocales`, write `locales/glossary.json` and per-locale
+   `style` guides (section 2 / section 6).
+5. `duckalize extract` → commit `locales/en.json` + `locales/en.meta.json`.
+6. `duckalize translate brief` → translate the brief (section 6) →
+   `duckalize translate apply <output.json> --by <agent-name>`.
+7. `duck.load('es', esCatalog)` (static import or lazy) + `setLocale`.
+8. Review: `duckalize review status` / `approve`; gate CI with
+   `duckalize translate check`.
+9. Optional: add the bundler plugin (section 4).
 
 Invariants to never violate:
 - Do not modify `@duckalization/id`'s canonicalization or hash.

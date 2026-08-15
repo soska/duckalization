@@ -32,8 +32,27 @@ Because identity is content-derived:
 | `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
 | `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
 | `@duckalization/react` | Provider + hooks over `runtime`: `useDuck()` (subscribed `__` via `useSyncExternalStore`) and `useLocale()`. Re-exports `createDuck`, so it's the only dependency a React app needs. |
+| `@duckalization/translate` | The deterministic half of agent-driven translation: status diffing, self-contained work-order briefs (glossary subset + style guide + source excerpts), hard validation on apply (placeholders, plural shape per locale, do-not-translate terms), orphan pruning with archive, and review metadata. |
+| `@duckalization/cli` | The `duckalize` bin: `extract`, `translate status/check/brief/apply/prune/lint`, `review status/approve`. |
 
-Planned: `translate` (agent-driven translation of missing entries).
+### Translation workflow
+
+```bash
+duckalize translate status        # es: 12/40 translated, 28 missing
+duckalize translate brief         # → locales/.work/es.brief.json (self-contained)
+# …any agent translates the brief into es.out.json…
+duckalize translate apply locales/.work/es.out.json --by claude
+duckalize review status           # approved / machine / edited / unreviewed
+duckalize review approve es --by armando
+duckalize translate check         # CI gate: exit 1 while translations are missing
+```
+
+Glossary terms marked `"translate": false` (brand names like *Soundbite*) are
+enforced verbatim at apply time — a violating output is rejected wholesale.
+Per-locale `style` guides (inline or `.md`) ride along in every brief, so tone
+(tú vs. usted, casual vs. formal) is team configuration, not per-prompt luck.
+Review state is keyed by content-derived ID and content-hashed, so it
+self-invalidates on rewording and detects hand edits.
 
 ### React usage
 

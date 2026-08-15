@@ -1,8 +1,8 @@
 {
-  "name": "@duckalization/extract",
+  "name": "@duckalization/translate",
   "version": "0.1.0",
   "type": "module",
-  "description": "Extract translatable messages from source code into a content-addressed catalog.",
+  "description": "Agent-driven catalog translation: status diffing, work-order briefs, glossary/style enforcement, validated apply, and review metadata.",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,18 +12,17 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@duckalization/id": "workspace:*",
-    "oxc-parser": "^0.94.0",
-    "picocolors": "^1.1.1",
-    "tinyglobby": "^0.2.17"
+    "@duckalization/extract": "workspace:*",
+    "@duckalization/id": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
+    "@types/node": "^24.10.3",
     "tsdown": "^0.15.12",
     "typescript": "^5.9.3"
   },

@@ -14,6 +14,9 @@ export default defineConfig({
       '@duckalization/runtime': fileURLToPath(
         new URL('./packages/runtime/src/index.ts', import.meta.url)
       ),
+      '@duckalization/translate': fileURLToPath(
+        new URL('./packages/translate/src/index.ts', import.meta.url)
+      ),
     },
   },
   test: {
