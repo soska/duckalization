@@ -28,10 +28,11 @@ Because identity is content-derived:
 | Package | Purpose |
 | --- | --- |
 | `@duckalization/id` | The hashing/canonicalization algorithm. Shared by everything that must agree on IDs. Treat as frozen. |
-| `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Ships the `duckalize` CLI. |
+| `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Library-only; the `duckalize` bin lives in `@duckalization/cli`. |
 | `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
 | `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
 | `@duckalization/react` | Provider + hooks over `runtime`: `useDuck()` (subscribed `__` via `useSyncExternalStore`) and `useLocale()`. Re-exports `createDuck`, so it's the only dependency a React app needs. |
+| `@duckalization/eslint-plugin` | Flat-config ESLint rule `no-unlocalized-strings`: flags hardcoded JSX text and human-facing attribute strings that would ship unlocalizable, each with a suggested `__()` wrap. Keyless IDs make the fix mechanical — there's no key to invent, the next `duckalize extract` just picks the string up. |
 | `@duckalization/translate` | The deterministic half of agent-driven translation: status diffing, self-contained work-order briefs (glossary subset + style guide + source excerpts), hard validation on apply (placeholders, plural shape per locale, do-not-translate terms), orphan pruning with archive, and review metadata. |
 | `@duckalization/cli` | The `duckalize` bin: `extract`, `translate status/check/brief/apply/prune/lint`, `review status/approve`. |
 
@@ -93,6 +94,27 @@ The transform is idempotent (three-argument calls are left alone) and reuses
 the extractor's parser, so injected IDs are byte-identical to extracted ones.
 Unextractable calls surface as build warnings (`failOnError: true` upgrades
 them to errors); `duckalize extract` remains the strict gate.
+
+### Lint rule usage
+
+```js
+// eslint.config.js
+import duckalization from '@duckalization/eslint-plugin';
+
+export default [duckalization.configs.recommended]; // no-unlocalized-strings: warn
+```
+
+Flags hardcoded JSX text (`<Label>board</Label>`) and string values of
+human-facing attributes (`placeholder`, `alt`, `title`, `label`, the `aria-*`
+text attributes) — the strings `duckalize extract` can never see because they
+were never wrapped. Machine-facing attributes (`className`, `id`, `href`,
+`data-*`…) and letterless text (`·`, `42`, `&nbsp;`) are ignored, and the
+attribute list is configurable (`attributes` replaces it, `additionalAttributes`
+extends it for design-system props, `ignore` takes regexes).
+
+Every report carries an editor suggestion with the complete fix —
+`<Label>{__('board')}</Label>` — because keyless IDs mean there is no key to
+invent. Applying suggestions across a legacy codebase is the migration story.
 
 ### Runtime usage
 

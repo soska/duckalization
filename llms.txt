@@ -28,6 +28,7 @@ Packages (pnpm monorepo, all ESM, Node >= 20.19):
 - `@duckalization/runtime`  — client lookup/fallback/plurals/interpolation (~1.5kB gzip).
 - `@duckalization/bundler-plugin` — optional unplugin; pre-bakes IDs at build time.
 - `@duckalization/react`    — DuckProvider + useDuck()/useLocale() over runtime.
+- `@duckalization/eslint-plugin` — optional lint rule flagging never-wrapped UI strings.
 
 ================================================================================
 ## 1. Writing translatable code (rules for authoring app code)
@@ -204,7 +205,40 @@ Re-exports `createDuck`; a React app needs only this package.
 messages are plain strings; render markdown/formatting around them.
 
 ================================================================================
-## 6. The translation workflow (`duckalize translate` / `duckalize review`)
+## 6. ESLint plugin (`@duckalization/eslint-plugin`) — optional
+================================================================================
+
+Catches what the extractor can never see: UI strings that were never wrapped
+in `__()` at all. One rule, `no-unlocalized-strings`, flat config only:
+
+    // eslint.config.js
+    import duckalization from '@duckalization/eslint-plugin';
+    export default [duckalization.configs.recommended];   // severity: warn
+
+Flags (tiered by confidence, heuristic by design):
+- JSX text children: <Label>board</Label>, <p>{'board'}</p>
+- String values of human-facing attributes. Default list: alt, title,
+  placeholder, label, aria-label, aria-description, aria-placeholder,
+  aria-roledescription, aria-valuetext.
+
+Skips: text with no letters (·, 42, &nbsp;), machine attributes (className,
+id, href, data-*…), dynamic expressions, template literals with expressions,
+anything already inside __(). Bare string literals elsewhere in JS are
+deliberately NOT flagged (too noisy to be useful).
+
+    Options: { attributes?: string[],            // REPLACES the default list
+               additionalAttributes?: string[],  // extends it (design-system props)
+               ignore?: string[] }               // regex sources; matching text skipped
+
+Every report carries an editor suggestion with the complete fix:
+<Label>board</Label> → <Label>{__('board')}</Label>. Keyless IDs make this
+mechanical — no key to invent; the next `duckalize extract` picks the string
+up. Suggestions apply from the editor, not `eslint --fix`: a human confirms
+the string is really user-facing, and `__` must be in scope. The rule is a
+nudge (warn); `duckalize extract` remains the strict gate for wrapped calls.
+
+================================================================================
+## 7. The translation workflow (`duckalize translate` / `duckalize review`)
 ================================================================================
 
     duckalize translate status            # per-locale: translated/missing/orphaned
@@ -269,7 +303,7 @@ archives it to `locales/.archive/<locale>.json` before removal. A partial
 catalog is always safe to ship: missing IDs render the inline source text.
 
 ================================================================================
-## 7. Using it today (monorepo not yet on npm)
+## 8. Using it today (monorepo not yet on npm)
 ================================================================================
 
 From a sibling project, reference the built packages with the file: protocol
@@ -287,14 +321,15 @@ Minimal wiring checklist for a new app:
 2. Create `src/i18n.ts`: `createDuck()`, export `{ __ }` (and the duck).
 3. Write UI text via the four valid call shapes (section 1).
 4. Config: set `targetLocales`, write `locales/glossary.json` and per-locale
-   `style` guides (section 2 / section 6).
+   `style` guides (section 2 / section 7).
 5. `duckalize extract` → commit `locales/en.json` + `locales/en.meta.json`.
-6. `duckalize translate brief` → translate the brief (section 6) →
+6. `duckalize translate brief` → translate the brief (section 7) →
    `duckalize translate apply <output.json> --by <agent-name>`.
 7. `duck.load('es', esCatalog)` (static import or lazy) + `setLocale`.
 8. Review: `duckalize review status` / `approve`; gate CI with
    `duckalize translate check`.
-9. Optional: add the bundler plugin (section 4).
+9. Optional: add the bundler plugin (section 4) and the ESLint rule
+   (section 6) to catch strings that were never wrapped.
 
 Invariants to never violate:
 - Do not modify `@duckalization/id`'s canonicalization or hash.
