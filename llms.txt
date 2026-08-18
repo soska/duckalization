@@ -313,15 +313,20 @@ catalog is always safe to ship: missing IDs render the inline source text.
 ## 8. Using it today (monorepo not yet on npm)
 ================================================================================
 
-From a sibling project, reference the built packages with the file: protocol
-(pnpm symlinks and resolves workspace deps transitively):
+From a sibling project, reference the built packages with the link: protocol.
+link: symlinks the directory, so each package resolves its own workspace:*
+deps out of this monorepo's node_modules. (Do NOT use file: or a bare path —
+pnpm then treats the package as one to install and tries to resolve its
+workspace:* deps against the CONSUMING workspace, which fails with
+ERR_PNPM_WORKSPACE_PKG_NOT_FOUND.)
 
+    # link: does not build the target — install and build here first:
     cd /path/to/duckalization && pnpm install && pnpm build
     # in the consuming app:
-    pnpm add /path/to/duckalization/packages/runtime \
-             /path/to/duckalization/packages/react
-    pnpm add -D /path/to/duckalization/packages/cli \
-                /path/to/duckalization/packages/bundler-plugin
+    pnpm add link:/path/to/duckalization/packages/runtime \
+             link:/path/to/duckalization/packages/react
+    pnpm add -D link:/path/to/duckalization/packages/cli \
+                link:/path/to/duckalization/packages/bundler-plugin
 
 Minimal wiring checklist for a new app:
 1. `pnpm add` runtime (or react) as above; cli as a dev dependency.
