@@ -10,6 +10,7 @@ import {
   reviewOverview,
   translationStatus,
 } from '../src/index.js';
+import { mentionsTerm, usesApprovedTranslation } from '../src/glossary.js';
 import { IDS, setupProject, writeTargetCatalog } from './helpers.js';
 
 const readJson = async (config: { cwd: string }, rel: string) =>
@@ -233,6 +234,65 @@ describe('review', () => {
 
     overview = await reviewOverview(config, 'es');
     expect(overview.counts.approved).toBe(2);
+  });
+});
+
+describe('glossary matching', () => {
+  it('never matches a term inside a placeholder name', () => {
+    expect(mentionsTerm('{subject} — {project}', 'project')).toBe(false);
+    expect(mentionsTerm('Restore :account now', 'account')).toBe(false);
+    expect(mentionsTerm('Your {project} report', 'project')).toBe(false);
+    expect(mentionsTerm('Your project report', 'project')).toBe(true);
+  });
+
+  it('requires word boundaries around the term', () => {
+    expect(mentionsTerm('Latest messages', 'late')).toBe(false);
+    expect(mentionsTerm('Your plate is clear', 'late')).toBe(false);
+    expect(mentionsTerm('add people and details later', 'late')).toBe(false);
+    expect(mentionsTerm('Remember me', 'member')).toBe(false);
+    expect(mentionsTerm('This milestone is late', 'late')).toBe(true);
+    expect(mentionsTerm('Late milestones', 'late')).toBe(true);
+  });
+
+  it('accepts inflections of the approved translation via stem prefix', () => {
+    expect(usesApprovedTranslation('Archivada', 'archivar')).toBe(true);
+    expect(usesApprovedTranslation('Restáuralo', 'restaurar')).toBe(true);
+    expect(usesApprovedTranslation('Juan comentó', 'comentario')).toBe(true);
+    expect(usesApprovedTranslation('Nueva asignación', 'tarea')).toBe(false);
+  });
+
+  it('accepts any of several approved renderings', () => {
+    const approved = ['vence', 'fecha de vencimiento'];
+    expect(usesApprovedTranslation('Vence el 4 sept', approved)).toBe(true);
+    expect(usesApprovedTranslation('la fecha de vencimiento', approved)).toBe(true);
+    expect(usesApprovedTranslation('Pendiente', approved)).toBe(false);
+  });
+
+  it('applies without warning when an array-valued glossary entry is satisfied', async () => {
+    const config = await setupProject();
+    await fs.writeFile(
+      path.join(config.cwd, 'locales', 'glossary.json'),
+      JSON.stringify({
+        assignment: { translations: { es: ['tarea', 'trabajo asignado'] } },
+      })
+    );
+
+    const satisfied = await applyOutput(config, {
+      locale: 'es',
+      translations: { [IDS.assignment]: 'Nuevo trabajo asignado' },
+    });
+    expect(satisfied.diagnostics).toEqual([]);
+    expect(satisfied.applied).toBe(1);
+
+    const unsatisfied = await applyOutput(config, {
+      locale: 'es',
+      translations: { [IDS.assignment]: 'Nueva asignación' },
+    });
+    expect(unsatisfied.diagnostics[0]).toMatchObject({
+      severity: 'warning',
+      code: 'glossary-term',
+    });
+    expect(unsatisfied.diagnostics[0]?.message).toContain('"tarea" or "trabajo asignado"');
   });
 });
 

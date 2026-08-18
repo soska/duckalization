@@ -288,7 +288,14 @@ warnings: missing-placeholder (dropped token — sometimes legitimate),
 
     { "Soundbite":  { "translate": false, "note": "Product feature name" },
       "assignment": { "note": "A homework unit a teacher assigns",
-                      "translations": { "es": "tarea", "pt": "tarefa" } } }
+                      "translations": { "es": "tarea", "pt": "tarefa" } },
+      "due":        { "translations": { "es": ["vence", "fecha de vencimiento"] } } }
+
+A locale's value may be an array when several renderings are acceptable
+(verb vs. noun phrase); any one of them satisfies the check. Matching is
+lenient: terms are matched on word boundaries with `{placeholder}`/`:token`
+names stripped, and the approved translation matches case-/accent-folded on
+its stem, so inflections ("archivada" for "archivar") do not warn.
 
 ### Review metadata (`locales/<locale>.review.json`, committed)
 

@@ -16,8 +16,10 @@ export interface GlossaryEntry {
   translate?: boolean;
   /** What the term means in this product — disambiguation for the translator. */
   note?: string;
-  /** Team-approved translations, keyed by locale. */
-  translations?: Record<string, string>;
+  /** Team-approved translations, keyed by locale. An array lists several
+   * acceptable renderings (e.g. "due" → ["vence", "fecha de vencimiento"]);
+   * any one of them satisfies the check. */
+  translations?: Record<string, string | string[]>;
 }
 export type Glossary = Record<string, GlossaryEntry>;
 
@@ -25,7 +27,7 @@ export type Glossary = Record<string, GlossaryEntry>;
 export interface BriefGlossaryEntry {
   doNotTranslate?: true;
   note?: string;
-  approvedTranslation?: string;
+  approvedTranslation?: string | string[];
 }
 
 export interface BriefEntry {
