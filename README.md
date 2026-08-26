@@ -1,5 +1,7 @@
 # duckalization
 
+*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
+
 > **Working with an AI agent?** Point it at [`llms.txt`](./llms.txt) — a single
 > self-contained reference covering the call-shape rules, every package's API,
 > catalog translation instructions, and setup in a new project.

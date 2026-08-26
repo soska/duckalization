@@ -4,6 +4,8 @@ Content-addressed i18n for TypeScript/JavaScript. There are no translation
 keys: the source-language text written in code IS the source of truth, and
 every message's catalog ID is derived from its content.
 
+The name: squint at an empty call — `__('')` — and it's a duck face.
+
 Core invariant (frozen, shared by every package via `@duckalization/id`):
 
     id = base36( cyrb53( context ? context + "\u0000" + canonical(message)
