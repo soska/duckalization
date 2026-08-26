@@ -10,7 +10,7 @@ import {
   reviewOverview,
   translationStatus,
 } from '../src/index.js';
-import { mentionsTerm, usesApprovedTranslation } from '../src/glossary.js';
+import { glossarySubset, mentionsTerm, usesApprovedTranslation } from '../src/glossary.js';
 import { IDS, setupProject, writeTargetCatalog } from './helpers.js';
 
 const readJson = async (config: { cwd: string }, rel: string) =>
@@ -250,8 +250,28 @@ describe('glossary matching', () => {
     expect(mentionsTerm('Your plate is clear', 'late')).toBe(false);
     expect(mentionsTerm('add people and details later', 'late')).toBe(false);
     expect(mentionsTerm('Remember me', 'member')).toBe(false);
+    expect(mentionsTerm('Keyboard shortcuts', 'board')).toBe(false);
     expect(mentionsTerm('This milestone is late', 'late')).toBe(true);
     expect(mentionsTerm('Late milestones', 'late')).toBe(true);
+    expect(mentionsTerm('Move this to the board', 'board')).toBe(true);
+  });
+
+  it('keeps an off-target term out of the brief, not just out of the warning', () => {
+    const glossary = {
+      board: {
+        note: 'A screen that shows a collection',
+        translations: { es: 'tablero' },
+      },
+    };
+    // A brief that carried "board" here would instruct the translator to put
+    // "tablero" into "Keyboard shortcuts" — a bad order, not just noise.
+    expect(glossarySubset(glossary, 'es', ['Keyboard shortcuts'])).toEqual({});
+    expect(glossarySubset(glossary, 'es', ['Move this to the board'])).toEqual({
+      board: {
+        note: 'A screen that shows a collection',
+        approvedTranslation: 'tablero',
+      },
+    });
   });
 
   it('accepts inflections of the approved translation via stem prefix', () => {
