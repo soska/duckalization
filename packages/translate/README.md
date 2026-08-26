@@ -1,20 +1,43 @@
 # @duckalization/translate
 
-*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
+Library for duckalization's translation *workflow*. It does not call a model
+and it does not invent copy. It diffs catalogs, writes a self-contained
+brief, validates the JSON a translator returns, merges it, prunes orphans,
+and records review metadata.
 
-Translation workflow primitives for duckalization.
+The `duckalize translate` and `duckalize review` commands in
+[`@duckalization/cli`](../cli/README.md) are a thin wrapper around this package. App
+projects should depend on the CLI. Import this package when you are embedding
+the same checks in custom tooling.
 
-Provides deterministic status diffing, self-contained agent translation briefs, validated apply, orphan pruning, translation linting, and review metadata helpers. This is the library package used by `@duckalization/cli`.
+## The loop
 
-## Install
-
-```bash
-pnpm add -D @duckalization/translate
+```
+extract  →  source catalog + .meta.json
+                ↓
+status   →  which IDs are missing / orphaned in each target locale
+brief    →  locales/.work/<locale>.brief.json   (work order, missing only)
+                ↓
+           translator (agent or human) → <locale>.out.json
+                ↓
+apply    →  validate → merge into locales/<locale>.json
+           + write locales/<locale>.review.json
+check    →  CI gate (exit 1 if anything is still missing)
+lint     →  apply-time checks on catalogs already on disk
+prune    →  archive orphans to locales/.archive/, then drop them
 ```
 
-## Typical usage
+`review status` / `review approve` read and write the sidecar; they do not
+translate. A **brief** is self-contained (source strings, call-site excerpts,
+glossary subset, style guide, CLDR plural categories) so the translator does
+not need the repo. `apply` rejects the whole file on hard errors; nothing is
+written.
 
-Most projects should use the CLI:
+The brief's embedded `instructions` are the contract; [`llms.txt`](../../llms.txt)
+§7 is the same material in prose. Glossary, style guides, and the
+apply/review rules are also in the [root README](../../README.md#translation-workflow).
+
+## Typical usage (CLI)
 
 ```bash
 pnpm add -D @duckalization/cli
@@ -23,6 +46,34 @@ pnpm duckalize translate brief
 pnpm duckalize translate apply locales/.work/es.out.json --by claude
 ```
 
-Use this package directly when embedding translation workflow checks in custom tooling.
+Requires `"targetLocales"` in `duckalization.config.json` (or locales as CLI
+arguments). `es.out.json` is a convention — `apply` reads whatever path you
+pass.
+
+## Library API
+
+```bash
+pnpm add -D @duckalization/translate
+```
+
+```ts
+import {
+  resolveTranslateConfig,
+  translationStatus,
+  buildBrief,
+  writeBrief,
+  applyOutput,
+  lintLocale,
+  pruneLocale,
+  reviewOverview,
+  approve,
+} from '@duckalization/translate';
+
+const config = await resolveTranslateConfig({ cwd: process.cwd() });
+const brief = await buildBrief(config, 'es');
+await writeBrief(config, brief);
+const result = await applyOutput(config, output, { by: 'claude' });
+// result.applied === 0 if any diagnostic is an error — nothing was written
+```
 
 MIT licensed.
