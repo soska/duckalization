@@ -1,14 +1,18 @@
 # @duckalization/translate
 
-Library for duckalization's translation *workflow*. It does not call a model
-and it does not invent copy. It diffs catalogs, writes a self-contained
-brief, validates the JSON a translator returns, merges it, prunes orphans,
-and records review metadata.
+Library for duckalization's translation workflow. It does not call a model
+and it does not invent copy. It diffs catalogs, writes a brief, validates
+the JSON an agent returns, merges it, prunes orphans, and records review
+metadata.
 
-The `duckalize translate` and `duckalize review` commands in
-[`@duckalization/cli`](../cli/README.md) are a thin wrapper around this package. App
-projects should depend on the CLI. Import this package when you are embedding
-the same checks in custom tooling.
+This is the library behind `duckalize translate` and `duckalize review`.
+Apps should depend on
+[`@duckalization/cli`](https://www.npmjs.com/package/@duckalization/cli).
+Import this package when embedding the same checks in custom tooling.
+
+The brief's embedded `instructions` are the contract;
+[`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt)
+section 7 is the same material in prose.
 
 ## The loop
 
@@ -18,7 +22,7 @@ extract  →  source catalog + .meta.json
 status   →  which IDs are missing / orphaned in each target locale
 brief    →  locales/.work/<locale>.brief.json   (work order, missing only)
                 ↓
-           translator (agent or human) → <locale>.out.json
+           agent translates the brief → <locale>.out.json
                 ↓
 apply    →  validate → merge into locales/<locale>.json
            + write locales/<locale>.review.json
@@ -28,16 +32,12 @@ prune    →  archive orphans to locales/.archive/, then drop them
 ```
 
 `review status` / `review approve` read and write the sidecar; they do not
-translate. A **brief** is self-contained (source strings, call-site excerpts,
-glossary subset, style guide, CLDR plural categories) so the translator does
-not need the repo. `apply` rejects the whole file on hard errors; nothing is
+translate. A brief includes source strings, call-site excerpts, the glossary
+subset, the style guide, and CLDR plural categories, so the agent does not
+need the repo. `apply` rejects the whole file on hard errors; nothing is
 written.
 
-The brief's embedded `instructions` are the contract; [`llms.txt`](../../llms.txt)
-§7 is the same material in prose. Glossary, style guides, and the
-apply/review rules are also in the [root README](../../README.md#translation-workflow).
-
-## Typical usage (CLI)
+## CLI
 
 ```bash
 pnpm add -D @duckalization/cli
@@ -47,7 +47,7 @@ pnpm duckalize translate apply locales/.work/es.out.json --by claude
 ```
 
 Requires `"targetLocales"` in `duckalization.config.json` (or locales as CLI
-arguments). `es.out.json` is a convention — `apply` reads whatever path you
+arguments). `es.out.json` is a convention; `apply` reads whatever path you
 pass.
 
 ## Library API
@@ -73,7 +73,7 @@ const config = await resolveTranslateConfig({ cwd: process.cwd() });
 const brief = await buildBrief(config, 'es');
 await writeBrief(config, brief);
 const result = await applyOutput(config, output, { by: 'claude' });
-// result.applied === 0 if any diagnostic is an error — nothing was written
+// result.applied === 0 if any diagnostic is an error; nothing was written
 ```
 
-MIT licensed.
+Full system: [duckalization README](https://github.com/soska/duckalization#readme).

@@ -1,18 +1,10 @@
 # @duckalization/id
 
-*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
+Canonicalization and hashing for duckalization message IDs.
 
-Content-derived message IDs for duckalization.
-
-This package owns the canonicalization and hashing algorithm shared by the extractor, runtime, bundler plugin, and translation tooling. Treat it as stable: changing the algorithm changes catalog IDs.
-
-## Install
-
-```bash
-pnpm add @duckalization/id
-```
-
-## Usage
+Apps get this transitively. Do not add it as a direct dependency unless you
+are writing tooling that must agree on IDs. Do not change the algorithm:
+every catalog ID would move.
 
 ```ts
 import { messageId } from '@duckalization/id';
@@ -22,11 +14,10 @@ messageId('Book', 'verb');
 messageId({ one: '{count} item', other: '{count} items' });
 ```
 
-## API
-
 - `messageId(message, context?)`
 - `canonicalMessage(message)`
 - `PLURAL_FORMS`
 - Types: `Message`, `PluralMessage`, `PluralForm`
 
-MIT licensed.
+Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).

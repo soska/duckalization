@@ -1,26 +1,18 @@
 # @duckalization/eslint-plugin
 
-*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
-
-ESLint rules for duckalization.
-
-The recommended config enables `duckalization/no-unlocalized-strings`, which flags hardcoded JSX text and human-facing attributes that should be wrapped in `__()`.
-
-## Install
+Optional flat-config rule `duckalization/no-unlocalized-strings`. Flags
+hardcoded JSX text and human-facing attributes that were never wrapped in
+`__()`, with an editor suggestion for the wrap.
 
 ```bash
 pnpm add -D @duckalization/eslint-plugin eslint
 ```
 
-## Usage
-
 ```js
 import duckalization from '@duckalization/eslint-plugin';
 
-export default [duckalization.configs.recommended];
+export default [duckalization.configs.recommended]; // warn
 ```
-
-Manual rule config:
 
 ```js
 export default [{
@@ -29,4 +21,9 @@ export default [{
 }];
 ```
 
-MIT licensed.
+Suggestions apply from the editor, not `eslint --fix`: someone has to confirm
+the string is user-facing, and `__` must be in scope. `duckalize extract`
+remains the gate for wrapped calls.
+
+Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).

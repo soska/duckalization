@@ -46,9 +46,9 @@ describe('brief', () => {
     const hello = brief.entries.find((e) => e.id === IDS.hello);
     expect(hello?.source?.[0]).toContain("__('Hello, {name}'");
 
-    expect(brief.glossary['Soundbite']).toEqual({
+    expect(brief.glossary['Tweet']).toEqual({
       doNotTranslate: true,
-      note: 'Product feature name',
+      note: 'Product name',
     });
     expect(brief.glossary['assignment']?.approvedTranslation).toBe('tarea');
   });
@@ -56,12 +56,12 @@ describe('brief', () => {
   it('only includes glossary terms that appear in the batch', async () => {
     const config = await setupProject();
     await writeTargetCatalog(config, 'es', {
-      [IDS.soundbite]: 'Comparte un Soundbite',
+      [IDS.tweet]: 'Comparte un Tweet',
       [IDS.assignment]: 'Nueva tarea',
     });
     const brief = await buildBrief(config, 'es');
     expect(brief.entries).toHaveLength(2);
-    expect(brief.glossary['Soundbite']).toBeUndefined();
+    expect(brief.glossary['Tweet']).toBeUndefined();
     expect(brief.glossary['assignment']).toBeUndefined();
   });
 
@@ -78,7 +78,7 @@ describe('applyOutput', () => {
     translations: {
       [IDS.hello]: 'Hola, {name}',
       [IDS.items]: { other: '{count} artículos', one: '{count} artículo' },
-      [IDS.soundbite]: 'Comparte un Soundbite',
+      [IDS.tweet]: 'Comparte un Tweet',
       [IDS.assignment]: 'Nueva tarea',
     },
     notes: {
@@ -122,7 +122,7 @@ describe('applyOutput', () => {
     const config = await setupProject();
     const result = await applyOutput(config, {
       locale: 'es',
-      translations: { [IDS.soundbite]: 'Comparte un fragmento de audio' },
+      translations: { [IDS.tweet]: 'Comparte un fragmento de audio' },
     });
     expect(result.diagnostics[0]?.code).toBe('glossary-dnt');
     expect(result.applied).toBe(0);
@@ -213,7 +213,7 @@ describe('review', () => {
       locale: 'es',
       translations: {
         [IDS.hello]: 'Hola, {name}',
-        [IDS.soundbite]: 'Comparte un Soundbite',
+        [IDS.tweet]: 'Comparte un Tweet',
       },
     });
 
@@ -227,7 +227,7 @@ describe('review', () => {
 
     overview = await reviewOverview(config, 'es');
     expect(overview.entries[IDS.hello]).toBe('edited');
-    expect(overview.entries[IDS.soundbite]).toBe('machine');
+    expect(overview.entries[IDS.tweet]).toBe('machine');
 
     const result = await approve(config, 'es', { by: 'armando' });
     expect(result.approved).toHaveLength(2);
@@ -300,7 +300,7 @@ describe('lint', () => {
   it('surfaces glossary violations and orphans in existing catalogs', async () => {
     const config = await setupProject();
     await writeTargetCatalog(config, 'es', {
-      [IDS.soundbite]: 'Comparte un fragmento',
+      [IDS.tweet]: 'Comparte un fragmento',
       stale123: 'Viejo',
     });
 

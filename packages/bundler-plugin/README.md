@@ -1,18 +1,13 @@
 # @duckalization/bundler-plugin
 
-*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
-
-Build-time ID injection for duckalization.
-
-This unplugin transform rewrites calls like `__('Sign in')` to include the content-derived ID at build time. Runtime behavior is identical, but client bundles can skip hashing and tree-shake the hash implementation.
-
-## Install
+Optional unplugin transform. Rewrites `__('Sign in')` to include the
+content-derived ID at build time so the runtime never hashes and the hash
+implementation tree-shakes out of the client bundle. Apps behave the same
+without it.
 
 ```bash
 pnpm add -D @duckalization/bundler-plugin
 ```
-
-## Vite usage
 
 ```ts
 import { defineConfig } from 'vite';
@@ -23,6 +18,8 @@ export default defineConfig({
 });
 ```
 
-Supports Vite, Rollup, Rolldown, webpack, rspack, esbuild, and farm through unplugin.
+Also: `.rollup()`, `.webpack()`, `.esbuild()`, plus rspack, rolldown, and
+farm via unplugin.
 
-MIT licensed.
+Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).

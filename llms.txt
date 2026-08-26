@@ -1,5 +1,7 @@
 # duckalization
 
+This file is the contract for an agent operating duckalization in an app.
+
 Content-addressed i18n for TypeScript/JavaScript. There are no translation
 keys: the source-language text written in code IS the source of truth, and
 every message's catalog ID is derived from its content.
@@ -288,7 +290,8 @@ warnings: missing-placeholder (dropped token — sometimes legitimate),
 
 ### Glossary (`locales/glossary.json`)
 
-    { "Soundbite":  { "translate": false, "note": "Product feature name" },
+    { "Tweet":      { "translate": false, "note": "Product name" },
+      "Git":        { "translate": false, "note": "Version-control system" },
       "assignment": { "note": "A homework unit a teacher assigns",
                       "translations": { "es": "tarea", "pt": "tarefa" } },
       "due":        { "translations": { "es": ["vence", "fecha de vencimiento"] } } }
@@ -312,26 +315,16 @@ archives it to `locales/.archive/<locale>.json` before removal. A partial
 catalog is always safe to ship: missing IDs render the inline source text.
 
 ================================================================================
-## 8. Using it today (monorepo not yet on npm)
+## 8. Using it in a new app
 ================================================================================
 
-From a sibling project, reference the built packages with the link: protocol.
-link: symlinks the directory, so each package resolves its own workspace:*
-deps out of this monorepo's node_modules. (Do NOT use file: or a bare path —
-pnpm then treats the package as one to install and tries to resolve its
-workspace:* deps against the CONSUMING workspace, which fails with
-ERR_PNPM_WORKSPACE_PKG_NOT_FOUND.)
-
-    # link: does not build the target — install and build here first:
-    cd /path/to/duckalization && pnpm install && pnpm build
-    # in the consuming app:
-    pnpm add link:/path/to/duckalization/packages/runtime \
-             link:/path/to/duckalization/packages/react
-    pnpm add -D link:/path/to/duckalization/packages/cli \
-                link:/path/to/duckalization/packages/bundler-plugin
+    pnpm add @duckalization/react            # or @duckalization/runtime
+    pnpm add -D @duckalization/cli
+    # optional:
+    pnpm add -D @duckalization/bundler-plugin @duckalization/eslint-plugin
 
 Minimal wiring checklist for a new app:
-1. `pnpm add` runtime (or react) as above; cli as a dev dependency.
+1. `pnpm add` as above.
 2. Create `src/i18n.ts`: `createDuck()`, export `{ __ }` (and the duck).
 3. Write UI text via the four valid call shapes (section 1).
 4. Config: set `targetLocales`, write `locales/glossary.json` and per-locale

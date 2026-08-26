@@ -1,26 +1,27 @@
 # @duckalization/extract
 
-*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
+Scans JavaScript/TypeScript for `__('Sign in')` (and configured aliases),
+hashes content-derived IDs, and writes catalog plus metadata files.
 
-Source extractor for duckalization.
-
-Scans JavaScript/TypeScript source for translation calls like `__('Sign in')`, computes content-derived IDs, and writes catalog plus metadata files. This is the library package; the `duckalize` executable lives in `@duckalization/cli`.
-
-## Install
-
-```bash
-pnpm add -D @duckalization/extract
-```
-
-## Typical usage
-
-Most projects should use the CLI:
+This is the library behind `duckalize extract`. Apps should depend on
+[`@duckalization/cli`](https://www.npmjs.com/package/@duckalization/cli)
+instead.
 
 ```bash
 pnpm add -D @duckalization/cli
 pnpm duckalize extract
 ```
 
-Use this package directly when embedding extraction in custom tooling.
+Use this package when embedding extraction in custom tooling:
 
-MIT licensed.
+```ts
+import { extract, writeOutputs } from '@duckalization/extract';
+
+const result = await extract({ cwd: process.cwd() });
+if (!result.diagnostics.some((d) => d.severity === 'error')) {
+  await writeOutputs(result, result.config);
+}
+```
+
+Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).
