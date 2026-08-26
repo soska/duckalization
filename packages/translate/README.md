@@ -76,4 +76,4 @@ const result = await applyOutput(config, output, { by: 'claude' });
 // result.applied === 0 if any diagnostic is an error; nothing was written
 ```
 
-Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Complete usage guide: [duckalization README](https://github.com/soska/duckalization#readme).

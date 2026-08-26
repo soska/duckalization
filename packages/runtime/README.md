@@ -25,5 +25,5 @@ __('Welcome back, {name}', { name: 'Ada' });
 
 Missing translations fall back to the inline source text.
 
-Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Complete usage guide: [duckalization README](https://github.com/soska/duckalization#readme).
 Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).

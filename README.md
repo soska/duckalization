@@ -7,9 +7,10 @@ No translation keys. IDs are hashed from the text, so an agent can extract
 catalogs, translate missing entries, and apply the result without anyone
 inventing keys or renaming `_v2` strings.
 
-This repo is built to be agent-operated. Point the agent at
-[`llms.txt`](./llms.txt): call-shape rules, package APIs, how to translate a
-brief, and how to wire a new app.
+duckalization is designed for agent-driven localization: humans write source
+copy, agents extract and translate missing entries, and the CLI validates
+every merge. Point the agent at [`llms.txt`](./llms.txt): call-shape rules,
+package APIs, how to translate a brief, and how to wire a new app.
 
 ## Install
 
@@ -20,11 +21,12 @@ pnpm add @duckalization/react
 pnpm add -D @duckalization/cli
 ```
 
-Without React, install `@duckalization/runtime` instead of `react`.
+Without React, install `@duckalization/runtime` instead of
+`@duckalization/react`.
 
 ```tsx
 // i18n.ts — module scope on the client, per-request on the server
-import { createDuck } from '@duckalization/react';
+import { createDuck, DuckProvider, useDuck, useLocale } from '@duckalization/react';
 import es from '../locales/es.json'; // written by extract / apply
 
 export const duck = createDuck({ sourceLocale: 'en' });
@@ -98,6 +100,14 @@ duckalize translate lint          # apply-time checks on catalogs already on dis
 duckalize translate prune         # archive + drop IDs no longer in the source
 duckalize review status           # approved / machine / edited / unreviewed
 duckalize review approve es --by armando
+```
+
+Agent handoff:
+
+```text
+Read llms.txt and locales/.work/es.brief.json.
+Translate only the missing entries in the brief.
+Return { locale, translations, notes? } with the brief IDs unchanged.
 ```
 
 A brief is a work order for one locale's missing entries: source strings,

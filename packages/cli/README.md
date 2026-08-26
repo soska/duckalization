@@ -26,4 +26,4 @@ pnpm duckalize review approve es --by armando
 pnpm duckalize --help
 ```
 
-Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Complete usage guide: [duckalization README](https://github.com/soska/duckalization#readme).

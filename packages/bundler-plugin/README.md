@@ -21,5 +21,5 @@ export default defineConfig({
 Also: `.rollup()`, `.webpack()`, `.esbuild()`, plus rspack, rolldown, and
 farm via unplugin.
 
-Full system: [duckalization README](https://github.com/soska/duckalization#readme).
+Complete usage guide: [duckalization README](https://github.com/soska/duckalization#readme).
 Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).
