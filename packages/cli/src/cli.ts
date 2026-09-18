@@ -7,7 +7,10 @@ import { extract, writeOutputs, type Diagnostic } from '@duckalization/extract';
 import {
   applyOutput,
   approve,
+  approveGlossary,
   buildBrief,
+  glossaryReview,
+  invalidateTerm,
   lintLocale,
   pruneLocale,
   resolveTranslateConfig,
@@ -31,16 +34,23 @@ Usage:
   duckalize translate lint [locale…]    Run apply-time checks over existing catalogs
   duckalize review status [locale…]     Review-state counts (machine/approved/edited/unreviewed)
   duckalize review approve <locale>     Record sign-off (all entries, or --id per entry)
+  duckalize glossary review [locale…]   Show glossary terms + approval state; sign off with
+                                        --approve or --approve-term (brief/apply require it)
+  duckalize glossary invalidate <term> [locale…]
+                                        Reset review state of every translation whose English
+                                        source uses <term> (after changing its translation)
 
 Options:
   --cwd <path>      Project root (default: current directory)
   --config <path>   Config file (default: duckalization.config.json if present)
   --out-dir <path>  Override output directory (extract)
-  --dry-run         Extract and report, but write nothing
+  --dry-run         Report, but write nothing (extract, glossary invalidate)
   --silent          Only print errors
   --limit <n>       Cap entries per brief
   --by <name>       Recorded as translator/approver in review metadata
   --id <id>         Restrict approve to specific IDs (repeatable)
+  --approve         Sign off on the whole glossary for the given locale(s)
+  --approve-term <term>  Sign off on specific glossary terms (repeatable)
   -h, --help        Show this help
 `;
 
@@ -65,6 +75,8 @@ interface Flags {
   limit?: string;
   by?: string;
   id?: string[];
+  approve?: boolean;
+  'approve-term'?: string[];
   help?: boolean;
 }
 
@@ -115,6 +127,24 @@ function targetLocales(config: TranslateConfig, positionals: string[]): string[]
   return config.targetLocales;
 }
 
+/**
+ * The glossary is the thing you get right first: a wrong term is wrong in
+ * every string that uses it, so bulk translation waits for human sign-off.
+ */
+async function glossaryGate(config: TranslateConfig, locale: string): Promise<boolean> {
+  const { pending } = await glossaryReview(config, locale);
+  if (pending.length === 0) return true;
+  console.error(
+    pc.red(
+      `✗ ${locale}: ${pending.length} glossary term${pending.length === 1 ? '' : 's'} not approved (${pending.join(', ')}).`
+    )
+  );
+  console.error(
+    pc.gray(`  Proofread them, then sign off: duckalize glossary review ${locale} --approve`)
+  );
+  return false;
+}
+
 async function runTranslate(sub: string, positionals: string[], flags: Flags): Promise<number> {
   const config = await translateConfigFrom(flags);
 
@@ -137,6 +167,8 @@ async function runTranslate(sub: string, positionals: string[], flags: Flags): P
     }
 
     case 'brief': {
+      let blocked = false;
+      let written = 0;
       for (const locale of targetLocales(config, positionals)) {
         const brief = await buildBrief(config, locale, {
           ...(flags.limit && { limit: Number(flags.limit) }),
@@ -145,13 +177,20 @@ async function runTranslate(sub: string, positionals: string[], flags: Flags): P
           console.log(`${pc.bold(locale)}: nothing to translate`);
           continue;
         }
+        if (!(await glossaryGate(config, locale))) {
+          blocked = true;
+          continue;
+        }
         const briefPath = await writeBrief(config, brief);
+        written++;
         console.log(
           `${pc.bold(locale)}: ${brief.entries.length} entr${brief.entries.length === 1 ? 'y' : 'ies'} → ${pc.cyan(path.relative(config.cwd, briefPath))}`
         );
       }
-      console.log(pc.gray('Translate each brief per its "instructions", then: duckalize translate apply <output.json>'));
-      return 0;
+      if (written > 0) {
+        console.log(pc.gray('Translate each brief per its "instructions", then: duckalize translate apply <output.json>'));
+      }
+      return blocked ? 1 : 0;
     }
 
     case 'apply': {
@@ -162,6 +201,10 @@ async function runTranslate(sub: string, positionals: string[], flags: Flags): P
       let failed = false;
       for (const file of positionals) {
         const output = JSON.parse(await fs.readFile(path.resolve(file), 'utf8')) as TranslationOutput;
+        if (!(await glossaryGate(config, output.locale))) {
+          failed = true;
+          continue;
+        }
         const result = await applyOutput(config, output, {
           ...(flags.by && { by: flags.by }),
         });
@@ -252,6 +295,113 @@ async function runReview(sub: string, positionals: string[], flags: Flags): Prom
   }
 }
 
+const GLOSSARY_STATUS_LABEL = {
+  approved: pc.green('approved'),
+  changed: pc.yellow('changed'),
+  new: pc.yellow('new'),
+} as const;
+
+function printTable(rows: string[][]): void {
+  // Pad on the uncolored text so ANSI codes don't skew the columns.
+  const plain = (cell: string) => cell.replace(/\x1b\[[0-9;]*m/g, '');
+  const widths = rows[0]!.map((_, col) => Math.max(...rows.map((row) => plain(row[col]!).length)));
+  for (const row of rows) {
+    const cells = row.map((cell, col) => cell + ' '.repeat(widths[col]! - plain(cell).length));
+    console.log(`  ${cells.join('  ').trimEnd()}`);
+  }
+}
+
+async function runGlossary(sub: string, positionals: string[], flags: Flags): Promise<number> {
+  const config = await translateConfigFrom(flags);
+
+  switch (sub) {
+    case 'review': {
+      const approving = flags.approve || Boolean(flags['approve-term']?.length);
+      if (approving && positionals.length === 0) {
+        console.error(pc.red('Approving needs explicit locale(s): duckalize glossary review <locale> --approve'));
+        return 1;
+      }
+
+      let unknownTerms = false;
+      for (const locale of targetLocales(config, positionals)) {
+        if (approving) {
+          const result = await approveGlossary(config, locale, {
+            ...(!flags.approve && { terms: flags['approve-term']! }),
+            ...(flags.by && { by: flags.by }),
+          });
+          for (const term of result.unknown) {
+            console.error(pc.yellow(`warning: "${term}" is not in the glossary`));
+            unknownTerms = true;
+          }
+        }
+
+        const review = await glossaryReview(config, locale);
+        if (review.terms.length === 0) {
+          console.log(`${pc.bold(locale)}: glossary is empty — nothing to approve`);
+          continue;
+        }
+        console.log(pc.bold(locale));
+        printTable([
+          ['TERM', 'TRANSLATION', 'STATUS', 'NOTE'].map((h) => pc.gray(h)),
+          ...review.terms.map((t) => [
+            t.term,
+            t.doNotTranslate
+              ? pc.gray('(verbatim)')
+              : (t.translation ?? pc.gray('—')) +
+                (t.approvedTranslation ? pc.gray(` (was: ${t.approvedTranslation})`) : ''),
+            GLOSSARY_STATUS_LABEL[t.status],
+            t.note ?? '',
+          ]),
+        ]);
+        if (review.pending.length === 0) {
+          console.log(`${pc.green('✓')} all ${review.terms.length} terms approved`);
+        } else {
+          console.log(
+            pc.yellow(
+              `${review.pending.length} of ${review.terms.length} terms need sign-off — translate brief/apply are blocked for ${locale}.`
+            )
+          );
+          console.log(
+            pc.gray(`  duckalize glossary review ${locale} --approve   (or --approve-term <term>)`)
+          );
+        }
+      }
+      return unknownTerms ? 1 : 0;
+    }
+
+    case 'invalidate': {
+      const [term, ...locales] = positionals;
+      if (!term) {
+        console.error(pc.red('invalidate needs a glossary term.'));
+        return 1;
+      }
+      const dryRun = Boolean(flags['dry-run']);
+      for (const locale of targetLocales(config, locales)) {
+        const result = await invalidateTerm(config, locale, term, { dryRun });
+        const n = result.affected.length;
+        if (n === 0) {
+          console.log(`${pc.bold(locale)}: no translated entries use "${term}"`);
+          continue;
+        }
+        const already = n - result.reset.length;
+        console.log(
+          `${dryRun ? pc.yellow('dry-run') : pc.green('✓')} ${pc.bold(locale)}: ${n} entr${n === 1 ? 'y uses' : 'ies use'} "${term}" — ${result.reset.length} ${dryRun ? 'would be ' : ''}reset to unreviewed${already > 0 ? `, ${already} already unreviewed` : ''}`
+        );
+        for (const id of result.affected) console.log(`  ${pc.cyan(id)}`);
+      }
+      if (!dryRun) {
+        console.log(pc.gray('Fix the affected translations (translate lint flags them), then: duckalize review approve <locale>'));
+      }
+      return 0;
+    }
+
+    default:
+      console.error(pc.red(`Unknown glossary subcommand "${sub}".`));
+      console.log(HELP);
+      return 1;
+  }
+}
+
 async function main(): Promise<number> {
   const { values, positionals } = parseArgs({
     args: process.argv.slice(2),
@@ -265,6 +415,8 @@ async function main(): Promise<number> {
       limit: { type: 'string' },
       by: { type: 'string' },
       id: { type: 'string', multiple: true },
+      approve: { type: 'boolean', default: false },
+      'approve-term': { type: 'string', multiple: true },
       help: { type: 'boolean', short: 'h', default: false },
     },
   });
@@ -283,6 +435,8 @@ async function main(): Promise<number> {
       return runTranslate(sub ?? 'status', sub === undefined ? [] : rest, flags);
     case 'review':
       return runReview(sub ?? 'status', sub === undefined ? [] : rest, flags);
+    case 'glossary':
+      return runGlossary(sub ?? 'review', sub === undefined ? [] : rest, flags);
     default:
       console.error(pc.red(`Unknown command "${command}".`));
       console.log(HELP);

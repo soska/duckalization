@@ -215,6 +215,9 @@ messages are plain strings; render markdown/formatting around them.
     duckalize translate lint [locale…]    # run the apply-time checks on existing catalogs
     duckalize review status [locale…]     # approved/machine/edited/unreviewed counts
     duckalize review approve <locale> [--id <id>…] [--by <name>]
+    duckalize glossary review [locale…]   # term table + approval state (new/changed/approved)
+    duckalize glossary review <locale…> --approve | --approve-term <term>… [--by <name>]
+    duckalize glossary invalidate <term> [locale…] [--dry-run]
 
 The loop: `brief` → an agent translates the brief → `apply`. The brief is
 SELF-CONTAINED (entries + context + call-site source excerpts + glossary
@@ -256,6 +259,28 @@ warnings: missing-placeholder (dropped token — sometimes legitimate),
       "assignment": { "note": "A homework unit a teacher assigns",
                       "translations": { "es": "tarea", "pt": "tarefa" } } }
 
+### Glossary sign-off gate (`locales/<locale>.glossary-review.json`, committed)
+
+A wrong glossary term is wrong in every string that uses it, so `translate
+brief` and `translate apply` REFUSE to run (exit 1) for a locale while any
+glossary term is unapproved for it. `glossary review <locale>` prints the
+terms (translation, note, status); a human proofreads, then signs off with
+`--approve` (all terms) or `--approve-term <term>` (repeatable). Approval is
+per locale and per term, stored with by/at and a hash of the term as that
+locale sees it (translate flag + note + that locale's translation) — editing
+a term, or adding one, re-blocks only the locales it affects ("changed" /
+"new"). Agents: do NOT pass `--approve` yourself to get past the gate; it is
+a human sign-off. Surface the table and ask.
+
+Changing an approved translation after strings were translated (e.g.
+`milestone: hito → meta`): edit glossary.json, re-approve the term, then
+`glossary invalidate milestone es`. That drops the review record (→
+"unreviewed") of every translated entry whose ENGLISH SOURCE uses the term —
+the same matching `translate lint` uses for glossary-term/glossary-dnt, never
+a search of the translated text. It prints the affected IDs; `--dry-run`
+writes nothing. Translations themselves are untouched: `translate lint` then
+flags the ones still using the old word; fix them and `review approve`.
+
 ### Review metadata (`locales/<locale>.review.json`, committed)
 
 Written by `apply` (status "machine", content hash, by/at, agent notes).
@@ -289,7 +314,9 @@ Minimal wiring checklist for a new app:
 4. Config: set `targetLocales`, write `locales/glossary.json` and per-locale
    `style` guides (section 2 / section 6).
 5. `duckalize extract` → commit `locales/en.json` + `locales/en.meta.json`.
-6. `duckalize translate brief` → translate the brief (section 6) →
+6. `duckalize glossary review <locale>` → a human proofreads and signs off
+   with `--approve` (brief/apply are blocked until then). Then
+   `duckalize translate brief` → translate the brief (section 6) →
    `duckalize translate apply <output.json> --by <agent-name>`.
 7. `duck.load('es', esCatalog)` (static import or lazy) + `setLocale`.
 8. Review: `duckalize review status` / `approve`; gate CI with

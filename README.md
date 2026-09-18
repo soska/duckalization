@@ -33,12 +33,14 @@ Because identity is content-derived:
 | `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
 | `@duckalization/react` | Provider + hooks over `runtime`: `useDuck()` (subscribed `__` via `useSyncExternalStore`) and `useLocale()`. Re-exports `createDuck`, so it's the only dependency a React app needs. |
 | `@duckalization/translate` | The deterministic half of agent-driven translation: status diffing, self-contained work-order briefs (glossary subset + style guide + source excerpts), hard validation on apply (placeholders, plural shape per locale, do-not-translate terms), orphan pruning with archive, and review metadata. |
-| `@duckalization/cli` | The `duckalize` bin: `extract`, `translate status/check/brief/apply/prune/lint`, `review status/approve`. |
+| `@duckalization/cli` | The `duckalize` bin: `extract`, `translate status/check/brief/apply/prune/lint`, `review status/approve`, `glossary review/invalidate`. |
 
 ### Translation workflow
 
 ```bash
 duckalize translate status        # es: 12/40 translated, 28 missing
+duckalize glossary review es      # proofread the ~20 terms first…
+duckalize glossary review es --approve --by armando   # …brief/apply are blocked until sign-off
 duckalize translate brief         # → locales/.work/es.brief.json (self-contained)
 # …any agent translates the brief into es.out.json…
 duckalize translate apply locales/.work/es.out.json --by claude
@@ -51,6 +53,12 @@ Glossary terms marked `"translate": false` (brand names like *Soundbite*) are
 enforced verbatim at apply time — a violating output is rejected wholesale.
 Per-locale `style` guides (inline or `.md`) ride along in every brief, so tone
 (tú vs. usted, casual vs. formal) is team configuration, not per-prompt luck.
+The glossary is the thing you get right first: `translate brief`/`apply` refuse
+to run for a locale until its glossary terms are signed off, and any edited or
+added term re-blocks it. When an approved translation changes after the fact
+(`milestone: hito → meta`), `duckalize glossary invalidate milestone es` resets
+every entry whose *English source* uses the term back to `unreviewed` (with
+`--dry-run` to preview) — no grepping the Spanish and hoping.
 Review state is keyed by content-derived ID and content-hashed, so it
 self-invalidates on rewording and detects hand edits.
 

@@ -97,6 +97,18 @@ export interface ReviewEntry {
 }
 export type ReviewSidecar = Record<string, ReviewEntry>;
 
+/** One entry in `<locale>.glossary-review.json`: sign-off on a glossary term
+ * as resolved for that locale. Hash drift = the term changed since approval. */
+export interface GlossaryApproval {
+  /** Content hash of the term's locale-resolved entry at approval time. */
+  hash: string;
+  /** The translation that was approved — lets a later review show "was: …". */
+  translation?: string;
+  by?: string;
+  at?: string;
+}
+export type GlossaryReviewSidecar = Record<string, GlossaryApproval>;
+
 export interface LocaleStatus {
   locale: string;
   total: number;

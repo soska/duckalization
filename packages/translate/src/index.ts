@@ -3,6 +3,7 @@ export {
   catalogPath,
   metaPath,
   reviewPath,
+  glossaryReviewPath,
 } from './config.js';
 export type { TranslateConfig } from './config.js';
 export { translationStatus, localeStatus, loadSourceCatalog } from './status.js';
@@ -19,5 +20,15 @@ export type {
   EffectiveStatus,
   ReviewOverview,
 } from './review.js';
-export { loadGlossary, glossarySubset } from './glossary.js';
+export { loadGlossary, glossarySubset, termApplies } from './glossary.js';
+export { glossaryReview, approveGlossary, invalidateTerm } from './glossary-review.js';
+export type {
+  ApproveGlossaryOptions,
+  ApproveGlossaryResult,
+  GlossaryReview,
+  GlossaryReviewTerm,
+  GlossaryTermStatus,
+  InvalidateOptions,
+  InvalidateResult,
+} from './glossary-review.js';
 export type * from './types.js';
