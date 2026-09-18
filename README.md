@@ -92,6 +92,8 @@ an agent translates that JSON; `apply` validates and merges.
 
 ```bash
 duckalize translate status        # es: 12/40 translated, 28 missing
+duckalize glossary review es      # proofread the terms; brief/apply are blocked until…
+duckalize glossary review es --approve --by armando   # …a human signs off
 duckalize translate brief         # → locales/.work/es.brief.json
 # agent reads the brief, writes es.out.json
 duckalize translate apply locales/.work/es.out.json --by claude
@@ -139,6 +141,15 @@ Terms with `"translate": false` (brand names like *Tweet* or *Git*) must appear
 verbatim or `apply` rejects the file. Per-locale `style` (inline or `.md`)
 is how you pin tone (tú vs. usted) in config.
 
+Get the glossary right first: a wrong term is wrong in every string that
+uses it. `translate brief` / `apply` refuse to run for a locale until its
+terms are signed off (`glossary review <locale> --approve`, or
+`--approve-term <term>`), stored in `locales/es.glossary-review.json`. An
+edited or added term re-blocks only the locales it affects. If an approved
+translation changes later (`milestone`: *hito* → *meta*),
+`duckalize glossary invalidate milestone es` resets every entry whose
+*English source* uses the term to `unreviewed` — `--dry-run` previews it.
+
 `review` is optional sign-off, stored in `locales/es.review.json`. `apply`
 records `machine` and a hash of the translation. A later catalog edit that
 does not match that hash shows up as `edited`. Rewriting the English source
@@ -153,7 +164,7 @@ source text.
 | --- | --- |
 | `@duckalization/react` | Provider + hooks. The only runtime dependency a React app needs. |
 | `@duckalization/runtime` | Same client, no React. Catalog lookup, plurals, `{name}` interpolation (~1.5 kB gzip). |
-| `@duckalization/cli` | The `duckalize` bin: extract, translate, review. |
+| `@duckalization/cli` | The `duckalize` bin: extract, translate, review, glossary. |
 | `@duckalization/bundler-plugin` | Optional. Injects IDs at build time so the hash tree-shakes out of the bundle. |
 | `@duckalization/eslint-plugin` | Optional. Flags JSX text and human-facing attributes that were never wrapped in `__()`. |
 | `@duckalization/extract` | Library behind `duckalize extract`. Apps should not depend on this. |

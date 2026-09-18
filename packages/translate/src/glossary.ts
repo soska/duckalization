@@ -3,7 +3,7 @@ import type { Message } from '@duckalization/id';
 import type { TranslateConfig } from './config.js';
 import { readJson } from './fsio.js';
 import { messageForms } from './placeholders.js';
-import type { BriefGlossaryEntry, Glossary } from './types.js';
+import type { BriefGlossaryEntry, Glossary, GlossaryEntry } from './types.js';
 
 export async function loadGlossary(config: TranslateConfig): Promise<Glossary> {
   const glossary = await readJson<Glossary>(
@@ -71,6 +71,22 @@ export function usesApprovedTranslation(
 /** Case-sensitive containment — used to enforce verbatim brand terms. */
 export function containsVerbatim(message: Message, term: string): boolean {
   return messageForms(message).every((form) => form.includes(term));
+}
+
+/**
+ * Whether a glossary term governs a source message — the one definition of
+ * "this entry uses the term", shared by lint/apply and `glossary invalidate`.
+ * Always decided on the English source, never on the translation.
+ */
+export function termApplies(
+  source: Message,
+  term: string,
+  entry: GlossaryEntry
+): boolean {
+  // Verbatim brand term: trigger case-sensitively on the source.
+  return entry.translate === false
+    ? containsVerbatim(source, term)
+    : mentionsTerm(source, term);
 }
 
 /**

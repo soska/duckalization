@@ -4,7 +4,7 @@ import { readJson, writeJsonSorted } from './fsio.js';
 import {
   containsVerbatim,
   loadGlossary,
-  mentionsTerm,
+  termApplies,
   usesApprovedTranslation,
 } from './glossary.js';
 import { messagePlaceholders, placeholdersIn } from './placeholders.js';
@@ -110,9 +110,9 @@ function validateGlossary(
   translation: Message
 ): void {
   for (const [term, entry] of Object.entries(glossary)) {
+    if (!termApplies(source, term, entry)) continue;
     if (entry.translate === false) {
-      // Verbatim brand term: trigger case-sensitively on the source.
-      if (containsVerbatim(source, term) && !containsVerbatim(translation, term)) {
+      if (!containsVerbatim(translation, term)) {
         error(
           diagnostics,
           'glossary-dnt',
@@ -123,12 +123,7 @@ function validateGlossary(
       continue;
     }
     const approved = entry.translations?.[locale];
-    if (
-      approved &&
-      approved.length > 0 &&
-      mentionsTerm(source, term) &&
-      !usesApprovedTranslation(translation, approved)
-    ) {
+    if (approved && approved.length > 0 && !usesApprovedTranslation(translation, approved)) {
       const expected = (typeof approved === 'string' ? [approved] : approved)
         .map((candidate) => `"${candidate}"`)
         .join(' or ');

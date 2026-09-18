@@ -72,3 +72,7 @@ export function metaPath(config: TranslateConfig): string {
 export function reviewPath(config: TranslateConfig, locale: string): string {
   return path.resolve(config.cwd, config.outDir, `${locale}.review.json`);
 }
+
+export function glossaryReviewPath(config: TranslateConfig, locale: string): string {
+  return path.resolve(config.cwd, config.outDir, `${locale}.glossary-review.json`);
+}

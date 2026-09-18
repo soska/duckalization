@@ -31,6 +31,13 @@ lint     →  apply-time checks on catalogs already on disk
 prune    →  archive orphans to locales/.archive/, then drop them
 ```
 
+`glossary review` records per-locale sign-off on glossary terms in
+`locales/<locale>.glossary-review.json`; the CLI blocks `brief` and `apply`
+while any term is new or changed. `glossary invalidate <term>` drops the
+review record of every entry whose English source uses the term. The library
+functions (`buildBrief`, `applyOutput`) are not gated — call
+`glossaryReview()` yourself.
+
 `review status` / `review approve` read and write the sidecar; they do not
 translate. A brief includes source strings, call-site excerpts, the glossary
 subset, the style guide, and CLDR plural categories, so the agent does not
@@ -67,6 +74,9 @@ import {
   pruneLocale,
   reviewOverview,
   approve,
+  glossaryReview,
+  approveGlossary,
+  invalidateTerm,
 } from '@duckalization/translate';
 
 const config = await resolveTranslateConfig({ cwd: process.cwd() });

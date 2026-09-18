@@ -18,11 +18,13 @@ arguments.
 ```bash
 pnpm duckalize extract
 pnpm duckalize translate status
+pnpm duckalize glossary review es --approve --by armando   # required before brief/apply
 pnpm duckalize translate brief
 pnpm duckalize translate apply locales/.work/es.out.json --by claude
 pnpm duckalize translate check
 pnpm duckalize review status
 pnpm duckalize review approve es --by armando
+pnpm duckalize glossary invalidate milestone es --dry-run
 pnpm duckalize --help
 ```
 

@@ -4,7 +4,10 @@ import { describe, expect, it } from 'vitest';
 import {
   applyOutput,
   approve,
+  approveGlossary,
   buildBrief,
+  glossaryReview,
+  invalidateTerm,
   lintLocale,
   pruneLocale,
   reviewOverview,
@@ -327,5 +330,123 @@ describe('lint', () => {
     const diagnostics = await lintLocale(config, 'es');
     const codes = diagnostics.map((d) => d.code).sort();
     expect(codes).toEqual(['glossary-dnt', 'orphaned-id']);
+  });
+});
+
+describe('glossary review', () => {
+  const writeGlossary = (config: { cwd: string }, glossary: unknown) =>
+    fs.writeFile(path.join(config.cwd, 'locales/glossary.json'), JSON.stringify(glossary));
+
+  it('starts with every term pending and records sign-off', async () => {
+    const config = await setupProject();
+
+    let review = await glossaryReview(config, 'es');
+    expect(review.terms.map((t) => [t.term, t.status])).toEqual([
+      ['Git', 'new'],
+      ['Tweet', 'new'],
+      ['assignment', 'new'],
+    ]);
+    expect(review.pending).toEqual(['Git', 'Tweet', 'assignment']);
+
+    const partial = await approveGlossary(config, 'es', {
+      terms: ['assignment', 'nope'],
+      by: 'armando',
+      at: '2026-09-18',
+    });
+    expect(partial).toEqual({ approved: ['assignment'], unknown: ['nope'] });
+    expect((await glossaryReview(config, 'es')).pending).toEqual(['Git', 'Tweet']);
+
+    await approveGlossary(config, 'es');
+    review = await glossaryReview(config, 'es');
+    expect(review.pending).toEqual([]);
+
+    const sidecar = await readJson(config, 'locales/es.glossary-review.json');
+    expect(sidecar.assignment).toMatchObject({
+      translation: 'tarea',
+      by: 'armando',
+      at: '2026-09-18',
+    });
+  });
+
+  it('flags changed and added terms, per locale', async () => {
+    const config = await setupProject();
+    await approveGlossary(config, 'es');
+    await approveGlossary(config, 'pt');
+
+    await writeGlossary(config, {
+      Tweet: { translate: false, note: 'Product name' },
+      Git: { translate: false, note: 'Version-control system' },
+      assignment: {
+        note: 'A homework unit a teacher assigns',
+        translations: { es: ['actividad', 'tarea'] },
+      },
+      milestone: { translations: { es: 'meta' } },
+    });
+
+    const es = await glossaryReview(config, 'es');
+    expect(es.pending).toEqual(['assignment', 'milestone']);
+    expect(es.terms.find((t) => t.term === 'assignment')).toMatchObject({
+      status: 'changed',
+      translations: ['actividad', 'tarea'],
+      approvedTranslations: ['tarea'],
+    });
+
+    // Only the es translation changed — pt's approval of "assignment" stands.
+    expect((await glossaryReview(config, 'pt')).pending).toEqual(['milestone']);
+  });
+
+  it('treats "tarea" and ["tarea"] as the same decision', async () => {
+    const config = await setupProject();
+    await approveGlossary(config, 'es');
+
+    await writeGlossary(config, {
+      Tweet: { translate: false, note: 'Product name' },
+      Git: { translate: false, note: 'Version-control system' },
+      assignment: {
+        note: 'A homework unit a teacher assigns',
+        translations: { es: ['tarea'] },
+      },
+    });
+    expect((await glossaryReview(config, 'es')).pending).toEqual([]);
+  });
+});
+
+describe('glossary invalidate', () => {
+  it('resets review state of entries whose English source uses the term', async () => {
+    const config = await setupProject();
+    await applyOutput(config, {
+      locale: 'es',
+      translations: {
+        [IDS.hello]: 'Hola, {name}',
+        // "tarea" here is unrelated to the glossary term — must not be swept in.
+        [IDS.tweet]: 'Comparte un Tweet como tarea',
+        [IDS.assignment]: 'Nueva tarea',
+      },
+    });
+    await approve(config, 'es');
+
+    const dry = await invalidateTerm(config, 'es', 'assignment', { dryRun: true });
+    expect(dry.affected).toEqual([IDS.assignment]);
+    expect(dry.reset).toEqual([IDS.assignment]);
+    expect((await reviewOverview(config, 'es')).counts.approved).toBe(3);
+
+    const result = await invalidateTerm(config, 'es', 'assignment');
+    expect(result.reset).toEqual([IDS.assignment]);
+
+    const overview = await reviewOverview(config, 'es');
+    expect(overview.entries[IDS.assignment]).toBe('unreviewed');
+    expect(overview.entries[IDS.tweet]).toBe('approved');
+    expect(overview.entries[IDS.hello]).toBe('approved');
+
+    // The translation itself is untouched; a second run has nothing to reset.
+    expect((await readJson(config, 'locales/es.json'))[IDS.assignment]).toBe('Nueva tarea');
+    const again = await invalidateTerm(config, 'es', 'assignment');
+    expect(again.affected).toEqual([IDS.assignment]);
+    expect(again.reset).toEqual([]);
+  });
+
+  it('rejects terms that are not in the glossary', async () => {
+    const config = await setupProject();
+    await expect(invalidateTerm(config, 'es', 'asignment')).rejects.toThrow(/not in the glossary/);
   });
 });
