@@ -28,5 +28,27 @@
   },
   "engines": {
     "node": ">=20.19"
+  },
+  "license": "MIT",
+  "author": "Armando Sosa <arm.sosa@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soska/duckalization.git",
+    "directory": "packages/translate"
+  },
+  "bugs": {
+    "url": "https://github.com/soska/duckalization/issues"
+  },
+  "homepage": "https://github.com/soska/duckalization#readme",
+  "keywords": [
+    "duckalization",
+    "i18n",
+    "localization",
+    "translation",
+    "workflow",
+    "catalog"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

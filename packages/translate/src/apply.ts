@@ -1,7 +1,12 @@
 import { messageId, PLURAL_FORMS, type Message, type PluralMessage } from '@duckalization/id';
 import { catalogPath, reviewPath, type TranslateConfig } from './config.js';
 import { readJson, writeJsonSorted } from './fsio.js';
-import { containsVerbatim, loadGlossary, mentionsTerm, termApplies } from './glossary.js';
+import {
+  containsVerbatim,
+  loadGlossary,
+  termApplies,
+  usesApprovedTranslation,
+} from './glossary.js';
 import { messagePlaceholders, placeholdersIn } from './placeholders.js';
 import { loadSourceCatalog } from './status.js';
 import type {
@@ -118,12 +123,15 @@ function validateGlossary(
       continue;
     }
     const approved = entry.translations?.[locale];
-    if (approved && !mentionsTerm(translation, approved)) {
+    if (approved && approved.length > 0 && !usesApprovedTranslation(translation, approved)) {
+      const expected = (typeof approved === 'string' ? [approved] : approved)
+        .map((candidate) => `"${candidate}"`)
+        .join(' or ');
       warn(
         diagnostics,
         'glossary-term',
         id,
-        `expected the approved translation "${approved}" for "${term}"`
+        `expected the approved translation ${expected} for "${term}"`
       );
     }
   }

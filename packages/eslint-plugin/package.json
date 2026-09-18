@@ -1,8 +1,8 @@
 {
-  "name": "@duckalization/runtime",
+  "name": "@duckalization/eslint-plugin",
   "version": "0.1.0",
   "type": "module",
-  "description": "Tiny framework-agnostic runtime for content-addressed i18n: lookup, fallback, plurals, interpolation.",
+  "description": "ESLint rules that catch hardcoded UI strings before they ship unlocalizable, with keyless __() wrap suggestions.",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,11 +17,12 @@
     "build": "tsdown",
     "typecheck": "tsc"
   },
-  "dependencies": {
-    "@duckalization/id": "workspace:*"
+  "peerDependencies": {
+    "eslint": ">=9"
   },
   "devDependencies": {
     "@types/node": "^24.10.3",
+    "eslint": "^9.0.0",
     "tsdown": "^0.15.12",
     "typescript": "^5.9.3"
   },
@@ -33,7 +34,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/soska/duckalization.git",
-    "directory": "packages/runtime"
+    "directory": "packages/eslint-plugin"
   },
   "bugs": {
     "url": "https://github.com/soska/duckalization/issues"
@@ -41,11 +42,11 @@
   "homepage": "https://github.com/soska/duckalization#readme",
   "keywords": [
     "duckalization",
+    "eslint",
+    "eslint-plugin",
     "i18n",
     "localization",
-    "translation",
-    "runtime",
-    "intl"
+    "translation"
   ],
   "publishConfig": {
     "access": "public"

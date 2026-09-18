@@ -347,8 +347,8 @@ async function runGlossary(sub: string, positionals: string[], flags: Flags): Pr
             t.term,
             t.doNotTranslate
               ? pc.gray('(verbatim)')
-              : (t.translation ?? pc.gray('—')) +
-                (t.approvedTranslation ? pc.gray(` (was: ${t.approvedTranslation})`) : ''),
+              : (t.translations?.join(' / ') ?? pc.gray('—')) +
+                (t.approvedTranslations ? pc.gray(` (was: ${t.approvedTranslations.join(' / ')})`) : ''),
             GLOSSARY_STATUS_LABEL[t.status],
             t.note ?? '',
           ]),

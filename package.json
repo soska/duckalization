@@ -5,12 +5,31 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "vitest run",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "prepublish:check": "pnpm -r build && pnpm test && pnpm -r typecheck",
+    "publish:dry": "pnpm -r publish --dry-run --access public --no-git-checks"
   },
   "engines": {
     "node": ">=20.19"
   },
   "devDependencies": {
     "vitest": "^4.1.10"
-  }
+  },
+  "license": "MIT",
+  "author": "Armando Sosa <arm.sosa@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soska/duckalization.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soska/duckalization/issues"
+  },
+  "homepage": "https://github.com/soska/duckalization#readme",
+  "keywords": [
+    "i18n",
+    "localization",
+    "translation",
+    "content-addressed",
+    "typescript"
+  ]
 }

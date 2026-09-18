@@ -7,7 +7,7 @@ import { resolveTranslateConfig, type TranslateConfig } from '../src/index.js';
 export const IDS = {
   hello: messageId('Hello, {name}'),
   items: messageId({ one: '{count} item', other: '{count} items' }),
-  soundbite: messageId('Share a Soundbite'),
+  tweet: messageId('Share a Tweet'),
   assignment: messageId('New assignment'),
 };
 
@@ -33,7 +33,7 @@ export async function setupProject(): Promise<TranslateConfig> {
     JSON.stringify({
       [IDS.hello]: 'Hello, {name}',
       [IDS.items]: { one: '{count} item', other: '{count} items' },
-      [IDS.soundbite]: 'Share a Soundbite',
+      [IDS.tweet]: 'Share a Tweet',
       [IDS.assignment]: 'New assignment',
     })
   );
@@ -46,7 +46,7 @@ export async function setupProject(): Promise<TranslateConfig> {
         message: { one: '{count} item', other: '{count} items' },
         refs: ['src/app.ts:3:14'],
       },
-      [IDS.soundbite]: { message: 'Share a Soundbite', refs: ['src/app.ts:4:14'] },
+      [IDS.tweet]: { message: 'Share a Tweet', refs: ['src/app.ts:4:14'] },
       [IDS.assignment]: { message: 'New assignment', refs: ['src/app.ts:5:14'] },
     })
   );
@@ -57,7 +57,7 @@ export async function setupProject(): Promise<TranslateConfig> {
       `declare function __(m: unknown, o?: unknown): string;`,
       `const hello = __('Hello, {name}', { name: 'x' });`,
       `const items = __({ one: '{count} item', other: '{count} items' }, { count: 1 });`,
-      `const share = __('Share a Soundbite');`,
+      `const share = __('Share a Tweet');`,
       `const brand = __('New assignment');`,
     ].join('\n')
   );
@@ -65,7 +65,8 @@ export async function setupProject(): Promise<TranslateConfig> {
   await fs.writeFile(
     path.join(cwd, 'locales', 'glossary.json'),
     JSON.stringify({
-      Soundbite: { translate: false, note: 'Product feature name' },
+      Tweet: { translate: false, note: 'Product name' },
+      Git: { translate: false, note: 'Version-control system' },
       assignment: {
         note: 'A homework unit a teacher assigns',
         translations: { es: 'tarea' },

@@ -1,6 +1,6 @@
 import { extractFromSource, type Diagnostic } from '@duckalization/extract';
 import MagicString from 'magic-string';
-import { createUnplugin, type UnpluginInstance } from 'unplugin';
+import { createUnplugin } from 'unplugin';
 
 export interface DuckalizationPluginOptions {
   /** Translation function names to rewrite. Default: ['__']. */
@@ -69,9 +69,26 @@ function formatDiagnostic(diagnostic: Diagnostic): string {
 const DEFAULT_INCLUDE = /\.[cm]?[jt]sx?$/;
 const DEFAULT_EXCLUDE = /node_modules/;
 
-export const DuckalizationPlugin: UnpluginInstance<
+/**
+ * The factories deliberately return `any` instead of unplugin's precise
+ * types: those would pull every bundler's own types (vite, rollup, webpack…)
+ * into this package's public type surface, and when the consumer resolves a
+ * different copy of a bundler (link:/file: installs, mismatched @types/node)
+ * the two structurally-distinct Plugin types collide inside defineConfig.
+ */
+export interface DuckalizationPluginInstance {
+  vite: (options?: DuckalizationPluginOptions) => any;
+  rollup: (options?: DuckalizationPluginOptions) => any;
+  rolldown: (options?: DuckalizationPluginOptions) => any;
+  webpack: (options?: DuckalizationPluginOptions) => any;
+  rspack: (options?: DuckalizationPluginOptions) => any;
+  esbuild: (options?: DuckalizationPluginOptions) => any;
+  farm: (options?: DuckalizationPluginOptions) => any;
+}
+
+export const DuckalizationPlugin: DuckalizationPluginInstance = createUnplugin<
   DuckalizationPluginOptions | undefined
-> = createUnplugin((options = {}) => {
+>((options = {}) => {
   const functions = options.functions ?? ['__'];
   const include = options.include ?? DEFAULT_INCLUDE;
   const exclude = options.exclude ?? DEFAULT_EXCLUDE;

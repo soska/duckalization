@@ -23,10 +23,10 @@ export interface GlossaryReviewTerm {
   status: GlossaryTermStatus;
   doNotTranslate: boolean;
   note?: string;
-  /** Current translation for this locale, if the glossary has one. */
-  translation?: string;
-  /** The translation that was approved, when it differs from the current one. */
-  approvedTranslation?: string;
+  /** Current acceptable rendering(s) for this locale, if the glossary has any. */
+  translations?: string[];
+  /** The rendering(s) that were approved, when they differ from the current ones. */
+  approvedTranslations?: string[];
 }
 
 export interface GlossaryReview {
@@ -42,12 +42,19 @@ export interface GlossaryReview {
  */
 function termHash(entry: GlossaryEntry, locale: string): string {
   return messageId(
-    JSON.stringify([
-      entry.translate !== false,
-      entry.note ?? '',
-      entry.translations?.[locale] ?? '',
-    ])
+    JSON.stringify([entry.translate !== false, entry.note ?? '', renderings(entry, locale)])
   );
+}
+
+/** A locale's approved renderings as a list — `"tarea"` and `["tarea"]` are
+ * the same decision, so they hash and compare the same. */
+function renderings(entry: GlossaryEntry, locale: string): string[] {
+  return asList(entry.translations?.[locale]);
+}
+
+function asList(value: string | string[] | undefined): string[] {
+  if (value === undefined) return [];
+  return typeof value === 'string' ? [value] : value;
 }
 
 /** Approval state of every glossary term, resolved for one locale. */
@@ -63,7 +70,7 @@ export async function glossaryReview(
   for (const term of Object.keys(glossary).sort()) {
     const entry = glossary[term]!;
     const record = sidecar[term];
-    const translation = entry.translations?.[locale];
+    const translations = renderings(entry, locale);
     const status: GlossaryTermStatus = !record
       ? 'new'
       : record.hash === termHash(entry, locale)
@@ -76,9 +83,10 @@ export async function glossaryReview(
       doNotTranslate: entry.translate === false,
     };
     if (entry.note) row.note = entry.note;
-    if (translation) row.translation = translation;
-    if (status === 'changed' && record?.translation && record.translation !== translation) {
-      row.approvedTranslation = record.translation;
+    if (translations.length > 0) row.translations = translations;
+    const approved = asList(record?.translation);
+    if (status === 'changed' && approved.length > 0 && approved.join('\n') !== translations.join('\n')) {
+      row.approvedTranslations = approved;
     }
     terms.push(row);
   }
@@ -135,7 +143,7 @@ export async function approveGlossary(
       const translation = entry.translations?.[locale];
       sidecar[term] = {
         hash,
-        ...(translation && { translation }),
+        ...(translation?.length && { translation }),
         at,
         ...(options.by && { by: options.by }),
       };

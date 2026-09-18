@@ -13,6 +13,7 @@ import {
   reviewOverview,
   translationStatus,
 } from '../src/index.js';
+import { glossarySubset, mentionsTerm, usesApprovedTranslation } from '../src/glossary.js';
 import { IDS, setupProject, writeTargetCatalog } from './helpers.js';
 
 const readJson = async (config: { cwd: string }, rel: string) =>
@@ -48,9 +49,9 @@ describe('brief', () => {
     const hello = brief.entries.find((e) => e.id === IDS.hello);
     expect(hello?.source?.[0]).toContain("__('Hello, {name}'");
 
-    expect(brief.glossary['Soundbite']).toEqual({
+    expect(brief.glossary['Tweet']).toEqual({
       doNotTranslate: true,
-      note: 'Product feature name',
+      note: 'Product name',
     });
     expect(brief.glossary['assignment']?.approvedTranslation).toBe('tarea');
   });
@@ -58,12 +59,12 @@ describe('brief', () => {
   it('only includes glossary terms that appear in the batch', async () => {
     const config = await setupProject();
     await writeTargetCatalog(config, 'es', {
-      [IDS.soundbite]: 'Comparte un Soundbite',
+      [IDS.tweet]: 'Comparte un Tweet',
       [IDS.assignment]: 'Nueva tarea',
     });
     const brief = await buildBrief(config, 'es');
     expect(brief.entries).toHaveLength(2);
-    expect(brief.glossary['Soundbite']).toBeUndefined();
+    expect(brief.glossary['Tweet']).toBeUndefined();
     expect(brief.glossary['assignment']).toBeUndefined();
   });
 
@@ -80,7 +81,7 @@ describe('applyOutput', () => {
     translations: {
       [IDS.hello]: 'Hola, {name}',
       [IDS.items]: { other: '{count} artículos', one: '{count} artículo' },
-      [IDS.soundbite]: 'Comparte un Soundbite',
+      [IDS.tweet]: 'Comparte un Tweet',
       [IDS.assignment]: 'Nueva tarea',
     },
     notes: {
@@ -124,7 +125,7 @@ describe('applyOutput', () => {
     const config = await setupProject();
     const result = await applyOutput(config, {
       locale: 'es',
-      translations: { [IDS.soundbite]: 'Comparte un fragmento de audio' },
+      translations: { [IDS.tweet]: 'Comparte un fragmento de audio' },
     });
     expect(result.diagnostics[0]?.code).toBe('glossary-dnt');
     expect(result.applied).toBe(0);
@@ -215,7 +216,7 @@ describe('review', () => {
       locale: 'es',
       translations: {
         [IDS.hello]: 'Hola, {name}',
-        [IDS.soundbite]: 'Comparte un Soundbite',
+        [IDS.tweet]: 'Comparte un Tweet',
       },
     });
 
@@ -229,7 +230,7 @@ describe('review', () => {
 
     overview = await reviewOverview(config, 'es');
     expect(overview.entries[IDS.hello]).toBe('edited');
-    expect(overview.entries[IDS.soundbite]).toBe('machine');
+    expect(overview.entries[IDS.tweet]).toBe('machine');
 
     const result = await approve(config, 'es', { by: 'armando' });
     expect(result.approved).toHaveLength(2);
@@ -239,11 +240,90 @@ describe('review', () => {
   });
 });
 
+describe('glossary matching', () => {
+  it('never matches a term inside a placeholder name', () => {
+    expect(mentionsTerm('{subject} — {project}', 'project')).toBe(false);
+    expect(mentionsTerm('Restore :account now', 'account')).toBe(false);
+    expect(mentionsTerm('Your {project} report', 'project')).toBe(false);
+    expect(mentionsTerm('Your project report', 'project')).toBe(true);
+  });
+
+  it('requires word boundaries around the term', () => {
+    expect(mentionsTerm('Latest messages', 'late')).toBe(false);
+    expect(mentionsTerm('Your plate is clear', 'late')).toBe(false);
+    expect(mentionsTerm('add people and details later', 'late')).toBe(false);
+    expect(mentionsTerm('Remember me', 'member')).toBe(false);
+    expect(mentionsTerm('Keyboard shortcuts', 'board')).toBe(false);
+    expect(mentionsTerm('This milestone is late', 'late')).toBe(true);
+    expect(mentionsTerm('Late milestones', 'late')).toBe(true);
+    expect(mentionsTerm('Move this to the board', 'board')).toBe(true);
+  });
+
+  it('keeps an off-target term out of the brief, not just out of the warning', () => {
+    const glossary = {
+      board: {
+        note: 'A screen that shows a collection',
+        translations: { es: 'tablero' },
+      },
+    };
+    // A brief that carried "board" here would instruct the translator to put
+    // "tablero" into "Keyboard shortcuts" — a bad order, not just noise.
+    expect(glossarySubset(glossary, 'es', ['Keyboard shortcuts'])).toEqual({});
+    expect(glossarySubset(glossary, 'es', ['Move this to the board'])).toEqual({
+      board: {
+        note: 'A screen that shows a collection',
+        approvedTranslation: 'tablero',
+      },
+    });
+  });
+
+  it('accepts inflections of the approved translation via stem prefix', () => {
+    expect(usesApprovedTranslation('Archivada', 'archivar')).toBe(true);
+    expect(usesApprovedTranslation('Restáuralo', 'restaurar')).toBe(true);
+    expect(usesApprovedTranslation('Juan comentó', 'comentario')).toBe(true);
+    expect(usesApprovedTranslation('Nueva asignación', 'tarea')).toBe(false);
+  });
+
+  it('accepts any of several approved renderings', () => {
+    const approved = ['vence', 'fecha de vencimiento'];
+    expect(usesApprovedTranslation('Vence el 4 sept', approved)).toBe(true);
+    expect(usesApprovedTranslation('la fecha de vencimiento', approved)).toBe(true);
+    expect(usesApprovedTranslation('Pendiente', approved)).toBe(false);
+  });
+
+  it('applies without warning when an array-valued glossary entry is satisfied', async () => {
+    const config = await setupProject();
+    await fs.writeFile(
+      path.join(config.cwd, 'locales', 'glossary.json'),
+      JSON.stringify({
+        assignment: { translations: { es: ['tarea', 'trabajo asignado'] } },
+      })
+    );
+
+    const satisfied = await applyOutput(config, {
+      locale: 'es',
+      translations: { [IDS.assignment]: 'Nuevo trabajo asignado' },
+    });
+    expect(satisfied.diagnostics).toEqual([]);
+    expect(satisfied.applied).toBe(1);
+
+    const unsatisfied = await applyOutput(config, {
+      locale: 'es',
+      translations: { [IDS.assignment]: 'Nueva asignación' },
+    });
+    expect(unsatisfied.diagnostics[0]).toMatchObject({
+      severity: 'warning',
+      code: 'glossary-term',
+    });
+    expect(unsatisfied.diagnostics[0]?.message).toContain('"tarea" or "trabajo asignado"');
+  });
+});
+
 describe('lint', () => {
   it('surfaces glossary violations and orphans in existing catalogs', async () => {
     const config = await setupProject();
     await writeTargetCatalog(config, 'es', {
-      [IDS.soundbite]: 'Comparte un fragmento',
+      [IDS.tweet]: 'Comparte un fragmento',
       stale123: 'Viejo',
     });
 
@@ -262,10 +342,11 @@ describe('glossary review', () => {
 
     let review = await glossaryReview(config, 'es');
     expect(review.terms.map((t) => [t.term, t.status])).toEqual([
-      ['Soundbite', 'new'],
+      ['Git', 'new'],
+      ['Tweet', 'new'],
       ['assignment', 'new'],
     ]);
-    expect(review.pending).toEqual(['Soundbite', 'assignment']);
+    expect(review.pending).toEqual(['Git', 'Tweet', 'assignment']);
 
     const partial = await approveGlossary(config, 'es', {
       terms: ['assignment', 'nope'],
@@ -273,7 +354,7 @@ describe('glossary review', () => {
       at: '2026-09-18',
     });
     expect(partial).toEqual({ approved: ['assignment'], unknown: ['nope'] });
-    expect((await glossaryReview(config, 'es')).pending).toEqual(['Soundbite']);
+    expect((await glossaryReview(config, 'es')).pending).toEqual(['Git', 'Tweet']);
 
     await approveGlossary(config, 'es');
     review = await glossaryReview(config, 'es');
@@ -293,10 +374,11 @@ describe('glossary review', () => {
     await approveGlossary(config, 'pt');
 
     await writeGlossary(config, {
-      Soundbite: { translate: false, note: 'Product feature name' },
+      Tweet: { translate: false, note: 'Product name' },
+      Git: { translate: false, note: 'Version-control system' },
       assignment: {
         note: 'A homework unit a teacher assigns',
-        translations: { es: 'actividad' },
+        translations: { es: ['actividad', 'tarea'] },
       },
       milestone: { translations: { es: 'meta' } },
     });
@@ -305,12 +387,27 @@ describe('glossary review', () => {
     expect(es.pending).toEqual(['assignment', 'milestone']);
     expect(es.terms.find((t) => t.term === 'assignment')).toMatchObject({
       status: 'changed',
-      translation: 'actividad',
-      approvedTranslation: 'tarea',
+      translations: ['actividad', 'tarea'],
+      approvedTranslations: ['tarea'],
     });
 
     // Only the es translation changed — pt's approval of "assignment" stands.
     expect((await glossaryReview(config, 'pt')).pending).toEqual(['milestone']);
+  });
+
+  it('treats "tarea" and ["tarea"] as the same decision', async () => {
+    const config = await setupProject();
+    await approveGlossary(config, 'es');
+
+    await writeGlossary(config, {
+      Tweet: { translate: false, note: 'Product name' },
+      Git: { translate: false, note: 'Version-control system' },
+      assignment: {
+        note: 'A homework unit a teacher assigns',
+        translations: { es: ['tarea'] },
+      },
+    });
+    expect((await glossaryReview(config, 'es')).pending).toEqual([]);
   });
 });
 
@@ -322,7 +419,7 @@ describe('glossary invalidate', () => {
       translations: {
         [IDS.hello]: 'Hola, {name}',
         // "tarea" here is unrelated to the glossary term — must not be swept in.
-        [IDS.soundbite]: 'Comparte un Soundbite como tarea',
+        [IDS.tweet]: 'Comparte un Tweet como tarea',
         [IDS.assignment]: 'Nueva tarea',
       },
     });
@@ -338,7 +435,7 @@ describe('glossary invalidate', () => {
 
     const overview = await reviewOverview(config, 'es');
     expect(overview.entries[IDS.assignment]).toBe('unreviewed');
-    expect(overview.entries[IDS.soundbite]).toBe('approved');
+    expect(overview.entries[IDS.tweet]).toBe('approved');
     expect(overview.entries[IDS.hello]).toBe('approved');
 
     // The translation itself is untouched; a second run has nothing to reset.

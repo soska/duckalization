@@ -1,80 +1,42 @@
-# duckalization
+# duckalization `__('')`
 
-> **Working with an AI agent?** Point it at [`llms.txt`](./llms.txt) — a single
-> self-contained reference covering the call-shape rules, every package's API,
-> catalog translation instructions, and setup in a new project.
+*The name: squint at an empty call — `__('')` — and it's a duck face.* 🦆
 
-Content-addressed i18n tooling. The source-language text in your code is the
-source of truth — there are no translation keys to invent, dedupe, or police.
-IDs are derived from the message content itself.
+Write the source-language string in your code. That string is the message.
+No translation keys. IDs are hashed from the text, so an agent can extract
+catalogs, translate missing entries, and apply the result without anyone
+inventing keys or renaming `_v2` strings.
 
-```tsx
-__('Sign in')                                  // ID = hash("Sign in")
-__('Welcome back, {name}', { name })           // placeholders, not template exprs
-__('Book', { context: 'verb' })                // disambiguate identical strings
-__('Checkout', { id: 'checkout.cta' })         // explicit ID override (escape hatch)
-__({ one: '{count} item', other: '{count} items' }, { count })
-```
+duckalization is designed for agent-driven localization: humans write source
+copy, agents extract and translate missing entries, and the CLI validates
+every merge. Point the agent at [`llms.txt`](./llms.txt): call-shape rules,
+package APIs, how to translate a brief, and how to wire a new app.
 
-Because identity is content-derived:
+## Install
 
-- The same string used in many places is one catalog entry, translated once.
-- Editing a message *is* a new ID — stale translations orphan themselves and
-  the new text shows up as untranslated, no manual `_v2` renames.
-- Duplicate-key drift is impossible by construction.
-
-## Packages
-
-| Package | Purpose |
-| --- | --- |
-| `@duckalization/id` | The hashing/canonicalization algorithm. Shared by everything that must agree on IDs. Treat as frozen. |
-| `@duckalization/extract` | Scans source with [oxc](https://oxc.rs) and emits `locales/<locale>.json` (catalog) plus `<locale>.meta.json` (source refs + context for translation agents). Ships the `duckalize` CLI. |
-| `@duckalization/runtime` | Tiny (~1.5 kB gzip) framework-agnostic client: catalog lookup with inline-source fallback, `Intl.PluralRules` plural selection, `{name}` interpolation, and compile-time placeholder checking via template-literal types. |
-| `@duckalization/bundler-plugin` | [unplugin](https://unplugin.unjs.io) transform (Vite/Rollup/webpack/esbuild) that rewrites `__('msg')` → `__('msg', undefined, "<id>")` at build time, with sourcemaps. The runtime then never hashes and the hash function tree-shakes out of the bundle. Optional — apps behave identically without it. |
-| `@duckalization/react` | Provider + hooks over `runtime`: `useDuck()` (subscribed `__` via `useSyncExternalStore`) and `useLocale()`. Re-exports `createDuck`, so it's the only dependency a React app needs. |
-| `@duckalization/translate` | The deterministic half of agent-driven translation: status diffing, self-contained work-order briefs (glossary subset + style guide + source excerpts), hard validation on apply (placeholders, plural shape per locale, do-not-translate terms), orphan pruning with archive, and review metadata. |
-| `@duckalization/cli` | The `duckalize` bin: `extract`, `translate status/check/brief/apply/prune/lint`, `review status/approve`, `glossary review/invalidate`. |
-
-### Translation workflow
+React (Node >= 20.19):
 
 ```bash
-duckalize translate status        # es: 12/40 translated, 28 missing
-duckalize glossary review es      # proofread the ~20 terms first…
-duckalize glossary review es --approve --by armando   # …brief/apply are blocked until sign-off
-duckalize translate brief         # → locales/.work/es.brief.json (self-contained)
-# …any agent translates the brief into es.out.json…
-duckalize translate apply locales/.work/es.out.json --by claude
-duckalize review status           # approved / machine / edited / unreviewed
-duckalize review approve es --by armando
-duckalize translate check         # CI gate: exit 1 while translations are missing
+pnpm add @duckalization/react
+pnpm add -D @duckalization/cli
 ```
 
-Glossary terms marked `"translate": false` (brand names like *Soundbite*) are
-enforced verbatim at apply time — a violating output is rejected wholesale.
-Per-locale `style` guides (inline or `.md`) ride along in every brief, so tone
-(tú vs. usted, casual vs. formal) is team configuration, not per-prompt luck.
-The glossary is the thing you get right first: `translate brief`/`apply` refuse
-to run for a locale until its glossary terms are signed off, and any edited or
-added term re-blocks it. When an approved translation changes after the fact
-(`milestone: hito → meta`), `duckalize glossary invalidate milestone es` resets
-every entry whose *English source* uses the term back to `unreviewed` (with
-`--dry-run` to preview) — no grepping the Spanish and hoping.
-Review state is keyed by content-derived ID and content-hashed, so it
-self-invalidates on rewording and detects hand edits.
-
-### React usage
+Without React, install `@duckalization/runtime` instead of
+`@duckalization/react`.
 
 ```tsx
 // i18n.ts — module scope on the client, per-request on the server
-import { createDuck } from '@duckalization/react';
+import { createDuck, DuckProvider, useDuck, useLocale } from '@duckalization/react';
+import es from '../locales/es.json'; // written by extract / apply
+
 export const duck = createDuck({ sourceLocale: 'en' });
+duck.load('es', es);
 
 // App.tsx
 <DuckProvider duck={duck}>
   <App />
 </DuckProvider>
 
-// any component
 function Header() {
   const { __ } = useDuck();               // re-renders on locale/catalog changes
   const [locale, setLocale] = useLocale();
@@ -82,48 +44,26 @@ function Header() {
 }
 ```
 
-`useDuck` subscribes through `useSyncExternalStore`, so `setLocale` and lazy
-`load` calls re-render exactly the components that translate. The destructured
-`__` is the bare identifier `duckalize extract` scans for.
+Keep `__` a bare identifier. That is what `duckalize extract` scans for.
 
-### Bundler plugin usage
+## Writing copy
 
-```ts
-// vite.config.ts
-import DuckalizationPlugin from '@duckalization/bundler-plugin';
-
-export default defineConfig({
-  plugins: [DuckalizationPlugin.vite()],
-});
+```tsx
+__('Sign in')                                  // ID = hash("Sign in")
+__('Welcome back, {name}', { name })           // placeholders, not template exprs
+__('Book', { context: 'verb' })                // disambiguate identical strings
+__('Checkout', { id: 'checkout.cta' })         // only if you need a stable external ID
+__({ one: '{count} item', other: '{count} items' }, { count })
 ```
 
-The transform is idempotent (three-argument calls are left alone) and reuses
-the extractor's parser, so injected IDs are byte-identical to extracted ones.
-Unextractable calls surface as build warnings (`failOnError: true` upgrades
-them to errors); `duckalize extract` remains the strict gate.
+The same string in many places is one catalog entry. Edit a message and it
+gets a new ID: the old translation becomes an orphan, and the new text shows
+up untranslated.
 
-### Runtime usage
+Source-locale rendering uses the inline string. Missing translations fall
+back to that string too.
 
-```ts
-import { createDuck } from '@duckalization/runtime';
-
-const duck = createDuck({ sourceLocale: 'en' });
-export const { __ } = duck;              // the function the extractor scans for
-
-duck.load('es', esCatalog);
-duck.setLocale('es');
-
-__('Sign in');                            // → 'Iniciar sesión'
-__('Welcome back, {name}', { name });     // typed: forgetting `name` is a TS error
-__({ one: '{count} item', other: '{count} items' }, { count });
-```
-
-Source-locale rendering never hashes or looks anything up — the string in the
-code *is* the message. Missing translations fall back to the inline text and
-fire the `onMissing` hook (dev default: warn once per entry). Servers create
-one instance per request; `subscribe` is shaped for `useSyncExternalStore`.
-
-## Usage
+## Extract
 
 ```bash
 duckalize extract            # writes locales/en.json + locales/en.meta.json
@@ -137,13 +77,99 @@ Optional `duckalization.config.json` in the project root:
   "include": ["src/**/*.{ts,tsx,js,jsx,mts,mjs,cts,cjs}"],
   "functions": ["__"],
   "outDir": "locales",
-  "sourceLocale": "en"
+  "sourceLocale": "en",
+  "targetLocales": ["es"]
 }
 ```
 
-Any unextractable call (dynamic message, template expressions, malformed
-plural, colliding IDs) is a hard error: diagnostics are printed with file:line
-positions and nothing is written.
+Dynamic messages, template expressions, malformed plurals, and colliding IDs
+are errors. Diagnostics include file:line; nothing is written.
+
+## Translate
+
+`duckalize` does not call a model. It writes a brief of missing entries;
+an agent translates that JSON; `apply` validates and merges.
+
+```bash
+duckalize translate status        # es: 12/40 translated, 28 missing
+duckalize glossary review es      # proofread the terms; brief/apply are blocked until…
+duckalize glossary review es --approve --by armando   # …a human signs off
+duckalize translate brief         # → locales/.work/es.brief.json
+# agent reads the brief, writes es.out.json
+duckalize translate apply locales/.work/es.out.json --by claude
+duckalize translate check         # CI: exit 1 while anything is missing
+duckalize translate lint          # apply-time checks on catalogs already on disk
+duckalize translate prune         # archive + drop IDs no longer in the source
+duckalize review status           # approved / machine / edited / unreviewed
+duckalize review approve es --by armando
+```
+
+Agent handoff:
+
+```text
+Read llms.txt and locales/.work/es.brief.json.
+Translate only the missing entries in the brief.
+Return { locale, translations, notes? } with the brief IDs unchanged.
+```
+
+A brief is a work order for one locale's missing entries: source strings,
+extractor context, call-site excerpts, the glossary terms in this batch,
+the style guide, and that locale's CLDR plural categories. The agent does
+not need the repo. It returns `{ locale, translations, notes? }` using the
+brief's IDs as-is.
+
+`apply` rejects the file on hard errors (unknown ID, empty string, plural
+shape, invented `{placeholder}`, do-not-translate term rewritten). Nothing
+is written. Warnings (dropped placeholder, unused approved glossary term)
+still merge. `es.out.json` is a convention; `apply` reads the path you pass.
+
+Set `"targetLocales"` in config, or pass locales as arguments. Optional
+`glossary` and `style`:
+
+```json
+{
+  "targetLocales": ["es", "pt"],
+  "style": {
+    "*": "UI copy: concise, sentence case.",
+    "es": "./locales/style/es.md"
+  },
+  "glossary": "locales/glossary.json"
+}
+```
+
+Terms with `"translate": false` (brand names like *Tweet* or *Git*) must appear
+verbatim or `apply` rejects the file. Per-locale `style` (inline or `.md`)
+is how you pin tone (tú vs. usted) in config.
+
+Get the glossary right first: a wrong term is wrong in every string that
+uses it. `translate brief` / `apply` refuse to run for a locale until its
+terms are signed off (`glossary review <locale> --approve`, or
+`--approve-term <term>`), stored in `locales/es.glossary-review.json`. An
+edited or added term re-blocks only the locales it affects. If an approved
+translation changes later (`milestone`: *hito* → *meta*),
+`duckalize glossary invalidate milestone es` resets every entry whose
+*English source* uses the term to `unreviewed` — `--dry-run` previews it.
+
+`review` is optional sign-off, stored in `locales/es.review.json`. `apply`
+records `machine` and a hash of the translation. A later catalog edit that
+does not match that hash shows up as `edited`. Rewriting the English source
+creates a new ID: `prune` archives the orphan, and the new string is missing.
+
+A partial target catalog is safe to ship. Missing IDs render the inline
+source text.
+
+## Packages
+
+| Package | Purpose |
+| --- | --- |
+| `@duckalization/react` | Provider + hooks. The only runtime dependency a React app needs. |
+| `@duckalization/runtime` | Same client, no React. Catalog lookup, plurals, `{name}` interpolation (~1.5 kB gzip). |
+| `@duckalization/cli` | The `duckalize` bin: extract, translate, review, glossary. |
+| `@duckalization/bundler-plugin` | Optional. Injects IDs at build time so the hash tree-shakes out of the bundle. |
+| `@duckalization/eslint-plugin` | Optional. Flags JSX text and human-facing attributes that were never wrapped in `__()`. |
+| `@duckalization/extract` | Library behind `duckalize extract`. Apps should not depend on this. |
+| `@duckalization/translate` | Library behind `duckalize translate` / `review`. Apps should not depend on this. |
+| `@duckalization/id` | Hashing algorithm. Transitive. Do not change it. |
 
 ## Development
 
