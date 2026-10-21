@@ -3,6 +3,7 @@ import path from 'node:path';
 import { metaPath, type TranslateConfig } from './config.js';
 import { readJson, writeJsonSorted } from './fsio.js';
 import { glossarySubset, loadGlossary } from './glossary.js';
+import { localeChain } from './locale.js';
 import { loadSourceCatalog, localeStatus } from './status.js';
 import type { Brief, BriefEntry, Catalog, CatalogMeta } from './types.js';
 
@@ -23,13 +24,14 @@ function pluralCategories(locale: string): string[] {
   return [...new Intl.PluralRules(locale).resolvedOptions().pluralCategories].sort();
 }
 
-/** Resolve a style entry: inline prose, or the contents of a .md file. */
+/** Resolve style layers ('*', then 'es', then 'es-MX'): inline prose, or
+ * the contents of a .md file. */
 async function resolveStyle(
   config: TranslateConfig,
   locale: string
 ): Promise<string | undefined> {
   const parts: string[] = [];
-  for (const key of ['*', locale]) {
+  for (const key of ['*', ...localeChain(locale)]) {
     const value = config.style[key];
     if (!value) continue;
     if (value.endsWith('.md')) {

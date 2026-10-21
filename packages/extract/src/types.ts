@@ -32,7 +32,12 @@ export type DiagnosticCode =
   | 'empty-message'
   | 'invalid-plural'
   | 'invalid-meta'
-  | 'id-collision';
+  | 'id-collision'
+  // External-extractor catalog verification (extractor: "external").
+  | 'missing-catalog'
+  | 'invalid-catalog'
+  | 'meta-mismatch'
+  | 'id-mismatch';
 
 export interface Diagnostic {
   severity: 'error' | 'warning';
@@ -45,6 +50,8 @@ export interface Diagnostic {
 export interface CatalogEntryMeta {
   message: Message;
   context?: string;
+  /** Present when the ID is an explicit `{ id }` override, not the hash. */
+  explicitId?: true;
   refs: string[];
 }
 

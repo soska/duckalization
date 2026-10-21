@@ -7,6 +7,7 @@ import {
   termApplies,
   usesApprovedTranslation,
 } from './glossary.js';
+import { forLocale } from './locale.js';
 import { messagePlaceholders, placeholdersIn } from './placeholders.js';
 import { loadSourceCatalog } from './status.js';
 import type {
@@ -122,7 +123,7 @@ function validateGlossary(
       }
       continue;
     }
-    const approved = entry.translations?.[locale];
+    const approved = forLocale(entry.translations, locale);
     if (approved && approved.length > 0 && !usesApprovedTranslation(translation, approved)) {
       const expected = (typeof approved === 'string' ? [approved] : approved)
         .map((candidate) => `"${candidate}"`)

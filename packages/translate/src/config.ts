@@ -9,7 +9,8 @@ export interface TranslateConfig {
   sourceLocale: string;
   targetLocales: string[];
   /** Style guides: '*' for all locales plus per-locale entries. Values are
-   * inline prose or a relative path to a markdown file (detected by `.md`). */
+   * inline prose or a relative path to a markdown file (detected by `.md`).
+   * A regional locale gets '*', then its base language, then its own entry. */
   style: Record<string, string>;
   /** Glossary path, relative to cwd. */
   glossaryFile: string;

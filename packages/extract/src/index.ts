@@ -4,6 +4,7 @@ import { buildCatalog } from './catalog.js';
 import { resolveConfig, type ExtractConfig } from './config.js';
 import { extractFromSource } from './parse.js';
 import { scanFiles } from './scan.js';
+import { readExternalCatalog } from './verify.js';
 import type { Diagnostic, ExtractResult, MessageEntry } from './types.js';
 
 export { resolveConfig, defaultConfig, CONFIG_FILENAME } from './config.js';
@@ -11,6 +12,8 @@ export type { ExtractConfig } from './config.js';
 export { extractFromSource } from './parse.js';
 export { buildCatalog } from './catalog.js';
 export { writeOutputs, outputPaths } from './emit.js';
+export { verifyCatalog, readExternalCatalog } from './verify.js';
+export type { ExternalCatalog } from './verify.js';
 export type * from './types.js';
 
 /** Bounded-concurrency map: keeps file descriptors and memory in check. */
@@ -34,6 +37,8 @@ async function mapLimit<T, R>(
 /**
  * Extract all messages from the configured sources into a catalog.
  * Pure orchestration: reads sources, never writes — pair with writeOutputs.
+ * With `extractor: 'external'` nothing is scanned: the existing catalog is
+ * read back and verified instead (and writeOutputs refuses to run).
  */
 export async function extract(
   overrides: Partial<ExtractConfig> = {},
@@ -41,6 +46,19 @@ export async function extract(
 ): Promise<ExtractResult & { config: ExtractConfig }> {
   const started = performance.now();
   const config = await resolveConfig(overrides, configPath);
+  if (config.extractor === 'external') {
+    const external = await readExternalCatalog(config);
+    return {
+      config,
+      ...external,
+      stats: {
+        files: 0,
+        calls: 0,
+        messages: Object.keys(external.catalog).length,
+        durationMs: performance.now() - started,
+      },
+    };
+  }
   const files = await scanFiles(config);
 
   const entries: MessageEntry[] = [];

@@ -95,7 +95,8 @@ Details:
 Exit code 1 and NO files written if any diagnostic is an error (all
 extraction diagnostics are errors; the codes are: parse-error,
 dynamic-message, template-expressions, empty-message, invalid-plural,
-invalid-meta, id-collision).
+invalid-meta, id-collision; with "extractor": "external" also
+missing-catalog, invalid-catalog, meta-mismatch, id-mismatch).
 
 Optional `duckalization.config.json` at project root (all fields optional):
 
@@ -111,15 +112,27 @@ Optional `duckalization.config.json` at project root (all fields optional):
         "*":  "UI copy: concise, sentence case.",                 // '*' = all locales
         "es": "./locales/style/es.md"                             // inline text or .md path
       },
-      "glossary": "locales/glossary.json"                         // default
+      "glossary": "locales/glossary.json",                        // default
+      "extractor": "js"                                           // default; see below
     }
+
+Regional locales ("es-MX") get style "*" + "es" + "es-MX" (concatenated) and
+glossary translations["es-MX"] ?? translations["es"]. Their catalog,
+status, and glossary sign-off stay separate from "es".
 
 Outputs (keys sorted, deterministic — diffs are meaningful):
 
     locales/en.json        — flat catalog: { "<id>": "text" | {one,other,...} }
     locales/en.meta.json   — sidecar per id:
                              { "message": ..., "context"?: "...",
+                               "explicitId"?: true,   // { id } override
                                "refs": ["src/File.tsx:12:5", ...] }
+
+Non-JS projects: another tool writes those two files; set
+"extractor": "external" and `duckalize extract` only VERIFIES them (shape,
+catalog/meta agreement, every non-explicit id == messageId(message,
+context)) and never writes. Contract: docs/formats.md; hash spec + test
+vectors: packages/id/SPEC.md, @duckalization/id/test-vectors.json.
 
 Programmatic API (`@duckalization/extract`):
 

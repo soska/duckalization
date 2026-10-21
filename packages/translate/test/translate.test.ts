@@ -450,3 +450,64 @@ describe('glossary invalidate', () => {
     await expect(invalidateTerm(config, 'es', 'asignment')).rejects.toThrow(/not in the glossary/);
   });
 });
+
+describe('regional locales', () => {
+  it('inherits base-language style and glossary translations', async () => {
+    const config = await setupProject();
+    const brief = await buildBrief(config, 'es-MX');
+
+    expect(brief.locale).toBe('es-MX');
+    expect(brief.pluralCategories).toEqual(['many', 'one', 'other']);
+    expect(brief.style).toContain('concise');
+    expect(brief.style).toContain('always tú');
+    expect(brief.glossary['assignment']?.approvedTranslation).toBe('tarea');
+  });
+
+  it('layers a regional style after the base-language one', async () => {
+    const config = await setupProject();
+    config.style['es-MX'] = 'Mexican Spanish: "computadora", never "ordenador".';
+    const brief = await buildBrief(config, 'es-MX');
+
+    expect(brief.style!.indexOf('always tú')).toBeLessThan(brief.style!.indexOf('computadora'));
+  });
+
+  it('prefers a regional glossary translation over the base one', async () => {
+    const config = await setupProject();
+    await fs.writeFile(
+      path.join(config.cwd, 'locales/glossary.json'),
+      JSON.stringify({ assignment: { translations: { es: 'tarea', 'es-MX': 'asignación' } } })
+    );
+
+    expect((await buildBrief(config, 'es-MX')).glossary['assignment']?.approvedTranslation).toBe(
+      'asignación'
+    );
+    const result = await applyOutput(config, {
+      locale: 'es-MX',
+      translations: { [IDS.assignment]: 'Nueva tarea' },
+    });
+    expect(result.diagnostics.map((d) => d.code)).toEqual(['glossary-term']);
+  });
+
+  it('re-blocks the regional glossary gate when the base translation changes', async () => {
+    const config = await setupProject();
+    await approveGlossary(config, 'es-MX');
+    expect((await glossaryReview(config, 'es-MX')).pending).toEqual([]);
+
+    await fs.writeFile(
+      path.join(config.cwd, 'locales/glossary.json'),
+      JSON.stringify({
+        ...(await readJson(config, 'locales/glossary.json')),
+        assignment: { note: 'A homework unit a teacher assigns', translations: { es: 'deber' } },
+      })
+    );
+    expect((await glossaryReview(config, 'es-MX')).pending).toEqual(['assignment']);
+  });
+
+  it('keeps a separate, complete catalog per regional locale', async () => {
+    const config = await setupProject();
+    await writeTargetCatalog(config, 'es', { [IDS.hello]: 'Hola, {name}' });
+
+    const [esMx] = await translationStatus(config, ['es-MX']);
+    expect(esMx?.missing).toHaveLength(4);
+  });
+});
