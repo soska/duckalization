@@ -10,26 +10,27 @@
  */
 import '@fontsource-variable/bricolage-grotesque/standard.css';
 import '@fontsource-variable/jetbrains-mono';
-import '../design/tokens.css';
+import { Button, Command, Duck, Logo, Meter, SegmentedControl, TextLink, Toggle } from '../design/index.ts';
 import './landing.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { INSTALL, LLMS_URL, NODE_REQUIREMENT, REPO_URL, VERSION } from '../shared/facts.ts';
 import { useDirection } from '../shared/motion.ts';
+import { useControlSize } from '../shared/media.ts';
 import { DuckProvider, useLocale } from '../shared/real.ts';
-import { Duck } from './Duck.tsx';
 import { HowItWorks } from './HowItWorks.tsx';
 import { coverage, duck, SwapAnimationContext, useT, XrayContext } from './i18n.tsx';
 import { Replay } from './Replay.tsx';
 
 const LOCALES = [
-  { code: 'en', label: 'English' },
-  { code: 'es', label: 'Español' },
+  { value: 'en', label: 'English', lang: 'en' },
+  { value: 'es', label: 'Español', lang: 'es' },
 ] as const;
 
 function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: boolean) => void; onSwitch: () => void }) {
   const { __, __s } = useT();
   const [locale, setLocale] = useLocale();
   const missing = coverage.total - coverage.translated;
+  const size = useControlSize();
   const bar = useRef<HTMLElement>(null);
   // The sticky "How it works" stage sits below this bar, whose height changes
   // when it wraps on small screens.
@@ -47,51 +48,36 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
   return (
     <header ref={bar} className="fk-bar">
       <div className="fk-bar-inner">
-        <a className="fk-logo" href="/">
-          <span className="fk-logo-mark" aria-hidden="true">
-            __('')
-          </span>
-          duckalization
-        </a>
+        <Logo />
         <div className="fk-bar-demo" role="group" aria-label={__s('Translation demo')}>
-        <div className="fk-seg" role="group" aria-label={__s('Page language')}>
-          {LOCALES.map((l) => (
-            <button
-              key={l.code}
-              type="button"
-              lang={l.code}
-              aria-pressed={locale === l.code}
-              onClick={() => {
-                if (locale === l.code) return;
-                onSwitch();
-                setLocale(l.code);
-              }}
-            >
-              {l.label}
-            </button>
-          ))}
-        </div>
-        <button type="button" className="fk-xray-toggle" aria-pressed={xray} onClick={() => setXray(!xray)}>
-          <span className="fk-xray-dot" aria-hidden="true" />
-          {__('Show fallbacks')}
-        </button>
-        <p className="fk-count">
-          <span className="fk-meter" aria-hidden="true">
-            <span style={{ transform: `scaleX(${coverage.translated / coverage.total})` }} />
-          </span>
-          <span className="fk-count-text">
-            {__('{translated} of {total} strings translated', {
-              translated: coverage.translated,
-              total: coverage.total,
-            })}
-            <span className="fk-count-sub">
-              {__(
-                { one: '{count} is still English-only', other: '{count} are still English-only' },
-                { count: missing }
-              )}
+          <SegmentedControl
+            label={__s('Page language')}
+            options={LOCALES}
+            value={locale as (typeof LOCALES)[number]['value']}
+            size={size}
+            onChange={(code) => {
+              onSwitch();
+              setLocale(code);
+            }}
+          />
+          <Toggle pressed={xray} onChange={setXray} size={size}>
+            {__('Show fallbacks')}
+          </Toggle>
+          <p className="fk-count">
+            <Meter value={coverage.translated / coverage.total} />
+            <span className="fk-count-text">
+              {__('{translated} of {total} strings translated', {
+                translated: coverage.translated,
+                total: coverage.total,
+              })}
+              <span className="fk-count-sub">
+                {__(
+                  { one: '{count} is still English-only', other: '{count} are still English-only' },
+                  { count: missing }
+                )}
+              </span>
             </span>
-          </span>
-        </p>
+          </p>
         </div>
       </div>
     </header>
@@ -100,28 +86,10 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
 
 function CopyLine({ command }: { command: string }) {
   const { __ } = useT();
-  const [copied, setCopied] = useState(false);
-  const timer = useRef(0);
-  useEffect(() => () => clearTimeout(timer.current), []);
+  const size = useControlSize();
   return (
-    <li className="fk-cmd">
-      <code>
-        <span className="fk-cmd-prompt" aria-hidden="true">$ </span>
-        {command}
-      </code>
-      <button
-        type="button"
-        className="fk-copy"
-        onClick={() => {
-          void navigator.clipboard?.writeText(command).then(() => {
-            setCopied(true);
-            clearTimeout(timer.current);
-            timer.current = window.setTimeout(() => setCopied(false), 1600);
-          });
-        }}
-      >
-        <span aria-live="polite">{copied ? __('Copied') : __('Copy')}</span>
-      </button>
+    <li>
+      <Command command={command} copyLabel={__('Copy')} copiedLabel={__('Copied')} size={size} />
     </li>
   );
 }
@@ -143,12 +111,10 @@ function Hero() {
             <CopyLine command={INSTALL.cli} />
           </ul>
           <p className="fk-links">
-            <a className="fk-btn fk-btn-primary" href={REPO_URL}>
+            <Button variant="primary" href={REPO_URL}>
               {__('Source on GitHub')}
-            </a>
-            <a className="fk-link" href={LLMS_URL}>
-              {__('The guide for agents (llms.txt)')}
-            </a>
+            </Button>
+            <TextLink href={LLMS_URL}>{__('The guide for agents (llms.txt)')}</TextLink>
           </p>
         </div>
       </div>
@@ -171,9 +137,7 @@ function Footer() {
       <div className="fk-wrap fk-foot-inner">
         <Duck className="fk-duck-foot" />
         <p>{__('MIT licensed. Version {version}. Requires {node}.', { version: VERSION, node: NODE_REQUIREMENT })}</p>
-        <a className="fk-link" href={REPO_URL}>
-          github.com/soska/duckalization
-        </a>
+        <TextLink href={REPO_URL}>github.com/soska/duckalization</TextLink>
       </div>
     </footer>
   );

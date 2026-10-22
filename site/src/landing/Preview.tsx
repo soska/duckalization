@@ -1,5 +1,7 @@
 import { useMemo, useState, type ReactNode, type RefObject } from 'react';
+import { Marker, Tag } from '../design/index.ts';
 import { BAD_OUTPUTS, ES_CATALOG, MESSAGES } from '../shared/facts.ts';
+import { useControlSize } from '../shared/media.ts';
 import { createDuck, messageId } from '../shared/real.ts';
 import { useT } from './i18n.tsx';
 import { EDITED_STRING } from './script.ts';
@@ -97,14 +99,6 @@ function RawDraft({ text }: { text: string }) {
   );
 }
 
-function IdTag({ children, tone }: { children: ReactNode; tone?: 'bad' | 'fallback' }) {
-  return (
-    <span className="hk-idtag" data-tone={tone}>
-      {children}
-    </span>
-  );
-}
-
 function SlotLayers({
   slot,
   on,
@@ -148,6 +142,7 @@ export function Preview({
   const { __ } = useT();
   const r = useRenderings();
   const on = LAYERS[state];
+  const size = useControlSize();
 
   const status: Record<PreviewState, ReactNode> = {
     write: __('Your English, rendered exactly as written.'),
@@ -169,9 +164,7 @@ export function Preview({
         </p>
         <div className="hk-app-body">
           <p className="hk-el hk-el-h">
-            <span className="hk-marker" data-n="1" data-pair="1" aria-hidden="true">
-              1
-            </span>
+            <Marker n={1} size={size} data-pair="1" />
             <SlotLayers
               slot="welcome"
               on={on.welcome}
@@ -179,12 +172,12 @@ export function Preview({
                 en: r.en.welcome,
                 id: (
                   <>
-                    {r.en.welcome} <IdTag>{r.ids.welcome}</IdTag>
+                    {r.en.welcome} <Tag size={size}>{r.ids.welcome}</Tag>
                   </>
                 ),
                 draft: (
                   <span className="hk-draft">
-                    <RawDraft text={r.draft.welcome} /> <IdTag>{MESSAGES.welcome.id}</IdTag>
+                    <RawDraft text={r.draft.welcome} /> <Tag size={size}>{MESSAGES.welcome.id}</Tag>
                   </span>
                 ),
                 es: r.es.welcome,
@@ -192,9 +185,7 @@ export function Preview({
             />
           </p>
           <p className="hk-el hk-el-p">
-            <span className="hk-marker" data-n="2" data-pair="2" aria-hidden="true">
-              2
-            </span>
+            <Marker n={2} size={size} data-pair="2" />
             <SlotLayers
               slot="items"
               on={on.items}
@@ -202,7 +193,7 @@ export function Preview({
                 en: r.en.items,
                 id: (
                   <>
-                    {r.en.items} <IdTag>{r.ids.items}</IdTag>
+                    {r.en.items} <Tag size={size}>{r.ids.items}</Tag>
                   </>
                 ),
                 draft: (
@@ -215,9 +206,7 @@ export function Preview({
             />
           </p>
           <p className="hk-el hk-el-b">
-            <span className="hk-marker" data-n="3" data-pair="3" aria-hidden="true">
-              3
-            </span>
+            <Marker n={3} size={size} data-pair="3" />
             <SlotLayers
               slot="checkout"
               on={on.checkout}
@@ -225,20 +214,20 @@ export function Preview({
                 en: <span className="hk-btn">{r.en.checkout}</span>,
                 id: (
                   <>
-                    <span className="hk-btn">{r.en.checkout}</span> <IdTag>{r.ids.checkout}</IdTag>
+                    <span className="hk-btn">{r.en.checkout}</span> <Tag size={size}>{r.ids.checkout}</Tag>
                   </>
                 ),
                 draft: (
                   <span className="hk-draft">
                     <span className="hk-btn">{r.draft.checkout}</span>{' '}
-                    <IdTag tone="bad">{r.draft.checkoutId}</IdTag>
+                    <Tag tone="danger" size={size}>{r.draft.checkoutId}</Tag>
                   </span>
                 ),
                 es: <span className="hk-btn">{r.es.checkout}</span>,
                 ship: (
                   <>
                     <span className="hk-btn is-fallback">{r.es.renamed}</span>{' '}
-                    <IdTag tone="fallback">en · {r.ids.renamed}</IdTag>
+                    <Tag tone="fallback" size={size}>en · {r.ids.renamed}</Tag>
                   </>
                 ),
               }}

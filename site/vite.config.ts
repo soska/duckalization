@@ -8,6 +8,9 @@ const shim = (name: string) => fileURLToPath(new URL(`./src/shims/${name}.ts`, i
 export default defineConfig({
   plugins: [react()],
   resolve: {
+    // The aliased library source imports react from packages/*, which would
+    // otherwise resolve a second copy and break hooks in the production build.
+    dedupe: ['react', 'react-dom'],
     alias: {
       // The page runs the library's real source, not copies of it.
       '@duckalization/id': repo('packages/id/src/index.ts'),

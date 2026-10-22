@@ -8,10 +8,11 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
+import { Button, Duck, SectionTitle } from '../design/index.ts';
 import { DEMO_SOURCE, ES_CATALOG, MESSAGES } from '../shared/facts.ts';
+import { useMedia } from '../shared/media.ts';
 import { useReducedMotion } from '../shared/motion.ts';
 import { createDuck, messageId } from '../shared/real.ts';
-import { Duck } from './Duck.tsx';
 import { useT } from './i18n.tsx';
 import { actorAt, chapterAt, CHAPTERS, EDITED_SOURCE, EDITED_STRING, SCRIPT, type Actor, type Ev } from './script.ts';
 
@@ -19,17 +20,6 @@ import { actorAt, chapterAt, CHAPTERS, EDITED_SOURCE, EDITED_STRING, SCRIPT, typ
 const MESSAGE_LINES = DEMO_SOURCE.split('\n').flatMap((line, n) => (line.includes('__(') ? [n] : []));
 const EDIT_LINE = MESSAGE_LINES[MESSAGE_LINES.length - 1];
 const ACTOR_IDS: Actor[] = ['you', 'cli', 'agent'];
-
-function useMedia(query: string): boolean {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const onChange = () => setMatches(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, [query]);
-  return matches;
-}
 
 /** The ship beat, computed by the real runtime against a now-partial catalog. */
 function useRenderedCart() {
@@ -330,7 +320,7 @@ export function Replay() {
     cli: {
       label: (
         <>
-          <Duck className="fk-duck-badge" mood={speaking === 'cli' && playing ? 'reading' : 'idle'} />
+          <Duck className="fk-duck-badge" on="terminal" mood={speaking === 'cli' && playing ? 'reading' : 'idle'} />
           duckalize
         </>
       ),
@@ -441,10 +431,7 @@ export function Replay() {
       <div className="fk-wrap">
         <div className="fk-replay-head">
           <div>
-            <p className="fk-eyebrow">{__('Proof')}</p>
-            <h2 id="fk-replay-title" className="fk-h2">
-              {__('Now watch a real run.')}
-            </h2>
+            <SectionTitle id="fk-replay-title" eyebrow={__('Proof')} title={__('Now watch a real run.')} />
           </div>
           <p className="fk-replay-lede">
             {__(
@@ -514,21 +501,21 @@ export function Replay() {
           <div className="fk-controls">
             {reduced ? (
               <div className="fk-steppers">
-                <button type="button" onClick={() => goTo(chapter - 1)} disabled={chapter === 0}>
+                <Button size="sm" onClick={() => goTo(chapter - 1)} disabled={chapter === 0}>
                   ← {__('Previous')}
-                </button>
-                <button type="button" onClick={() => goTo(chapter + 1)} disabled={chapter === CHAPTERS.length - 1}>
+                </Button>
+                <Button size="sm" onClick={() => goTo(chapter + 1)} disabled={chapter === CHAPTERS.length - 1}>
                   {__('Next')} →
-                </button>
+                </Button>
               </div>
             ) : (
-              <button
-                type="button"
-                className="fk-play"
+              <Button
+                variant="primary"
+                shape="circle"
                 onClick={toggle}
                 aria-label={playing ? __s('Pause') : ended ? __s('Replay') : __s('Play')}
               >
-                <svg className="fk-play-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <svg className="dk-button-icon" viewBox="0 0 16 16" aria-hidden="true">
                   {playing ? (
                     <path d="M4 3h3v10H4zM9 3h3v10H9z" />
                   ) : ended ? (
@@ -537,7 +524,7 @@ export function Replay() {
                     <path d="M5 2.5v11l9-5.5z" />
                   )}
                 </svg>
-              </button>
+              </Button>
             )}
 
             <div className="fk-scrub">

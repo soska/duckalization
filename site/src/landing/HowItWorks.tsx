@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
 import {
   APPLY_ERRORS,
   BAD_OUTPUTS,
@@ -8,9 +8,10 @@ import {
   SOURCE_CATALOG,
   TRANSCRIPT,
 } from '../shared/facts.ts';
+import { Duck, Marker, Note, SectionTitle, Stamp, type DuckMood } from '../design/index.ts';
+import { useControlSize, useMedia } from '../shared/media.ts';
 import { useReducedMotion, useScrollProgress } from '../shared/motion.ts';
 import { canonicalMessage, messageId, validateOutput } from '../shared/real.ts';
-import { Duck, type DuckMood } from './Duck.tsx';
 import { useT } from './i18n.tsx';
 import { PinnedPreview, Preview, previewStateAt, type PreviewState } from './Preview.tsx';
 import { EDITED_SOURCE, EDITED_STRING, EDITED_TRANSCRIPT } from './script.ts';
@@ -71,14 +72,14 @@ function Row({
   className?: string;
 }) {
   return (
-    <div className={`fk-row ${note ? 'has-note' : ''} ${className}`} data-tone={tone}>
+    <div className={`fk-row ${note ? 'has-note' : ''} ${className}`}>
       <div className="fk-row-body">{children}</div>
       {note && (
         <div className="fk-aside">
           <span className="fk-leader" data-at={at} data-leader aria-hidden="true" />
-          <p className="fk-note" data-at={at + 0.04}>
+          <Note tone={tone === 'ok' ? 'success' : tone === 'bad' ? 'danger' : 'default'} data-at={at + 0.04}>
             {note}
-          </p>
+          </Note>
         </div>
       )}
     </div>
@@ -134,22 +135,8 @@ function Plate({
   );
 }
 
-/** Live media query. */
-function useMedia(query: string): boolean {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const onChange = () => setMatches(mq.matches);
-    onChange();
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, [query]);
-  return matches;
-}
-
 /** Phones too short to hold the pinned app and a whole step at once. */
 const SHORT_PHONE = '(max-width: 559px) and (max-height: 740px)';
-
 
 /* -------------------------------------------------------------- */
 
@@ -161,6 +148,7 @@ export function HowItWorks() {
   const shortPhone = useMedia(SHORT_PHONE);
   const reduced = prefersReduced || shortPhone;
   const live = useLive();
+  const markerSize = useControlSize();
 
   const trackRef = useRef<HTMLDivElement>(null);
   const platesRef = useRef<HTMLElement[]>([]);
@@ -280,10 +268,7 @@ export function HowItWorks() {
     >
       <div className="fk-wrap fk-how-head">
         <div>
-          <p className="fk-eyebrow">{__('How it works')}</p>
-          <h2 id="fk-how-title" className="fk-h2">
-            {__('How a string gets translated')}
-          </h2>
+          <SectionTitle id="fk-how-title" eyebrow={__('How it works')} title={__('How a string gets translated')} />
           <p className="fk-how-lede">
             {__('Follow one string, {message}, from the line you write to the catalog you ship.', {
               message: `'${BRIEF_ENTRY.message}'`,
@@ -345,15 +330,13 @@ export function HowItWorks() {
                         className={marker ? 'is-hit' : ''}
                       >
                         {marker > 0 ? (
-                          <span
-                            className="hk-marker hk-port"
-                            data-n={marker}
+                          <Marker
+                            n={marker as 1 | 2 | 3}
+                            size={markerSize}
+                            on="terminal"
                             data-pair={marker}
-                            aria-hidden="true"
                             data-at={0.18 + marker * 0.04}
-                          >
-                            {marker}
-                          </span>
+                          />
                         ) : (
                           <span className="hk-port-gap" aria-hidden="true" />
                         )}
@@ -528,12 +511,12 @@ export function HowItWorks() {
                     </tbody>
                   </table>
                   <div className="fk-verdicts">
-                    <p className="fk-verdict" data-tone="bad" data-at={0.34}>
-                      <code>{TRANSCRIPT.rejected.at(-1)!.text}</code>
-                    </p>
-                    <p className="fk-verdict" data-tone="ok" data-at={0.62}>
-                      <code>{TRANSCRIPT.applied.at(-1)!.text}</code>
-                    </p>
+                    <Stamp tone="danger" data-at={0.34}>
+                      {TRANSCRIPT.rejected.at(-1)!.text}
+                    </Stamp>
+                    <Stamp tone="success" tilt="right" data-at={0.62}>
+                      {TRANSCRIPT.applied.at(-1)!.text}
+                    </Stamp>
                   </div>
                 </div>
               </Plate>
@@ -559,9 +542,7 @@ export function HowItWorks() {
                     <span className="fk-ln" aria-hidden="true">
                       {CHECKOUT_LINE}
                     </span>
-                    <span className="hk-marker" data-n="3" aria-hidden="true">
-                      3
-                    </span>
+                    <Marker n={3} size={markerSize} on="terminal" />
                     <ins>
                       <code className="fk-src">{EDITED_SOURCE.replace(/^ {2}/, '')}</code>
                     </ins>
@@ -579,13 +560,11 @@ export function HowItWorks() {
                   </Row>
                 </div>
 
-                <p className="fk-verdict hk-status-line" data-tone="warn" data-at={0.3}>
-                  <code>
-                    $ {EDITED_TRANSCRIPT.at(-2)!.text}
-                    {'\n'}
-                    {EDITED_TRANSCRIPT.at(-1)!.text}
-                  </code>
-                </p>
+                <Stamp tone="warning" tilt="none" data-at={0.3}>
+                  $ {EDITED_TRANSCRIPT.at(-2)!.text}
+                  {'\n'}
+                  {EDITED_TRANSCRIPT.at(-1)!.text}
+                </Stamp>
               </Plate>
             </div>
           </div>

@@ -5,6 +5,7 @@
    breakpoint.lg = 1100px
    breakpoint.tall = 760px */
 
+/* Primitives and type never change with the theme. */
 :root {
   --dk-color-brown-50: #fffbf0;
   --dk-color-brown-100: #fff3d6;
@@ -245,13 +246,13 @@
   --dk-text-app-button-weight: var(--dk-font-weight-750);
   --dk-text-app-button-size: var(--dk-font-size-16);
   --dk-text-app-button-line-height: var(--dk-font-line-height-120);
-
-  --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
-  --dk-shadow-sticker-md: 3px 3px 0px 0px var(--dk-color-shadow-sticker);
-  --dk-shadow-sticker-lg: 5px 5px 0px 0px var(--dk-color-shadow-sticker);
 }
 
-:root {
+/* Theme roles and effects, declared on :root and on any [data-theme] subtree,
+   so a section can render in the other mode (the /design guide does). Effects
+   are repeated per theme because their color var resolves where it's declared. */
+:root,
+[data-theme='light'] {
   color-scheme: light;
   --dk-color-surface-page: var(--dk-color-brown-100);
   --dk-color-surface-raised: var(--dk-color-brown-50);
@@ -286,6 +287,10 @@
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
+
+  --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
+  --dk-shadow-sticker-md: 3px 3px 0px 0px var(--dk-color-shadow-sticker);
+  --dk-shadow-sticker-lg: 5px 5px 0px 0px var(--dk-color-shadow-sticker);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -324,10 +329,14 @@
     --dk-color-terminal-err: var(--dk-color-red-300);
     --dk-color-terminal-warn: var(--dk-color-yellow-300);
     --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
+
+    --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
+    --dk-shadow-sticker-md: 3px 3px 0px 0px var(--dk-color-shadow-sticker);
+    --dk-shadow-sticker-lg: 5px 5px 0px 0px var(--dk-color-shadow-sticker);
   }
 }
 
-:root[data-theme='dark'] {
+[data-theme='dark'] {
   color-scheme: dark;
   --dk-color-surface-page: var(--dk-color-brown-925);
   --dk-color-surface-raised: var(--dk-color-brown-850);
@@ -362,6 +371,10 @@
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
+
+  --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
+  --dk-shadow-sticker-md: 3px 3px 0px 0px var(--dk-color-shadow-sticker);
+  --dk-shadow-sticker-lg: 5px 5px 0px 0px var(--dk-color-shadow-sticker);
 }
 
 .dk-text-display {
