@@ -10,6 +10,8 @@ const routes: Record<string, React.LazyExoticComponent<() => React.JSX.Element>>
   '/c': lazy(() => import('./directions/c/Page.tsx')),
   '/d': lazy(() => import('./directions/d/Page.tsx')),
   '/e': lazy(() => import('./directions/e/Page.tsx')),
+  '/f': lazy(() => import('./directions/f/Page.tsx')),
+  '/g': lazy(() => import('./directions/g/Page.tsx')),
 };
 
 const path = window.location.pathname.replace(/\/+$/, '') || '/';

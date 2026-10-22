@@ -475,7 +475,7 @@ export function Session() {
               lastKey={lastShownKey(a.id, now)}
               reduced={reduced}
               footer={a.id === 'you' ? <CartRender t={now} /> : undefined}
-              anchor={a.id === 'you' && renderedAt(now) ? '[data-line="6"]' : undefined}
+              anchor={a.id === 'you' && renderedAt(now) ? `[data-line="${MESSAGE_LINES[0]}"]` : undefined}
             >
               {a.id === 'you' && <YouPane t={now} />}
               {a.id === 'cli' && <CliPane t={now} />}

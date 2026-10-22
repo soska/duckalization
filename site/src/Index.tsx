@@ -8,7 +8,7 @@ export function Index() {
         <p className="ix-mark" aria-hidden="true">__('')</p>
         <h1>duckalization — landing page, round 1</h1>
         <p className="ix-lede">
-          Five directions, each with a hero and the pipeline section. Each one makes a different bet on how to show
+          Five directions, each with a hero and the pipeline section, plus two hybrids (F, G). Each one makes a different bet on how to show
           that the model does the judgment and deterministic code does the checking.
         </p>
       </header>

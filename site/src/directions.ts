@@ -25,4 +25,14 @@ export const DIRECTIONS = [
     name: 'Ledger',
     concept: 'The text is the key: type a string, watch its real ID change, and follow catalog rows as they move between states.',
   },
+  {
+    path: '/f',
+    name: 'Explain, then prove (D + A + B)',
+    concept: 'The Duck’s style and hero. A scroll-scrubbed explanation of the five beats, followed by the replay of a real run.',
+  },
+  {
+    path: '/g',
+    name: 'Scroll the replay (D + A + B)',
+    concept: 'The Duck’s style and hero. One section where scrolling drives the real session replay, with the explanation pinned beside it.',
+  },
 ] as const;
