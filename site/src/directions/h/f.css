@@ -550,7 +550,7 @@ html[data-direction='h'] {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border: 2px solid var(--ink);
+  border: 0;
   border-radius: 999px;
   background: var(--bg);
   color: var(--ink);
@@ -566,7 +566,7 @@ html[data-direction='h'] {
 }
 .fk-rail-t { display: none; }
 .fk-rail-list li[data-done] button { background: var(--pond-wash); }
-.fk-rail-list li[data-active] button { background: var(--duck); color: #23190c; box-shadow: 3px 3px 0 var(--ink); }
+.fk-rail-list li[data-active] button { background: var(--duck); color: #23190c; }
 .fk-rail-track { display: none; }
 
 /* card */
@@ -575,10 +575,8 @@ html[data-direction='h'] {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   min-height: 0;
-  border: 2px solid var(--ink);
   border-radius: 22px;
   background: var(--bg);
-  box-shadow: 6px 6px 0 var(--ink);
   overflow: hidden;
 }
 .fk-plates { position: relative; min-height: 0; }
@@ -656,10 +654,8 @@ html[data-direction='h'] {
   justify-self: start;
   margin: 6px 0 4px 10px;
   padding: 5px 10px;
-  border: 2px solid var(--ink);
   border-radius: 10px;
   background: var(--paper);
-  box-shadow: 2px 2px 0 var(--ink);
   font-size: 13.5px;
   font-weight: 650;
   line-height: 1.3;
@@ -762,13 +758,11 @@ html[data-direction='h'] {
 .fk-row-body .fk-id {
   display: inline-block;
   padding: 3px 12px;
-  border: 2px solid var(--ink);
   border-radius: 10px;
   background: var(--duck);
   color: #23190c;
   font: 800 clamp(18px, 2vw, 24px)/1.15 var(--mono);
   letter-spacing: 0.01em;
-  box-shadow: 3px 3px 0 var(--ink);
 }
 .fk-id-ink { color: var(--duck); font-weight: 600; }
 .fk-json .fk-row.is-hit code { color: var(--duck); }
@@ -782,7 +776,6 @@ html[data-direction='h'] {
 }
 .fk-zone { padding: 14px 16px; min-width: 0; }
 .fk-zone-cli {
-  border: 2px solid var(--ink);
   border-radius: 6px;
   background: var(--term-bg);
   color: var(--term-fg);
@@ -848,7 +841,6 @@ html[data-direction='h'] {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  border: 2px solid var(--ink);
   border-radius: 14px;
   overflow: hidden;
   font-size: 13px;
@@ -879,10 +871,10 @@ html[data-direction='h'] {
   display: inline-block;
   max-width: 100%;
   padding: 6px 12px;
-  border: 2.5px solid currentColor;
   border-radius: 10px;
   font: 700 12.5px/1.3 var(--mono);
-  background: var(--paper);
+  /* A stamp in its own color: tinted fill, no outline (only the app card has one). */
+  background: color-mix(in srgb, currentColor 13%, var(--paper));
   rotate: -1.5deg;
 }
 .fk-verdict[data-tone='bad'] { color: var(--bad); }
@@ -989,7 +981,7 @@ html[data-direction='h'] {
 }
 
 @media (max-width: 559px) {
-  .fk-card { border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); }
+  .fk-card { border-radius: 16px; }
   .fk-plate { padding: 14px 12px 10px; gap: 12px; }
   .fk-plate-body { font-size: 14.5px; }
   .fk-plate-draw { gap: 12px; }
@@ -1022,9 +1014,16 @@ html[data-direction='h'] {
   gap: 10px 24px;
   padding: 14px 16px 16px;
   background: var(--paper);
-  border-bottom: 2px solid var(--ink);
   min-width: 0;
 }
+/* The app is the protagonist: the only box with the sticker outline. */
+.fk-card > .hk-preview,
+.hk-frame-previews .hk-preview {
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.fk-card > .hk-preview { margin: 12px 17px 0 12px; }
 .hk-app { display: grid; gap: 12px; min-width: 0; }
 .hk-app-bar {
   display: flex;
@@ -1162,8 +1161,8 @@ html[data-direction='h'] {
 @media (min-width: 900px) {
   /* The left gutter carries the step-1 wires. */
   .hk-preview {
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 210px);
-    padding: 20px 26px 22px 52px;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, 180px);
+    padding: 20px 24px 22px 52px;
   }
   .hk-status { padding-left: 20px; border-left: 2px dashed var(--faint); }
   .hk-el-h { font-size: 38px; }
@@ -1182,6 +1181,7 @@ html[data-direction='h'] {
 }
 @media (max-width: 559px) {
   .hk-preview { padding: 8px 10px 10px; gap: 6px; }
+  .fk-card > .hk-preview { margin: 8px 11px 0 8px; border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); }
   .hk-app { gap: 5px; }
   .hk-app-bar { font-size: 10.5px; }
   .hk-app-body { gap: 3px; }
@@ -1263,7 +1263,6 @@ html[data-direction='h'] {
 
 /* Static frames: each step carries its own preview state. */
 .hk-frame-previews { display: grid; gap: 12px; }
-.hk-frame-previews .hk-preview { border: 2px solid var(--ink); border-radius: 14px; }
 @media (min-width: 900px) {
   .hk-frame-previews:has(> :nth-child(2)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hk-frame-previews:has(> :nth-child(2)) .hk-preview { grid-template-columns: minmax(0, 1fr); }
