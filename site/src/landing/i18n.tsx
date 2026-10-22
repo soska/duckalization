@@ -1,12 +1,12 @@
 import { createContext, useContext, useLayoutEffect, useRef, type ReactNode } from 'react';
-import { createDuck, messageId, useDuck, type Message } from '../../shared/real.ts';
+import { createDuck, messageId, useDuck, type Message } from '../shared/real.ts';
 import { ES_CATALOG } from './es.ts';
 import extracted from './locales/en.json?raw';
 
 /**
  * This page's copy is plain `__('…')` calls, so the real extractor reads it:
  * `locales/en.json` is written by
- *   node packages/cli/dist/cli.js extract --cwd site/src/directions/f
+ *   node packages/cli/dist/cli.js extract --cwd site/src/landing
  * and the counter below is computed from that file and the Spanish catalog.
  */
 export const SOURCE: Record<string, Message> = JSON.parse(extracted);

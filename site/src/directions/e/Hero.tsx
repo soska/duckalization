@@ -66,7 +66,7 @@ export function Hero() {
   return (
     <>
       <header className="e-top">
-        <a className="e-wordmark" href="/e">
+        <a className="e-wordmark" href="/explore/e">
           duckalization
         </a>
         <span className="e-top-meta">

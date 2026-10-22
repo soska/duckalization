@@ -7,9 +7,9 @@ import {
   ES_CATALOG,
   SOURCE_CATALOG,
   TRANSCRIPT,
-} from '../../shared/facts.ts';
-import { useReducedMotion, useScrollProgress } from '../../shared/motion.ts';
-import { canonicalMessage, messageId, validateOutput } from '../../shared/real.ts';
+} from '../shared/facts.ts';
+import { useReducedMotion, useScrollProgress } from '../shared/motion.ts';
+import { canonicalMessage, messageId, validateOutput } from '../shared/real.ts';
 import { Duck, type DuckMood } from './Duck.tsx';
 import { useT } from './i18n.tsx';
 import { PinnedPreview, Preview, previewStateAt, type PreviewState } from './Preview.tsx';

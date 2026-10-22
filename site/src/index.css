@@ -10,6 +10,8 @@ html:not([data-direction]) body { background: var(--ix-bg); color: var(--ix-fg);
   font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
 .ix-mark { font: 500 15px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--ix-muted); margin-bottom: 28px; }
 .ix-head h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
+.ix-lede a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ix-lede a:focus-visible { outline: 2px solid var(--ix-focus); outline-offset: 2px; }
 .ix-lede { margin-top: 14px; max-width: 58ch; color: var(--ix-muted); text-wrap: pretty; }
 .ix-list { list-style: none; margin-top: 56px; border-top: 1px solid var(--ix-line); }
 .ix-list li { border-bottom: 1px solid var(--ix-line); }

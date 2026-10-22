@@ -1,4 +1,4 @@
-import { messageId, type Catalog, type Message } from '../../shared/real.ts';
+import { messageId, type Catalog, type Message } from '../shared/real.ts';
 
 /**
  * The page's Spanish catalog, written as English → Spanish so no ID is ever

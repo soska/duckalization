@@ -8,9 +8,9 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
-import { DEMO_SOURCE, ES_CATALOG, MESSAGES } from '../../shared/facts.ts';
-import { useReducedMotion } from '../../shared/motion.ts';
-import { createDuck, messageId } from '../../shared/real.ts';
+import { DEMO_SOURCE, ES_CATALOG, MESSAGES } from '../shared/facts.ts';
+import { useReducedMotion } from '../shared/motion.ts';
+import { createDuck, messageId } from '../shared/real.ts';
 import { Duck } from './Duck.tsx';
 import { useT } from './i18n.tsx';
 import { actorAt, chapterAt, CHAPTERS, EDITED_SOURCE, EDITED_STRING, SCRIPT, type Actor, type Ev } from './script.ts';

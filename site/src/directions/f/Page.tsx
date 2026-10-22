@@ -44,7 +44,7 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
   return (
     <header ref={bar} className="fk-bar">
       <div className="fk-bar-inner">
-        <a className="fk-logo" href="/f">
+        <a className="fk-logo" href="/explore/f">
           <span className="fk-logo-mark" aria-hidden="true">
             __('')
           </span>

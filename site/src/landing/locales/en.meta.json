@@ -2,7 +2,7 @@
   "11iuvymbsoe": {
     "message": "Still in es.json, no longer in en.json: an orphan. prune archives it.",
     "refs": [
-      "HowItWorks.tsx:718:30"
+      "HowItWorks.tsx:572:30"
     ]
   },
   "11z1x0tf8px": {
@@ -17,7 +17,7 @@
       "other": "{count} are still English-only"
     },
     "refs": [
-      "Page.tsx:85:16"
+      "Page.tsx:87:16"
     ]
   },
   "13nvzb4ez35": {
@@ -29,25 +29,25 @@
   "13vl8cid5at": {
     "message": "How it works",
     "refs": [
-      "HowItWorks.tsx:417:38"
+      "HowItWorks.tsx:283:38"
     ]
   },
   "142smhsnbg1": {
     "message": "Apply-time checks for two answers from the agent",
     "refs": [
-      "HowItWorks.tsx:637:51"
+      "HowItWorks.tsx:491:51"
     ]
   },
   "15ahf3s1v80": {
     "message": "Show fallbacks",
     "refs": [
-      "Page.tsx:73:12"
+      "Page.tsx:75:12"
     ]
   },
   "15wbzzvm2ya": {
     "message": "Same text, same ID, everywhere.",
     "refs": [
-      "HowItWorks.tsx:540:30"
+      "HowItWorks.tsx:391:30"
     ]
   },
   "176f33q4dj1": {
@@ -59,13 +59,13 @@
   "17an5tsvsjs": {
     "message": "Follow one string, {message}, from the line you write to the catalog you ship.",
     "refs": [
-      "HowItWorks.tsx:422:14"
+      "HowItWorks.tsx:288:14"
     ]
   },
   "18bqg589e7r": {
     "message": "You edit the copy. New text, new ID.",
     "refs": [
-      "HowItWorks.tsx:704:30"
+      "HowItWorks.tsx:558:30"
     ]
   },
   "19y16nvuua0": {
@@ -77,13 +77,13 @@
   "1b07bm3o4hi": {
     "message": "The agent’s first answer",
     "refs": [
-      "HowItWorks.tsx:606:81"
+      "HowItWorks.tsx:457:81"
     ]
   },
   "1bbkldovkiv": {
     "message": "Write English inline",
     "refs": [
-      "HowItWorks.tsx:312:5",
+      "HowItWorks.tsx:181:5",
       "Replay.tsx:343:5",
       "Replay.tsx:350:5"
     ]
@@ -103,7 +103,7 @@
   "1cxmzy4qboq": {
     "message": "The CLI never calls a model. Bring whichever agent you like.",
     "refs": [
-      "HowItWorks.tsx:579:23"
+      "HowItWorks.tsx:430:23"
     ]
   },
   "1d61huuaojz": {
@@ -115,7 +115,7 @@
   "1fzo4sdnshs": {
     "message": "What happens to the two IDs",
     "refs": [
-      "HowItWorks.tsx:717:68"
+      "HowItWorks.tsx:571:68"
     ]
   },
   "1g4epozyv6f": {
@@ -127,7 +127,7 @@
   "1h07orxip0q": {
     "message": "Unknown IDs, empty strings, malformed plurals and invented placeholders are rejected before anything is written.",
     "refs": [
-      "HowItWorks.tsx:629:23"
+      "HowItWorks.tsx:483:23"
     ]
   },
   "1hnvwjwn24i": {
@@ -139,19 +139,19 @@
   "1jdn8xzrjpe": {
     "message": "Pipeline steps",
     "refs": [
-      "HowItWorks.tsx:435:48"
+      "HowItWorks.tsx:302:48"
     ]
   },
   "1jf4lxzcshp": {
     "message": "Translation demo",
     "refs": [
-      "Page.tsx:53:63"
+      "Page.tsx:55:63"
     ]
   },
   "1kk15kibcns": {
     "message": "Write English. Your agent translates. The duck checks.",
     "refs": [
-      "Page.tsx:132:37"
+      "Page.tsx:134:37"
     ]
   },
   "1kyh8yydyyg": {
@@ -163,7 +163,7 @@
   "1n0o1gahzmt": {
     "message": "Exact text: no trimming, no case folding.",
     "refs": [
-      "HowItWorks.tsx:528:30"
+      "HowItWorks.tsx:379:30"
     ]
   },
   "1n1huz9o75z": {
@@ -205,25 +205,25 @@
   "1tqpfb1r4cd": {
     "message": "Brief entry",
     "refs": [
-      "HowItWorks.tsx:550:67"
+      "HowItWorks.tsx:401:67"
     ]
   },
   "1u8fb2niukv": {
     "message": "Copy",
     "refs": [
-      "Page.tsx:120:59"
+      "Page.tsx:122:59"
     ]
   },
   "1ug6mn8z8qz": {
     "message": "Page language",
     "refs": [
-      "Page.tsx:54:58"
+      "Page.tsx:56:58"
     ]
   },
   "1v8xq7wheao": {
     "message": "No translation keys. IDs are hashed from the text. The same string in many places is one catalog entry.",
     "refs": [
-      "HowItWorks.tsx:477:26"
+      "HowItWorks.tsx:328:26"
     ]
   },
   "1wazwmrpsyg": {
@@ -235,13 +235,13 @@
   "1wfwltunc0e": {
     "message": "Each call is one string in your app above. Same number, same color.",
     "refs": [
-      "HowItWorks.tsx:487:29"
+      "HowItWorks.tsx:338:29"
     ]
   },
   "1wkhjc2djgm": {
     "message": "Keep __ a bare identifier. That is what duckalize extract scans for.",
     "refs": [
-      "HowItWorks.tsx:485:27"
+      "HowItWorks.tsx:336:27"
     ]
   },
   "1zg12szv5bt": {
@@ -253,13 +253,13 @@
   "1zq7l7rbaa6": {
     "message": "The brief leaves duckalize as a file, and the answer comes back as one.",
     "refs": [
-      "HowItWorks.tsx:580:26"
+      "HowItWorks.tsx:431:26"
     ]
   },
   "20bhojduukv": {
     "message": "MIT licensed. Version {version}. Requires {node}.",
     "refs": [
-      "Page.tsx:170:13"
+      "Page.tsx:172:13"
     ]
   },
   "21f26ph510g": {
@@ -283,14 +283,14 @@
   "28r9nd2tzxm": {
     "message": "The string in your code is the message. Nothing else changes.",
     "refs": [
-      "HowItWorks.tsx:476:23",
+      "HowItWorks.tsx:327:23",
       "Replay.tsx:357:5"
     ]
   },
   "28zafmmjvc7": {
     "message": "Reads the instructions, style, glossary and context, then decides how it should sound.",
     "refs": [
-      "HowItWorks.tsx:601:24"
+      "HowItWorks.tsx:452:24"
     ]
   },
   "29y08ymlqht": {
@@ -302,26 +302,26 @@
   "2akr54fkof4": {
     "message": "passes",
     "refs": [
-      "HowItWorks.tsx:665:51",
-      "HowItWorks.tsx:669:61"
+      "HowItWorks.tsx:519:51",
+      "HowItWorks.tsx:523:61"
     ]
   },
   "2b3mzz0abys": {
     "message": "{translated} of {total} strings translated",
     "refs": [
-      "Page.tsx:80:14"
+      "Page.tsx:82:14"
     ]
   },
   "2bfzln8zrc7": {
     "message": "How a string gets translated",
     "refs": [
-      "HowItWorks.tsx:419:14"
+      "HowItWorks.tsx:285:14"
     ]
   },
   "2d7928kw9z8": {
     "message": "Ship a partial catalog",
     "refs": [
-      "HowItWorks.tsx:316:5",
+      "HowItWorks.tsx:185:5",
       "Replay.tsx:347:5",
       "Replay.tsx:354:5"
     ]
@@ -335,13 +335,13 @@
   "2edtth2bfnq": {
     "message": "Skip to content",
     "refs": [
-      "Page.tsx:181:13"
+      "Page.tsx:183:13"
     ]
   },
   "2f1kra0u723": {
     "message": "How the ID is derived",
     "refs": [
-      "HowItWorks.tsx:527:68"
+      "HowItWorks.tsx:378:68"
     ]
   },
   "2fg28o85i60": {
@@ -359,13 +359,13 @@
   "5b6cqq6xsu": {
     "message": "first answer, as returned",
     "refs": [
-      "HowItWorks.tsx:607:47"
+      "HowItWorks.tsx:458:47"
     ]
   },
   "5uesicm2of": {
     "message": "This page is translated with duckalization.",
     "refs": [
-      "Page.tsx:154:20"
+      "Page.tsx:156:20"
     ]
   },
   "7j6avdyrhi": {
@@ -377,7 +377,7 @@
   "865cb5ecdp": {
     "message": "Not in es.json yet, so your app renders the inline English.",
     "refs": [
-      "HowItWorks.tsx:722:30"
+      "HowItWorks.tsx:576:30"
     ]
   },
   "97xxl3b27e": {
@@ -389,19 +389,19 @@
   "99nmimj8ch": {
     "message": "Errors reject the whole file; nothing is written.",
     "refs": [
-      "HowItWorks.tsx:630:26"
+      "HowItWorks.tsx:484:26"
     ]
   },
   "ba0vlh2lvk": {
     "message": "Source on GitHub",
     "refs": [
-      "Page.tsx:144:16"
+      "Page.tsx:146:16"
     ]
   },
   "dqdpvsguk1": {
     "message": "Any agent translates",
     "refs": [
-      "HowItWorks.tsx:314:5",
+      "HowItWorks.tsx:183:5",
       "Replay.tsx:345:5",
       "Replay.tsx:352:5"
     ]
@@ -409,25 +409,25 @@
   "dt73z1afws": {
     "message": "A partial target catalog is safe to ship. The next brief picks up the new string.",
     "refs": [
-      "HowItWorks.tsx:693:26"
+      "HowItWorks.tsx:547:26"
     ]
   },
   "h1dp81alo9": {
     "message": "Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.",
     "refs": [
-      "Page.tsx:155:12"
+      "Page.tsx:157:12"
     ]
   },
   "hwu1vdqh9t": {
     "message": "Check",
     "refs": [
-      "HowItWorks.tsx:640:42"
+      "HowItWorks.tsx:494:42"
     ]
   },
   "hyhq1ab0h6": {
     "message": "old",
     "refs": [
-      "HowItWorks.tsx:719:46"
+      "HowItWorks.tsx:573:46"
     ]
   },
   "i4rrfqkl3u": {
@@ -439,13 +439,13 @@
   "j8o5lzedrh": {
     "message": "The translating agent needs no repo access.",
     "refs": [
-      "HowItWorks.tsx:566:30"
+      "HowItWorks.tsx:417:30"
     ]
   },
   "k3zi3zi6c7": {
     "message": "The guide for agents (llms.txt)",
     "refs": [
-      "Page.tsx:147:16"
+      "Page.tsx:149:16"
     ]
   },
   "n0m5w59b32": {
@@ -463,7 +463,7 @@
   "o31qissmwe": {
     "message": "One entry of locales/.work/es.brief.json. The brief also carries the locale, its plural categories, instructions, style and glossary.",
     "refs": [
-      "HowItWorks.tsx:525:26"
+      "HowItWorks.tsx:376:26"
     ]
   },
   "o54cnfr1fb": {
@@ -487,31 +487,31 @@
   "qgs5i1t9r0": {
     "message": "any agent",
     "refs": [
-      "HowItWorks.tsx:599:51"
+      "HowItWorks.tsx:450:51"
     ]
   },
   "qqaoguhe3q": {
     "message": "Install",
     "refs": [
-      "Page.tsx:138:50"
+      "Page.tsx:140:50"
     ]
   },
   "qvnu5kpdmn": {
     "message": "It does the judgment. I do the checking.",
     "refs": [
-      "HowItWorks.tsx:429:12"
+      "HowItWorks.tsx:296:15"
     ]
   },
   "r5yk94y244": {
     "message": "Answer 1",
     "refs": [
-      "HowItWorks.tsx:642:28"
+      "HowItWorks.tsx:496:28"
     ]
   },
   "to90fddnwe": {
     "message": "Extract a brief",
     "refs": [
-      "HowItWorks.tsx:313:5",
+      "HowItWorks.tsx:182:5",
       "Replay.tsx:344:5",
       "Replay.tsx:351:5"
     ]
@@ -519,14 +519,14 @@
   "upzujjlxsu": {
     "message": "The CLI hashes each string into an ID and writes a self-contained work order for an agent.",
     "refs": [
-      "HowItWorks.tsx:524:23",
+      "HowItWorks.tsx:375:23",
       "Replay.tsx:358:5"
     ]
   },
   "vh88ypv7zp": {
     "message": "Copied",
     "refs": [
-      "Page.tsx:120:44"
+      "Page.tsx:122:44"
     ]
   },
   "vjxiut1gq9": {
@@ -544,7 +544,7 @@
   "ws48nq1d1k": {
     "message": "Answer 2",
     "refs": [
-      "HowItWorks.tsx:645:28"
+      "HowItWorks.tsx:499:28"
     ]
   },
   "wuutpjossh": {
@@ -562,13 +562,13 @@
   "ybzd4e635q": {
     "message": "Missing translations fall back to the inline English.",
     "refs": [
-      "HowItWorks.tsx:692:23"
+      "HowItWorks.tsx:546:23"
     ]
   },
   "ye8hcz1y3h": {
     "message": "Code checks the work",
     "refs": [
-      "HowItWorks.tsx:315:5",
+      "HowItWorks.tsx:184:5",
       "Replay.tsx:346:5",
       "Replay.tsx:353:5"
     ]
@@ -576,19 +576,19 @@
   "yj9vauciil": {
     "message": "No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.",
     "refs": [
-      "Page.tsx:134:14"
+      "Page.tsx:136:14"
     ]
   },
   "zdmbatlga6": {
     "message": "An invented placeholder and an unknown ID. The next step catches both.",
     "refs": [
-      "HowItWorks.tsx:611:30"
+      "HowItWorks.tsx:470:30"
     ]
   },
   "zw4py93ch1": {
     "message": "new",
     "refs": [
-      "HowItWorks.tsx:723:46"
+      "HowItWorks.tsx:577:46"
     ]
   }
 }

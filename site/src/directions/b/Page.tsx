@@ -59,7 +59,7 @@ export default function Page() {
         Skip to content
       </a>
       <header className="sb-top">
-        <a className="sb-word" href="/b" aria-label="duckalization, home">
+        <a className="sb-word" href="/explore/b" aria-label="duckalization, home">
           <span className="sb-word-mark" aria-hidden="true">
             __('')
           </span>

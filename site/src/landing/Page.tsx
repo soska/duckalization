@@ -1,20 +1,20 @@
 /*
- * Direction H — F, with the app pinned on top (D + A + B).
- * Same page as F, but "How it works" keeps the rendered Cart pinned at the top
- * of the figure for all five steps, big enough to read as a real app screen,
- * and it changes as you scroll: English, then hashed IDs, the agent's draft,
- * rejected, applied, then a fallback. In step 1, wires run from each __() line
- * up to the element it renders. The bet is that watching one screen get
- * translated makes it obvious from the first step what all the code, IDs and
- * checks below it are for.
+ * The duckalization landing page (grew out of exploration H; the round-1
+ * directions live under /explore).
+ * D's voice and visual system, translated with duckalization itself. "How it
+ * works" keeps the rendered Cart pinned on top for all five steps and changes
+ * it as you scroll: English, hashed IDs, the agent's draft, rejected, applied,
+ * then a fallback. Numbered markers pair each __() line with its element. The
+ * replay of a real run follows. The bet: watching one screen get translated
+ * makes it obvious what the code, IDs and checks are for.
  */
 import '@fontsource-variable/bricolage-grotesque/standard.css';
 import '@fontsource-variable/jetbrains-mono';
-import './f.css';
+import './landing.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { INSTALL, LLMS_URL, NODE_REQUIREMENT, REPO_URL, VERSION } from '../../shared/facts.ts';
-import { useDirection } from '../../shared/motion.ts';
-import { DuckProvider, useLocale } from '../../shared/real.ts';
+import { INSTALL, LLMS_URL, NODE_REQUIREMENT, REPO_URL, VERSION } from '../shared/facts.ts';
+import { useDirection } from '../shared/motion.ts';
+import { DuckProvider, useLocale } from '../shared/real.ts';
 import { Duck } from './Duck.tsx';
 import { HowItWorks } from './HowItWorks.tsx';
 import { coverage, duck, SwapAnimationContext, useT, XrayContext } from './i18n.tsx';
@@ -46,7 +46,7 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
   return (
     <header ref={bar} className="fk-bar">
       <div className="fk-bar-inner">
-        <a className="fk-logo" href="/h">
+        <a className="fk-logo" href="/">
           <span className="fk-logo-mark" aria-hidden="true">
             __('')
           </span>
@@ -218,7 +218,7 @@ function Shell() {
 }
 
 export default function Page() {
-  useDirection('h');
+  useDirection('landing');
   return (
     <DuckProvider duck={duck}>
       <Shell />

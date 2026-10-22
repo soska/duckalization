@@ -6,7 +6,7 @@ import {
   STORY,
   TRANSCRIPT,
   type TermLine,
-} from '../../shared/facts.ts';
+} from '../shared/facts.ts';
 
 /**
  * The session as a timeline of events (ms). Every CLI line comes from

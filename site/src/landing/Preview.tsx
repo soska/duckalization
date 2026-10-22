@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode, type RefObject } from 'react';
-import { BAD_OUTPUTS, ES_CATALOG, MESSAGES } from '../../shared/facts.ts';
-import { createDuck, messageId } from '../../shared/real.ts';
+import { BAD_OUTPUTS, ES_CATALOG, MESSAGES } from '../shared/facts.ts';
+import { createDuck, messageId } from '../shared/real.ts';
 import { useT } from './i18n.tsx';
 import { EDITED_STRING } from './script.ts';
 

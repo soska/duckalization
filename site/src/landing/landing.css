@@ -1,6 +1,6 @@
-/* Direction H — F with the app pinned on top of "How it works" (D's system). Flat, warm, sticker-like; transform/opacity motion only. */
+/* duckalization landing page (D's system). Flat, warm, sticker-like; transform/opacity motion only. */
 
-html[data-direction='h'] {
+html[data-direction='landing'] {
   --bg: #fff3d6;
   --paper: #fffbf0;
   --ink: #23190c;
@@ -23,7 +23,7 @@ html[data-direction='h'] {
 }
 
 @media (prefers-color-scheme: dark) {
-  html[data-direction='h'] {
+  html[data-direction='landing'] {
     --bg: #19130a;
     --paper: #241b0f;
     --ink: #fbefd6;
@@ -42,7 +42,7 @@ html[data-direction='h'] {
   }
 }
 
-html[data-direction='h'] body {
+html[data-direction='landing'] body {
   background: var(--bg);
   color: var(--ink);
 }
@@ -442,7 +442,7 @@ html[data-direction='h'] body {
 /* F-only: shared section chrome                                    */
 /* ================================================================ */
 
-html[data-direction='h'] {
+html[data-direction='landing'] {
   --pond-wash: color-mix(in srgb, var(--pond) 13%, var(--paper));
   --bad-wash: color-mix(in srgb, var(--bad) 14%, transparent);
   --duck-wash: color-mix(in srgb, var(--duck) 34%, transparent);
