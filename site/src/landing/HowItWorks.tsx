@@ -17,19 +17,8 @@ import { PinnedPreview, Preview, previewStateAt, type PreviewState } from './Pre
 import { EDITED_SOURCE, EDITED_STRING, EDITED_TRANSCRIPT } from './script.ts';
 
 const STEPS = 5;
-const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
-/** Ease in and out of a 0–1 range: motion starts and settles instead of snapping. */
-const smoothstep = (n: number) => n * n * (3 - 2 * n);
-
-/**
- * Scroll choreography. Ranges are in steps (one step ≈ one viewport of
- * scroll). `?raw` restores the original linear, unsmoothed timing so the two
- * can be compared side by side.
- */
-const RAW = new URLSearchParams(window.location.search).has('raw');
-const MOTION = RAW
-  ? { smoothing: 0, plateFade: 0.1, reveal: 0.08, ease: (n: number) => n }
-  : { smoothing: 110, plateFade: 0.24, reveal: 0.18, ease: smoothstep };
+/** Time constant (ms) for the scroll progress glide: mouse-wheel steps become a short slide. */
+const SMOOTHING = 80;
 /** 3671270527149185 → "3 671 270 527 149 185". */
 const groupDigits = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -126,6 +115,7 @@ function Plate({
       id={`fk-step-${index + 1}`}
       aria-labelledby={`fk-plate-h-${index}`}
       data-plate
+      data-state={index === 0 ? 'on' : 'before'}
     >
       {previews && (
         <div className="hk-frame-previews">
@@ -164,7 +154,7 @@ export function HowItWorks() {
 
   const trackRef = useRef<HTMLDivElement>(null);
   const platesRef = useRef<HTMLElement[]>([]);
-  const revealRef = useRef<{ el: HTMLElement; plate: number; at: number; leader: boolean }[]>([]);
+  const revealRef = useRef<{ el: HTMLElement; plate: number; at: number }[]>([]);
   const fillRef = useRef<HTMLSpanElement>(null);
   const railRef = useRef<HTMLOListElement>(null);
   const checkerRef = useRef<HTMLSpanElement>(null);
@@ -196,45 +186,29 @@ export function HowItWorks() {
         el,
         plate: i,
         at: Number(el.dataset.at),
-        leader: el.hasAttribute('data-leader'),
       }))
     );
-    if (reduced) {
-      for (const el of [...plates, ...revealRef.current.map((r) => r.el)]) {
-        el.style.removeProperty('opacity');
-        el.style.removeProperty('transform');
-        el.style.removeProperty('visibility');
-      }
-      activeRef.current = -1;
-    }
+    activeRef.current = -1;
   }, [reduced]);
 
   useScrollProgress(trackRef, (p) => {
     if (reduced) return;
     const s = p * STEPS;
 
-    platesRef.current.forEach((el, i) => {
-      const t = s - i;
-      let o = 1;
-      const half = MOTION.plateFade / 2;
-      if (i > 0) o = Math.min(o, clamp01((t + half) / MOTION.plateFade));
-      if (i < STEPS - 1) o = Math.min(o, clamp01((1 + half - t) / MOTION.plateFade));
-      o = MOTION.ease(o);
-      const dir = t < 0.5 ? 1 : -1;
-      el.style.opacity = String(o);
-      el.style.transform = `translate3d(0, ${((1 - o) * 18 * dir).toFixed(2)}px, 0)`;
-      el.style.visibility = o === 0 ? 'hidden' : 'visible';
-    });
-
-    for (const r of revealRef.current) {
-      const k = MOTION.ease(clamp01((s - r.plate - r.at) / MOTION.reveal));
-      if (r.leader) {
-        r.el.style.transform = `scaleX(${k.toFixed(3)})`;
-      } else {
-        r.el.style.opacity = String(k);
-        r.el.style.transform = `translate3d(0, ${((1 - k) * 8).toFixed(2)}px, 0)`;
-      }
+    // Scroll decides what is shown; CSS transitions play it out over time, so
+    // stopping mid-scroll never leaves a step or a note half-drawn.
+    const active = Math.min(STEPS - 1, Math.floor(s));
+    if (active !== activeRef.current) {
+      activeRef.current = active;
+      platesRef.current.forEach((el, i) => {
+        el.dataset.state = i === active ? 'on' : i < active ? 'after' : 'before';
+      });
+      railRef.current?.querySelectorAll('li').forEach((li, i) => {
+        li.toggleAttribute('data-active', i === active);
+        li.toggleAttribute('data-done', i < active);
+      });
     }
+    for (const r of revealRef.current) r.el.toggleAttribute('data-on', s - r.plate >= r.at);
 
     if (fillRef.current) fillRef.current.style.transform = `scaleY(${p.toFixed(4)})`;
 
@@ -251,16 +225,7 @@ export function HowItWorks() {
       previewStateRef.current = state;
       previewCtl.current?.(state);
     }
-
-    const active = Math.min(STEPS - 1, Math.floor(s));
-    if (active !== activeRef.current) {
-      activeRef.current = active;
-      railRef.current?.querySelectorAll('li').forEach((li, i) => {
-        li.toggleAttribute('data-active', i === active);
-        li.toggleAttribute('data-done', i < active);
-      });
-    }
-  }, { smoothing: MOTION.smoothing });
+  }, { smoothing: SMOOTHING });
 
   /** Rail buttons jump to the middle of a step's scroll window. */
   const goTo = (i: number) => {
