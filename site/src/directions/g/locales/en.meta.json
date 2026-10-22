@@ -1,0 +1,372 @@
+{
+  "10qlvhceeih": {
+    "message": "Every string is hashed into its ID. Repeats become one entry.",
+    "refs": [
+      "Replay.tsx:82:94"
+    ]
+  },
+  "11s4rkqm2ng": {
+    "message": "The corrected file passes, and only then lands in es.json.",
+    "refs": [
+      "Replay.tsx:88:90"
+    ]
+  },
+  "12j7duvyjla": {
+    "message": {
+      "one": "{count} is still English-only",
+      "other": "{count} are still English-only"
+    },
+    "refs": [
+      "Page.tsx:65:16"
+    ]
+  },
+  "13utvpasyhq": {
+    "message": "Squint at an empty call, __(''), and it's a duck face.",
+    "refs": [
+      "Page.tsx:135:24"
+    ]
+  },
+  "15ahf3s1v80": {
+    "message": "Show fallbacks",
+    "refs": [
+      "Page.tsx:53:12"
+    ]
+  },
+  "19mx2cuocmy": {
+    "message": "One error and the whole file bounces. Nothing is written.",
+    "refs": [
+      "Replay.tsx:87:92"
+    ]
+  },
+  "19y16nvuua0": {
+    "message": "you",
+    "refs": [
+      "Replay.tsx:432:25"
+    ]
+  },
+  "1bbkldovkiv": {
+    "message": "Write English inline",
+    "refs": [
+      "Replay.tsx:377:14",
+      "Replay.tsx:377:49"
+    ]
+  },
+  "1cgxqstkcak": {
+    "message": "agent",
+    "refs": [
+      "Replay.tsx:433:27"
+    ]
+  },
+  "1cxmzy4qboq": {
+    "message": "The CLI never calls a model. Bring whichever agent you like.",
+    "refs": [
+      "Replay.tsx:379:84"
+    ]
+  },
+  "1h07orxip0q": {
+    "message": "Unknown IDs, empty strings, malformed plurals and invented placeholders are rejected before anything is written.",
+    "refs": [
+      "Replay.tsx:380:84"
+    ]
+  },
+  "1jf4lxzcshp": {
+    "message": "Translation demo",
+    "refs": [
+      "Page.tsx:32:43"
+    ]
+  },
+  "1ngjgr5nfyp": {
+    "message": "A real session, in five frames. Every line in the duckalize pane is what the CLI printed.",
+    "refs": [
+      "Replay.tsx:732:15"
+    ]
+  },
+  "1nxcvv2mqgf": {
+    "message": "deterministic · never calls a model",
+    "refs": [
+      "Replay.tsx:434:44"
+    ]
+  },
+  "1q6z6v0tbtf": {
+    "message": "Frame {n} of 5, shown complete",
+    "refs": [
+      "Replay.tsx:709:21"
+    ]
+  },
+  "1tvdele21ub": {
+    "message": "Waiting for a brief. The agent only sees what the CLI hands it.",
+    "refs": [
+      "Replay.tsx:529:29"
+    ]
+  },
+  "1u8fb2niukv": {
+    "message": "Copy",
+    "refs": [
+      "Page.tsx:99:59"
+    ]
+  },
+  "1ug6mn8z8qz": {
+    "message": "Page language",
+    "refs": [
+      "Page.tsx:34:58"
+    ]
+  },
+  "1ut3s7ekq09": {
+    "message": "Edit a string and it gets a new ID.",
+    "refs": [
+      "Replay.tsx:89:83"
+    ]
+  },
+  "1wazwmrpsyg": {
+    "message": "Pause",
+    "refs": [
+      "Replay.tsx:653:20"
+    ]
+  },
+  "20bhojduukv": {
+    "message": "MIT licensed. Version {version}. Requires {node}.",
+    "refs": [
+      "Page.tsx:157:12"
+    ]
+  },
+  "21f26ph510g": {
+    "message": "any model · the only judgment",
+    "refs": [
+      "Replay.tsx:433:47"
+    ]
+  },
+  "21m6a5yfeh6": {
+    "message": "Chapter {n} of 5: {title}",
+    "refs": [
+      "Replay.tsx:632:17",
+      "Replay.tsx:712:10"
+    ]
+  },
+  "27o1strcgdo": {
+    "message": "Missing translations fall back to your English.",
+    "refs": [
+      "Replay.tsx:91:71"
+    ]
+  },
+  "28r9nd2tzxm": {
+    "message": "The string in your code is the message. Nothing else changes.",
+    "refs": [
+      "Replay.tsx:377:84"
+    ]
+  },
+  "2b3mzz0abys": {
+    "message": "{translated} of {total} strings translated",
+    "refs": [
+      "Page.tsx:60:14"
+    ]
+  },
+  "2bfzln8zrc7": {
+    "message": "How a string gets translated",
+    "refs": [
+      "Replay.tsx:725:35"
+    ]
+  },
+  "2d7928kw9z8": {
+    "message": "Ship a partial catalog",
+    "refs": [
+      "Replay.tsx:381:14",
+      "Replay.tsx:381:51"
+    ]
+  },
+  "2edtth2bfnq": {
+    "message": "Skip to content",
+    "refs": [
+      "Page.tsx:169:13"
+    ]
+  },
+  "2f4cx64bktd": {
+    "message": "A plural is an object of CLDR forms, still inline.",
+    "refs": [
+      "Replay.tsx:81:97"
+    ]
+  },
+  "2g1yho4el6d": {
+    "message": "Actors",
+    "refs": [
+      "Replay.tsx:490:63"
+    ]
+  },
+  "2lgdb5rs11": {
+    "message": "The English string is the message. There is no key to invent.",
+    "refs": [
+      "Replay.tsx:80:97"
+    ]
+  },
+  "5uesicm2of": {
+    "message": "This page is translated with duckalization.",
+    "refs": [
+      "Page.tsx:140:20"
+    ]
+  },
+  "8sgbt8vhd4": {
+    "message": "The old translation is orphaned; the new string is missing.",
+    "refs": [
+      "Replay.tsx:90:92"
+    ]
+  },
+  "97xxl3b27e": {
+    "message": "Your app, in Spanish",
+    "refs": [
+      "Replay.tsx:351:16"
+    ]
+  },
+  "b3xb6ygmn3": {
+    "message": "Scroll to play a real session, and scroll back to rewind it. Every line in the duckalize pane is what the CLI printed.",
+    "refs": [
+      "Replay.tsx:733:15"
+    ]
+  },
+  "ba0vlh2lvk": {
+    "message": "Source on GitHub",
+    "refs": [
+      "Page.tsx:126:16"
+    ]
+  },
+  "dqdpvsguk1": {
+    "message": "Any agent translates",
+    "refs": [
+      "Replay.tsx:379:14",
+      "Replay.tsx:379:49"
+    ]
+  },
+  "erqf0ly44y": {
+    "message": "Play at normal speed",
+    "refs": [
+      "Replay.tsx:653:77"
+    ]
+  },
+  "fw6e55g8wg": {
+    "message": "Write English. An agent translates. The duck checks.",
+    "refs": [
+      "Page.tsx:113:14"
+    ]
+  },
+  "gy5et65q7d": {
+    "message": "Play again at normal speed",
+    "refs": [
+      "Replay.tsx:653:42"
+    ]
+  },
+  "h1dp81alo9": {
+    "message": "Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.",
+    "refs": [
+      "Page.tsx:141:12"
+    ]
+  },
+  "ieugcxszj2": {
+    "message": "I check: {nombre} is not in the source message.",
+    "refs": [
+      "Replay.tsx:86:90"
+    ]
+  },
+  "k3zi3zi6c7": {
+    "message": "The guide for agents (llms.txt)",
+    "refs": [
+      "Page.tsx:129:16"
+    ]
+  },
+  "llwjhgp39a": {
+    "message": "Any agent. This pane is the only place a model is involved.",
+    "refs": [
+      "Replay.tsx:84:98"
+    ]
+  },
+  "mbu6csxnzo": {
+    "message": "A plausible slip: it renamed {name} to {nombre}.",
+    "refs": [
+      "Replay.tsx:85:86"
+    ]
+  },
+  "o54cnfr1fb": {
+    "message": "Next",
+    "refs": [
+      "Replay.tsx:698:10"
+    ]
+  },
+  "o76v8onznu": {
+    "message": "real runtime",
+    "refs": [
+      "Replay.tsx:352:16"
+    ]
+  },
+  "qqaoguhe3q": {
+    "message": "Install",
+    "refs": [
+      "Page.tsx:120:50"
+    ]
+  },
+  "qvnu5kpdmn": {
+    "message": "It does the judgment. I do the checking.",
+    "refs": [
+      "Replay.tsx:728:12"
+    ]
+  },
+  "rmcqh280p3": {
+    "message": "Chapters",
+    "refs": [
+      "Replay.tsx:637:47",
+      "Replay.tsx:685:47"
+    ]
+  },
+  "rrhlsg5hk0": {
+    "message": "The brief is self-contained: the agent needs no repo access.",
+    "refs": [
+      "Replay.tsx:83:90"
+    ]
+  },
+  "to90fddnwe": {
+    "message": "Extract a brief",
+    "refs": [
+      "Replay.tsx:378:14",
+      "Replay.tsx:378:44"
+    ]
+  },
+  "ulg6sf77ac": {
+    "message": "Callouts",
+    "refs": [
+      "Replay.tsx:469:46"
+    ]
+  },
+  "upzujjlxsu": {
+    "message": "The CLI hashes each string into an ID and writes a self-contained work order for an agent.",
+    "refs": [
+      "Replay.tsx:378:74"
+    ]
+  },
+  "vh88ypv7zp": {
+    "message": "Copied",
+    "refs": [
+      "Page.tsx:99:44"
+    ]
+  },
+  "vjxiut1gq9": {
+    "message": "Previous",
+    "refs": [
+      "Replay.tsx:683:12"
+    ]
+  },
+  "ybzd4e635q": {
+    "message": "Missing translations fall back to the inline English.",
+    "refs": [
+      "Replay.tsx:381:88"
+    ]
+  },
+  "ye8hcz1y3h": {
+    "message": "Code checks the work",
+    "refs": [
+      "Replay.tsx:380:14",
+      "Replay.tsx:380:49"
+    ]
+  },
+  "yj9vauciil": {
+    "message": "No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.",
+    "refs": [
+      "Page.tsx:116:14"
+    ]
+  }
+}

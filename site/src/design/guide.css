@@ -1,0 +1,298 @@
+/* The /design guide. Built from the same tokens as everything it documents. */
+
+html[data-direction='design'],
+html[data-direction='design'] body {
+  background: var(--dk-color-surface-page);
+  color: var(--dk-color-text-default);
+}
+
+.dg {
+  font-family: var(--dk-text-body-family);
+  font-size: var(--dk-text-body-sm-size);
+  line-height: var(--dk-text-body-sm-line-height);
+  font-optical-sizing: auto;
+}
+.dg :where(a):focus-visible,
+.dg :where([tabindex]):focus-visible {
+  outline: var(--dk-border-width-focus) solid var(--dk-color-accent-pond);
+  outline-offset: var(--dk-border-width-focus);
+}
+.dg code { font-family: var(--dk-font-family-mono); font-size: 0.85em; /* relative to its line */ }
+
+.dg-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: var(--dk-space-4);
+}
+@media (min-width: 560px) /* token: breakpoint.sm */ {
+  .dg-wrap { padding-inline: var(--dk-space-8); }
+}
+
+/* ---------- bar ---------- */
+
+.dg-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--dk-z-index-sticky);
+  background: var(--dk-color-surface-page);
+  border-bottom: var(--dk-border-width-default) solid var(--dk-color-border-default);
+}
+.dg-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dk-space-2_5) var(--dk-space-4);
+  padding-block: var(--dk-space-2_5);
+}
+.dg-bar-title {
+  font: var(--dk-text-eyebrow-weight) var(--dk-text-eyebrow-size)/var(--dk-text-eyebrow-line-height) var(--dk-text-eyebrow-family);
+  letter-spacing: var(--dk-text-eyebrow-letter-spacing);
+  color: var(--dk-color-text-muted);
+}
+.dg-bar .dk-segmented { margin-left: auto; }
+
+/* ---------- intro ---------- */
+
+.dg-intro { padding: var(--dk-space-12) 0 var(--dk-space-8); display: grid; gap: var(--dk-space-5); }
+.dg-intro .dk-text-lede { max-width: 40em; text-wrap: pretty; }
+.dg-toc {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dk-space-2);
+}
+.dg-toc a {
+  display: inline-block;
+  padding: var(--dk-space-1) var(--dk-space-3);
+  border: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-full);
+  background: var(--dk-color-surface-raised);
+  color: inherit;
+  text-decoration: none;
+  font: var(--dk-text-label-weight) var(--dk-font-size-14)/var(--dk-text-label-line-height) var(--dk-text-label-family);
+}
+.dg-toc a:hover { background: var(--dk-color-wash-duck); }
+
+/* ---------- sections ---------- */
+
+.dg-section {
+  padding: var(--dk-space-12) 0;
+  border-top: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  scroll-margin-top: var(--dk-space-16);
+}
+.dg-section-head { display: grid; gap: var(--dk-space-2); margin-bottom: var(--dk-space-8); }
+.dg-figma { color: var(--dk-color-text-muted); max-width: 48em; }
+.dg-figma b { color: var(--dk-color-text-default); }
+
+.dg-label {
+  font: var(--dk-text-eyebrow-weight) var(--dk-text-eyebrow-size)/var(--dk-text-eyebrow-line-height) var(--dk-text-eyebrow-family);
+  letter-spacing: var(--dk-text-eyebrow-letter-spacing);
+  color: var(--dk-color-accent-beak);
+  text-align: left;
+  margin-bottom: var(--dk-space-3);
+}
+.dg-desc { display: block; color: var(--dk-color-text-muted); font-size: var(--dk-font-size-13); line-height: var(--dk-font-line-height-130); }
+.dg-hint { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-13); margin-bottom: var(--dk-space-3); }
+
+.dg-name { display: inline-grid; gap: var(--dk-space-0_5); min-width: 0; }
+.dg-name b { font: var(--dk-font-weight-700) var(--dk-font-size-13)/var(--dk-font-line-height-130) var(--dk-font-family-mono); overflow-wrap: anywhere; }
+.dg-name code { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-11); overflow-wrap: anywhere; }
+
+/* A color sample in a thin ink frame. */
+.dg-chip {
+  display: block;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--dk-radius-sm);
+  border: var(--dk-border-width-thin) solid var(--dk-color-border-default);
+}
+.dg-swatch-text { display: grid; min-width: 0; }
+.dg-swatch-text b { font: var(--dk-font-weight-700) var(--dk-font-size-13)/var(--dk-font-line-height-130) var(--dk-font-family-mono); }
+.dg-swatch-text code { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-12); }
+
+/* colors */
+.dg-ramps { display: grid; gap: var(--dk-space-8); }
+.dg-swatches {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--dk-space-3);
+}
+.dg-swatches li { display: flex; align-items: center; gap: var(--dk-space-2_5); }
+
+/* theme roles */
+.dg-roles { display: grid; gap: var(--dk-space-8); }
+.dg-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.dg-table th, .dg-table td {
+  padding: var(--dk-space-2_5) var(--dk-space-3);
+  border-bottom: var(--dk-border-width-thin) solid var(--dk-color-border-subtle);
+  text-align: left;
+  vertical-align: middle;
+  font-weight: var(--dk-font-weight-400);
+}
+.dg-table thead th { font: var(--dk-font-weight-700) var(--dk-font-size-12)/var(--dk-font-line-height-100) var(--dk-font-family-mono); color: var(--dk-color-text-muted); }
+.dg-table tbody th { width: 46%; }
+/* Each mode cell is its own [data-theme] subtree: the swatch resolves the role in that mode. */
+.dg-role-cell { background: var(--dk-color-surface-page); color: var(--dk-color-text-default); }
+.dg-role-cell > * { vertical-align: middle; }
+.dg-role-cell .dg-chip { display: inline-block; margin-right: var(--dk-space-2_5); }
+.dg-role-cell .dg-swatch-text { display: inline-grid; }
+@media (max-width: 559px) /* token: breakpoint.sm */ {
+  .dg-table thead { display: none; }
+  .dg-table tr { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--dk-border-width-thin) solid var(--dk-color-border-subtle); }
+  .dg-table th, .dg-table td { border-bottom: 0; padding: var(--dk-space-2); }
+  .dg-table tbody th { grid-column: 1 / -1; width: auto; padding-bottom: 0; }
+  .dg-role-cell { display: flex; align-items: center; border-radius: var(--dk-radius-sm); }
+  .dg-role-cell .dg-chip { width: 32px; height: 32px; }
+}
+
+/* type */
+.dg-type { list-style: none; display: grid; gap: var(--dk-space-6); }
+.dg-type li { display: grid; gap: var(--dk-space-2); padding-bottom: var(--dk-space-5); border-bottom: var(--dk-border-width-thin) dashed var(--dk-color-border-subtle); }
+.dg-type-sample { overflow-wrap: anywhere; }
+.dg-type-meta { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-13); line-height: var(--dk-font-line-height-140); }
+.dg-type-meta b { color: var(--dk-color-text-default); font: var(--dk-font-weight-700) var(--dk-font-size-13)/var(--dk-font-line-height-140) var(--dk-font-family-mono); }
+
+/* space */
+.dg-space { list-style: none; display: grid; gap: var(--dk-space-2); }
+.dg-space li {
+  display: grid;
+  grid-template-columns: minmax(0, 14em) minmax(0, 1fr) 4em;
+  align-items: center;
+  gap: var(--dk-space-4);
+}
+.dg-space-bar { display: block; height: 16px; border-radius: var(--dk-radius-xs); background: var(--dk-color-accent-duck); border: var(--dk-border-width-thin) solid var(--dk-color-border-default); min-width: 2px; }
+.dg-space li > code { text-align: right; color: var(--dk-color-text-muted); }
+@media (max-width: 559px) /* token: breakpoint.sm */ {
+  .dg-space li { grid-template-columns: minmax(0, 1fr) 3.5em; gap: var(--dk-space-1) var(--dk-space-3); }
+  .dg-space-bar { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* shape */
+.dg-shape { display: grid; gap: var(--dk-space-10); }
+.dg-tiles {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--dk-space-6) var(--dk-space-4);
+}
+.dg-tiles li { display: grid; gap: var(--dk-space-1_5); align-content: start; }
+.dg-tiles li > code { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-12); }
+.dg-tile {
+  display: block;
+  width: 88px;
+  height: 64px;
+  margin-bottom: var(--dk-space-1_5);
+  border: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-sm);
+  background: var(--dk-color-wash-pond);
+}
+.dg-tile.is-raised { background: var(--dk-color-surface-raised); border-radius: var(--dk-radius-lg); }
+
+/* motion */
+.dg-motion { display: grid; gap: var(--dk-space-10); }
+@media (min-width: 900px) /* token: breakpoint.md */ {
+  .dg-motion { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+.dg-durations { list-style: none; display: grid; gap: var(--dk-space-1_5); }
+.dg-durations li {
+  display: grid;
+  grid-template-columns: 9em 4em minmax(0, 1fr);
+  align-items: center;
+  gap: var(--dk-space-3);
+  padding: var(--dk-space-1_5) var(--dk-space-2);
+  border-radius: var(--dk-radius-sm);
+  cursor: default;
+}
+.dg-durations li:hover, .dg-durations li:focus-visible { background: var(--dk-color-surface-raised); }
+.dg-run { position: relative; display: block; height: 10px; border-radius: var(--dk-radius-full); background: var(--dk-color-border-subtle); }
+.dg-run > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 10px;
+  border-radius: var(--dk-radius-full);
+  background: var(--dk-color-accent-beak);
+  transition: translate var(--dg-duration) var(--dk-easing-out);
+}
+/* Run the dot across the track: translate in the track's own width. */
+.dg-run { container-type: inline-size; }
+.dg-durations li:is(:hover, :focus-visible) .dg-run > span { translate: calc(100cqw - 10px) 0; }
+
+.dg-easings { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--dk-space-4); }
+.dg-easings li { display: grid; gap: var(--dk-space-1_5); }
+.dg-easings li > code { color: var(--dk-color-text-muted); font-size: var(--dk-font-size-11); }
+.dg-curve { width: 96px; height: 96px; overflow: visible; }
+.dg-curve path { fill: none; stroke-linecap: round; }
+.dg-curve-axis { stroke: var(--dk-color-border-subtle); stroke-width: 2; }
+.dg-curve-handle { stroke: var(--dk-color-text-muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.dg-curve-line { stroke: var(--dk-color-accent-pond); stroke-width: 3; }
+
+/* layout */
+.dg-defs { display: grid; gap: var(--dk-space-2); max-width: 36em; }
+.dg-defs > div { display: flex; justify-content: space-between; align-items: center; gap: var(--dk-space-4); padding-bottom: var(--dk-space-2); border-bottom: var(--dk-border-width-thin) dashed var(--dk-color-border-subtle); }
+.dg-defs dd { margin: 0; }
+.dg-defs .dg-hint { margin-top: var(--dk-space-3); }
+
+/* ---------- components ---------- */
+
+.dg-specs { display: grid; gap: var(--dk-space-12); }
+.dg-spec { display: grid; gap: var(--dk-space-4); }
+.dg-spec-head { display: grid; gap: var(--dk-space-1_5); }
+.dg-spec-head .dg-desc { font-size: var(--dk-font-size-15); }
+.dg .dg-props {
+  justify-self: start;
+  padding: var(--dk-space-1) var(--dk-space-2_5);
+  border-radius: var(--dk-radius-sm);
+  background: var(--dk-color-surface-raised);
+  font-size: var(--dk-font-size-12);
+  line-height: var(--dk-font-line-height-140);
+  overflow-wrap: anywhere;
+}
+.dg-modes { display: grid; gap: var(--dk-space-3); }
+@media (min-width: 900px) /* token: breakpoint.md */ {
+  .dg-modes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+/* A stage is a [data-theme] subtree: same component, other mode. */
+.dg-stage {
+  position: relative;
+  display: grid;
+  gap: var(--dk-space-4);
+  align-content: start;
+  padding: var(--dk-space-8) var(--dk-space-5) var(--dk-space-5);
+  border: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-lg);
+  background: var(--dk-color-surface-page);
+  color: var(--dk-color-text-default);
+  min-width: 0;
+}
+.dg-mode {
+  position: absolute;
+  top: var(--dk-space-2);
+  right: var(--dk-space-3);
+  font: var(--dk-font-weight-700) var(--dk-font-size-11)/var(--dk-font-line-height-100) var(--dk-font-family-mono);
+  color: var(--dk-color-text-muted);
+}
+.dg-row { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); align-items: center; gap: var(--dk-space-3); }
+.dg-row-label { font: var(--dk-font-weight-600) var(--dk-font-size-11)/var(--dk-font-line-height-100) var(--dk-font-family-mono); color: var(--dk-color-text-muted); }
+.dg-row-items { display: flex; flex-wrap: wrap; align-items: center; gap: var(--dk-space-3); min-width: 0; }
+.dg-row-items > .dk-command { flex: 1 1 auto; min-width: 0; }
+.dg-row[data-terminal] .dg-row-items {
+  padding: var(--dk-space-2_5) var(--dk-space-3);
+  border-radius: var(--dk-radius-sm);
+  background: var(--dk-color-terminal-bg);
+  color: var(--dk-color-terminal-fg);
+}
+.dg-stack { display: grid; justify-items: start; gap: var(--dk-space-3); }
+.dg-stack .dk-note { margin: 0; }
+.dg-free { min-width: 0; }
+.dg-duck { display: inline-grid; justify-items: center; gap: var(--dk-space-1); font-size: var(--dk-font-size-24); }
+.dg-duck small { font: var(--dk-font-weight-500) var(--dk-font-size-11)/var(--dk-font-line-height-100) var(--dk-font-family-mono); color: inherit; opacity: 0.7; }
+@media (max-width: 559px) /* token: breakpoint.sm */ {
+  .dg-row { grid-template-columns: minmax(0, 1fr); gap: var(--dk-space-1_5); }
+  .dg-stage { padding-inline: var(--dk-space-3_5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg *, .dg *::before, .dg *::after { animation: none !important; transition: none !important; }
+}

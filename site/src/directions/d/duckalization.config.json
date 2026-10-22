@@ -1,0 +1,6 @@
+{
+  "include": ["*.tsx"],
+  "functions": ["__", "__s"],
+  "outDir": "locales",
+  "sourceLocale": "en"
+}

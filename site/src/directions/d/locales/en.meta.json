@@ -1,0 +1,203 @@
+{
+  "12j7duvyjla": {
+    "message": {
+      "one": "{count} is still English-only",
+      "other": "{count} are still English-only"
+    },
+    "refs": [
+      "Page.tsx:64:16"
+    ]
+  },
+  "12pkc8ajgxl": {
+    "message": "Any agent",
+    "refs": [
+      "Pipeline.tsx:270:13"
+    ]
+  },
+  "1358ztp0j1b": {
+    "message": "I hash each string into an ID and write a brief: the text, where it's used, the plural forms the language needs. The agent needs no repo access.",
+    "refs": [
+      "Pipeline.tsx:266:13"
+    ]
+  },
+  "13utvpasyhq": {
+    "message": "Squint at an empty call, __(''), and it's a duck face.",
+    "refs": [
+      "Page.tsx:134:24"
+    ]
+  },
+  "15ahf3s1v80": {
+    "message": "Show fallbacks",
+    "refs": [
+      "Page.tsx:52:12"
+    ]
+  },
+  "1dyf8d7ysu6": {
+    "message": "Play again",
+    "refs": [
+      "Pipeline.tsx:338:16"
+    ]
+  },
+  "1jf4lxzcshp": {
+    "message": "Translation demo",
+    "refs": [
+      "Page.tsx:31:43"
+    ]
+  },
+  "1jsislrimyd": {
+    "message": "Then I check everything: unknown IDs, empty strings, malformed plurals, invented placeholders. One error and the whole file bounces. Nothing is written.",
+    "refs": [
+      "Pipeline.tsx:273:13"
+    ]
+  },
+  "1u8fb2niukv": {
+    "message": "Copy",
+    "refs": [
+      "Page.tsx:98:59"
+    ]
+  },
+  "1ug6mn8z8qz": {
+    "message": "Page language",
+    "refs": [
+      "Page.tsx:33:58"
+    ]
+  },
+  "20bhojduukv": {
+    "message": "MIT licensed. Version {version}. Requires {node}.",
+    "refs": [
+      "Page.tsx:156:12"
+    ]
+  },
+  "20uz4bydvld": {
+    "message": "The last line was added after the brief. It is not in es.json yet, so it renders in English.",
+    "refs": [
+      "Pipeline.tsx:356:14"
+    ]
+  },
+  "223uh4d0ifb": {
+    "message": "Any agent translates the brief. I never call a model. Judgment is its job.",
+    "refs": [
+      "Pipeline.tsx:270:36"
+    ]
+  },
+  "23rimor1ove": {
+    "message": "You write English inline, right where it renders. Nothing else in your code changes.",
+    "refs": [
+      "Pipeline.tsx:263:36"
+    ]
+  },
+  "26xp2wb7oh5": {
+    "message": "Checks",
+    "refs": [
+      "Pipeline.tsx:272:13"
+    ]
+  },
+  "280oewmzbwo": {
+    "message": "Anything not translated yet falls back to your English, so a partial catalog still ships.",
+    "refs": [
+      "Pipeline.tsx:279:13"
+    ]
+  },
+  "2b3mzz0abys": {
+    "message": "{translated} of {total} strings translated",
+    "refs": [
+      "Page.tsx:59:14"
+    ]
+  },
+  "2bfzln8zrc7": {
+    "message": "How a string gets translated",
+    "refs": [
+      "Pipeline.tsx:287:35"
+    ]
+  },
+  "2edtth2bfnq": {
+    "message": "Skip to content",
+    "refs": [
+      "Page.tsx:168:13"
+    ]
+  },
+  "4ylbq1g1ot": {
+    "message": "Brief",
+    "refs": [
+      "Pipeline.tsx:265:13"
+    ]
+  },
+  "5uesicm2of": {
+    "message": "This page is translated with duckalization.",
+    "refs": [
+      "Page.tsx:139:20"
+    ]
+  },
+  "97xxl3b27e": {
+    "message": "Your app, in Spanish",
+    "refs": [
+      "Pipeline.tsx:344:24"
+    ]
+  },
+  "ba0vlh2lvk": {
+    "message": "Source on GitHub",
+    "refs": [
+      "Page.tsx:125:16"
+    ]
+  },
+  "e0gzzs0xr3": {
+    "message": "Pipeline stations",
+    "refs": [
+      "Pipeline.tsx:294:107"
+    ]
+  },
+  "fw6e55g8wg": {
+    "message": "Write English. An agent translates. The duck checks.",
+    "refs": [
+      "Page.tsx:112:14"
+    ]
+  },
+  "h1dp81alo9": {
+    "message": "Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.",
+    "refs": [
+      "Page.tsx:140:12"
+    ]
+  },
+  "juu3n7zo1d": {
+    "message": "Catalog",
+    "refs": [
+      "Pipeline.tsx:278:13"
+    ]
+  },
+  "k3zi3zi6c7": {
+    "message": "The guide for agents (llms.txt)",
+    "refs": [
+      "Page.tsx:128:16"
+    ]
+  },
+  "nrysefz3fl": {
+    "message": "Your code",
+    "refs": [
+      "Pipeline.tsx:263:13"
+    ]
+  },
+  "qqaoguhe3q": {
+    "message": "Install",
+    "refs": [
+      "Page.tsx:119:50"
+    ]
+  },
+  "qvnu5kpdmn": {
+    "message": "It does the judgment. I do the checking.",
+    "refs": [
+      "Pipeline.tsx:290:20"
+    ]
+  },
+  "vh88ypv7zp": {
+    "message": "Copied",
+    "refs": [
+      "Page.tsx:98:44"
+    ]
+  },
+  "yj9vauciil": {
+    "message": "No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.",
+    "refs": [
+      "Page.tsx:115:14"
+    ]
+  }
+}

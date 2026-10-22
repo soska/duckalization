@@ -1,0 +1,47 @@
+/* Dev-only tuning panel (?knobs). */
+.kn {
+  position: fixed;
+  right: var(--dk-space-3);
+  bottom: var(--dk-space-3);
+  z-index: 100;
+  width: min(320px, calc(100vw - 2 * var(--dk-space-3)));
+  max-height: calc(100svh - 2 * var(--dk-space-3));
+  overflow: auto;
+  border: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-md);
+  background: var(--dk-color-surface-raised);
+  box-shadow: var(--dk-shadow-sticker-md);
+  font: var(--dk-font-weight-600) var(--dk-font-size-12) / var(--dk-font-line-height-130) var(--dk-font-family-mono);
+  color: var(--dk-color-text-default);
+}
+.kn:not([data-open]) { width: auto; }
+.kn-toggle {
+  display: block;
+  width: 100%;
+  padding: var(--dk-space-2) var(--dk-space-3);
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.kn-body { display: grid; gap: var(--dk-space-2); padding: 0 var(--dk-space-3) var(--dk-space-3); }
+.kn-group { display: grid; gap: var(--dk-space-1); margin: 0; padding: var(--dk-space-2) 0 0; border: 0; border-top: var(--dk-border-width-thin) dashed var(--dk-color-border-subtle); }
+.kn-group legend { padding: 0; color: var(--dk-color-text-muted); }
+.kn-row { display: grid; grid-template-columns: 8.5em minmax(0, 1fr) 4em; align-items: center; gap: var(--dk-space-2); }
+.kn-row select { grid-column: 2 / -1; font: inherit; }
+.kn-row input { width: 100%; accent-color: var(--dk-color-accent-pond); }
+.kn-val { text-align: right; font-variant-numeric: tabular-nums; }
+.kn-actions { display: flex; gap: var(--dk-space-2); }
+.kn-actions button {
+  flex: 1;
+  padding: var(--dk-space-1_5);
+  border: var(--dk-border-width-thin) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-sm);
+  background: var(--dk-color-surface-page);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.kn button:focus-visible, .kn input:focus-visible, .kn select:focus-visible { outline: 2px solid var(--dk-color-accent-pond); outline-offset: 2px; }
