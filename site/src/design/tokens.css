@@ -131,6 +131,7 @@
   --dk-border-width-default: 2px;
   --dk-border-width-thick: 2.5px;
   --dk-border-width-focus: 3px;
+  --dk-duration-instant: 80ms;
   --dk-duration-press: 140ms;
   --dk-duration-fast: 180ms;
   --dk-duration-base: 260ms;

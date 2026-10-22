@@ -324,35 +324,59 @@ html[data-direction='landing'] body {
 }
 /* Scroll triggers, time plays: the scroll handler only sets data-state and
    data-on; these transitions animate them. The outgoing step leaves first and
-   the incoming one waits for it, so two steps never show at once. */
+   the incoming one waits for it, so two steps never show at once.
+   Every timing is a --fk-* knob (tune live with ?knobs); --fk-slowmo
+   multiplies all of them. */
+.fk-how {
+  --fk-step-out-dur: var(--dk-duration-fast);
+  --fk-step-out-dist: var(--dk-space-4);
+  --fk-step-out-ease: var(--dk-easing-in-out);
+  --fk-step-in-delay: var(--dk-duration-instant);
+  --fk-step-in-fade: var(--dk-duration-fast);
+  --fk-step-in-slide: var(--dk-duration-fast);
+  --fk-step-in-dist: var(--dk-space-4);
+  --fk-step-in-ease: var(--dk-easing-in-out);
+  --fk-reveal-delay: 0ms;
+  --fk-reveal-fade: var(--dk-duration-base);
+  --fk-reveal-slide: var(--dk-duration-slow);
+  --fk-reveal-dist: var(--dk-space-2);
+  --fk-reveal-ease: var(--dk-easing-out);
+  --fk-leader-dur: var(--dk-duration-slow);
+  --fk-slowmo: 1;
+}
 .fk-how.is-scrub .fk-plate {
   position: absolute;
   inset: 0;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  translate: 0 var(--dk-space-4);
+  translate: 0 var(--fk-step-in-dist);
   transition:
-    opacity var(--dk-duration-fast) var(--dk-easing-ease),
-    translate var(--dk-duration-fast) var(--dk-easing-ease),
-    visibility 0s linear var(--dk-duration-fast);
+    opacity calc(var(--fk-step-out-dur) * var(--fk-slowmo)) var(--fk-step-out-ease),
+    translate calc(var(--fk-step-out-dur) * var(--fk-slowmo)) var(--fk-step-out-ease),
+    visibility 0s linear calc(var(--fk-step-out-dur) * var(--fk-slowmo));
 }
-.fk-how.is-scrub .fk-plate[data-state='after'] { translate: 0 calc(-1 * var(--dk-space-4)); }
+.fk-how.is-scrub .fk-plate[data-state='after'] { translate: 0 calc(-1 * var(--fk-step-out-dist)); }
 .fk-how.is-scrub .fk-plate[data-state='on'] {
   opacity: 1;
   visibility: visible;
   translate: none;
   transition:
-    opacity var(--dk-duration-slow) var(--dk-easing-ease) var(--dk-duration-fast),
-    translate var(--dk-duration-slower) var(--dk-easing-out) var(--dk-duration-fast),
-    visibility 0s linear var(--dk-duration-fast);
+    opacity calc(var(--fk-step-in-fade) * var(--fk-slowmo)) var(--fk-step-in-ease) calc(var(--fk-step-in-delay) * var(--fk-slowmo)),
+    translate calc(var(--fk-step-in-slide) * var(--fk-slowmo)) var(--fk-step-in-ease) calc(var(--fk-step-in-delay) * var(--fk-slowmo)),
+    visibility 0s linear calc(var(--fk-step-in-delay) * var(--fk-slowmo));
 }
 .fk-how.is-scrub [data-at]:not([data-leader]) {
   opacity: 0;
-  translate: 0 var(--dk-space-2);
-  transition: opacity var(--dk-duration-base) var(--dk-easing-ease), translate var(--dk-duration-slow) var(--dk-easing-out);
+  translate: 0 var(--fk-reveal-dist);
+  transition:
+    opacity calc(var(--fk-reveal-fade) * var(--fk-slowmo)) var(--fk-reveal-ease) calc(var(--fk-reveal-delay) * var(--fk-slowmo)),
+    translate calc(var(--fk-reveal-slide) * var(--fk-slowmo)) var(--fk-reveal-ease) calc(var(--fk-reveal-delay) * var(--fk-slowmo));
 }
-.fk-how.is-scrub [data-leader] { scale: 0 1; transition: scale var(--dk-duration-slow) var(--dk-easing-out); }
+.fk-how.is-scrub [data-leader] {
+  scale: 0 1;
+  transition: scale calc(var(--fk-leader-dur) * var(--fk-slowmo)) var(--fk-reveal-ease) calc(var(--fk-reveal-delay) * var(--fk-slowmo));
+}
 .fk-how.is-scrub [data-at][data-on] { opacity: 1; translate: none; scale: none; }
 
 .fk-plate-head {

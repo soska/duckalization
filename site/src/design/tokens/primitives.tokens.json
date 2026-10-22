@@ -452,6 +452,9 @@
   },
   "duration": {
     "$type": "duration",
+    "instant": {
+      "$value": "80ms"
+    },
     "press": {
       "$value": "140ms"
     },

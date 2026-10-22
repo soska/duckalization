@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import {
   APPLY_ERRORS,
   BAD_OUTPUTS,
@@ -18,7 +18,9 @@ import { EDITED_SOURCE, EDITED_STRING, EDITED_TRANSCRIPT } from './script.ts';
 
 const STEPS = 5;
 /** Time constant (ms) for the scroll progress glide: mouse-wheel steps become a short slide. */
-const SMOOTHING = 80;
+const SMOOTHING = 160;
+/** `?knobs` opens a dev panel for tuning the transitions live (its own chunk). */
+const Knobs = new URLSearchParams(window.location.search).has('knobs') ? lazy(() => import('./Knobs.tsx')) : null;
 /** 3671270527149185 → "3 671 270 527 149 185". */
 const groupDigits = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -152,7 +154,9 @@ export function HowItWorks() {
   const live = useLive();
   const markerSize = useControlSize();
 
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const [smoothing, setSmoothing] = useState(SMOOTHING);
   const platesRef = useRef<HTMLElement[]>([]);
   const revealRef = useRef<{ el: HTMLElement; plate: number; at: number }[]>([]);
   const fillRef = useRef<HTMLSpanElement>(null);
@@ -225,7 +229,7 @@ export function HowItWorks() {
       previewStateRef.current = state;
       previewCtl.current?.(state);
     }
-  }, { smoothing: SMOOTHING });
+  }, { smoothing });
 
   /** Rail buttons jump to the middle of a step's scroll window. */
   const goTo = (i: number) => {
@@ -242,6 +246,7 @@ export function HowItWorks() {
 
   return (
     <section
+      ref={sectionRef}
       className={`fk-how ${reduced ? 'is-static' : 'is-scrub'}`}
       aria-labelledby="fk-how-title"
     >
@@ -549,6 +554,11 @@ export function HowItWorks() {
           </div>
         </div>
       </div>
+      {Knobs && (
+        <Suspense fallback={null}>
+          <Knobs target={sectionRef} onSmoothing={setSmoothing} />
+        </Suspense>
+      )}
     </section>
   );
 }
