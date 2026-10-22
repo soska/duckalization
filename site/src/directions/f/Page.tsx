@@ -42,8 +42,15 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
     };
   }, []);
   return (
-    <aside ref={bar} className="fk-bar" aria-label={__s('Translation demo')}>
+    <header ref={bar} className="fk-bar">
       <div className="fk-bar-inner">
+        <a className="fk-logo" href="/f">
+          <span className="fk-logo-mark" aria-hidden="true">
+            __('')
+          </span>
+          duckalization
+        </a>
+        <div className="fk-bar-demo" role="group" aria-label={__s('Translation demo')}>
         <div className="fk-seg" role="group" aria-label={__s('Page language')}>
           {LOCALES.map((l) => (
             <button
@@ -82,8 +89,9 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
             </span>
           </span>
         </p>
+        </div>
       </div>
-    </aside>
+    </header>
   );
 }
 
@@ -119,10 +127,9 @@ function Hero() {
   const { __, __s } = useT();
   return (
     <header className="fk-hero">
-      <div className="fk-wrap fk-hero-grid">
+      <div className="fk-wrap">
         <div className="fk-hero-copy">
-          <p className="fk-wordmark">duckalization</p>
-          <h1 className="fk-title">{__('Write English. An agent translates. The duck checks.')}</h1>
+          <h1 className="fk-title">{__('Write English. Your agent translates. The duck checks.')}</h1>
           <p className="fk-lede">
             {__(
               'No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.'
@@ -141,10 +148,6 @@ function Hero() {
             </a>
           </p>
         </div>
-        <figure className="fk-hero-duck">
-          <Duck className="fk-duck-hero" />
-          <figcaption>{__("Squint at an empty call, __(''), and it's a duck face.")}</figcaption>
-        </figure>
       </div>
       <div className="fk-wrap">
         <p className="fk-demo-note">

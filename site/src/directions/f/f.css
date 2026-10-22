@@ -157,6 +157,28 @@ html[data-direction='f'] body {
   .fk-bar-inner { padding-inline: 32px; }
 }
 
+/* Wordmark: the duck-face call, then the name (B's lockup in this palette). */
+.fk-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-right: 6px;
+  font: 750 19px/1 var(--sans);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fk-logo-mark { font: 600 14px/1 var(--mono); color: var(--beak); }
+.fk-logo:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+.fk-bar-demo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
 .fk-seg {
   display: inline-flex;
   border: 2px solid var(--ink);
@@ -243,31 +265,7 @@ html[data-direction='f'] body {
 /* ---------- hero ---------- */
 
 .fk-hero { padding: clamp(40px, 7vw, 96px) 0 0; }
-.fk-hero-grid {
-  display: grid;
-  gap: 32px;
-  align-items: center;
-}
-@media (min-width: 960px) {
-  .fk-hero-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; }
-}
 
-.fk-wordmark {
-  font: 750 22px/1 var(--sans);
-  font-stretch: 100%;
-  letter-spacing: -0.01em;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.fk-wordmark::before {
-  content: '';
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--duck);
-  border: 2px solid var(--ink);
-}
 
 .fk-title {
   margin-top: 22px;
@@ -356,18 +354,6 @@ html[data-direction='f'] body {
 .fk-btn:active { transform: translate(2px, 2px); }
 .fk-btn-primary { background: var(--duck); color: #23190c; }
 
-.fk-hero-duck {
-  container-type: inline-size;
-  display: grid;
-  justify-items: center;
-  gap: 14px;
-  text-align: center;
-}
-.fk-hero-duck figcaption {
-  font-size: 15px;
-  color: var(--muted);
-  max-width: 24em;
-}
 
 .fk-demo-note {
   margin-top: clamp(40px, 6vw, 72px);
@@ -408,16 +394,8 @@ html[data-direction='f'] body {
   transform-origin: 50% 30%;
 }
 
-.fk-duck-hero { font-size: min(26cqi, 200px); letter-spacing: -0.04em; }
-.fk-duck-hero .fk-duck-head { animation: fk-bob 3.4s ease-in-out infinite; }
-.fk-duck-hero .fk-duck-eye,
 .fk-inspector .fk-duck-eye { animation: fk-blink 5.2s infinite; }
-.fk-duck-hero .fk-duck-eye + .fk-duck-eye { animation-delay: 40ms; }
 
-@keyframes fk-bob {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-0.04em) rotate(-2deg); }
-}
 @keyframes fk-blink {
   0%, 93%, 100% { transform: scaleY(1); }
   95.5% { transform: scaleY(0.1); }

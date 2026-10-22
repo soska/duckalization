@@ -21,7 +21,7 @@ const PAIRS: Array<[Message, Message]> = [
   ],
   ['Copy', 'Copiar'],
   ['Install', 'Instalar'],
-  ['Write English. An agent translates. The duck checks.', 'Escribe en inglés. Un agente traduce. El pato revisa.'],
+  ['Write English. Your agent translates. The duck checks.', 'Escribe en inglés. Tu agente traduce. El pato revisa.'],
   [
     'No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.',
     'Sin claves de traducción: el ID de cada mensaje es el hash de su propio texto. La CLI extrae tus textos, le entrega un encargo a cualquier agente y revisa cada traducción antes de aplicarla.',

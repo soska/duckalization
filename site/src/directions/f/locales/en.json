@@ -4,7 +4,6 @@
     "one": "{count} is still English-only",
     "other": "{count} are still English-only"
   },
-  "13utvpasyhq": "Squint at an empty call, __(''), and it's a duck face.",
   "13vl8cid5at": "How it works",
   "13xv81ffi0p": "Rendered by the real runtime in Spanish, with one entry missing from the catalog. A partial target catalog is safe to ship.",
   "142smhsnbg1": "Apply-time checks for two answers from the agent",
@@ -21,6 +20,7 @@
   "1h07orxip0q": "Unknown IDs, empty strings, malformed plurals and invented placeholders are rejected before anything is written.",
   "1jdn8xzrjpe": "Pipeline steps",
   "1jf4lxzcshp": "Translation demo",
+  "1kk15kibcns": "Write English. Your agent translates. The duck checks.",
   "1kyh8yydyyg": "Session transcript. Left and right arrows change chapter.",
   "1n0o1gahzmt": "Exact text: no trimming, no case folding.",
   "1n1huz9o75z": "A replay of a real session against the same component. Every line in the duckalize pane is what the CLI printed. The agent pane is the only place a model is involved.",
@@ -59,7 +59,6 @@
   "99nmimj8ch": "Errors reject the whole file; nothing is written.",
   "ba0vlh2lvk": "Source on GitHub",
   "dqdpvsguk1": "Any agent translates",
-  "fw6e55g8wg": "Write English. An agent translates. The duck checks.",
   "h1dp81alo9": "Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.",
   "hwu1vdqh9t": "Check",
   "i4rrfqkl3u": "Session player. Space plays or pauses; left and right arrows change chapter.",
