@@ -181,6 +181,70 @@ html[data-direction='landing'] body {
   gap: var(--dk-space-3_5) var(--dk-space-5);
 }
 
+/* Headline stays full width. The specimen fills the empty side of the lede. */
+.fk-hero-grid {
+  display: grid;
+  gap: var(--dk-space-8);
+  margin-top: var(--dk-space-6);
+  align-items: center;
+}
+.fk-hero-grid .fk-lede { margin-top: 0; }
+@media (min-width: 960px) {
+  .fk-hero-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: var(--dk-space-8) var(--dk-space-12);
+  }
+}
+
+.fk-specimen {
+  display: grid;
+  gap: var(--dk-space-5);
+  padding: var(--dk-space-5);
+  border: var(--dk-border-width-default) solid var(--dk-color-border-default);
+  border-radius: var(--dk-radius-xl);
+  background: var(--dk-color-surface-raised);
+  box-shadow: var(--dk-shadow-sticker-lg);
+}
+.fk-specimen-face {
+  display: grid;
+  justify-items: start;
+  gap: var(--dk-space-2);
+}
+.fk-duck-hero { font-size: var(--dk-font-size-48); }
+.fk-specimen-squint {
+  max-width: 22em;
+  font-size: var(--dk-font-size-15);
+  line-height: var(--dk-font-line-height-140);
+  text-wrap: pretty;
+}
+.fk-specimen-life {
+  list-style: none;
+  display: grid;
+  gap: var(--dk-space-2_5);
+}
+.fk-specimen-life li {
+  display: grid;
+  grid-template-columns: 7.2em minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--dk-space-3);
+  min-width: 0;
+}
+.fk-specimen-k {
+  font: var(--dk-font-weight-700) var(--dk-font-size-12)/var(--dk-font-line-height-130) var(--dk-font-family-mono);
+  color: var(--dk-color-text-muted);
+}
+.fk-specimen-life code {
+  font: var(--dk-font-weight-650) var(--dk-font-size-16)/var(--dk-font-line-height-130) var(--dk-font-family-mono);
+  overflow-wrap: anywhere;
+}
+.fk-specimen-id {
+  justify-self: start;
+  padding: var(--dk-space-0_5) var(--dk-space-2_5);
+  border-radius: var(--dk-radius-md);
+  background: var(--dk-color-accent-duck);
+  color: var(--dk-color-text-on-accent);
+}
+
 .fk-demo-note {
   margin-top: clamp(var(--dk-space-10), 6vw, var(--dk-space-18));
   padding: var(--dk-space-4_5) var(--dk-space-5);
@@ -299,6 +363,24 @@ html[data-direction='landing'] body {
   font: var(--dk-font-weight-700) var(--dk-font-size-14)/var(--dk-font-line-height-100) var(--dk-font-family-mono);
 }
 .fk-rail-t { display: none; }
+/* Below the side rail, the active step keeps its name under the numbers. */
+@media (max-width: 899px) /* token: breakpoint.md */ {
+  .fk-rail { padding-bottom: var(--dk-space-7); }
+  .fk-rail-list { position: relative; }
+  .fk-rail-list li[data-active] .fk-rail-t {
+    display: block;
+    position: absolute;
+    top: calc(100% + var(--dk-space-2));
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: var(--dk-font-size-14);
+    font-weight: var(--dk-font-weight-650);
+    /* The active pill's text is ink-on-yellow. This label sits on the page. */
+    color: var(--dk-color-text-default);
+    white-space: nowrap;
+  }
+}
 .fk-rail-list li[data-done] button { background: var(--dk-color-wash-pond); }
 .fk-rail-list li[data-active] button { background: var(--dk-color-accent-duck); color: var(--dk-color-text-on-accent); }
 .fk-rail-track { display: none; }
@@ -689,7 +771,7 @@ html[data-direction='landing'] body {
 /* wide: rail in the margin with a big counter */
 @media (min-width: 900px) /* token: breakpoint.md */ {
   .fk-how.is-scrub .fk-stage {
-    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-columns: 248px minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     gap: var(--dk-space-8);
     padding-top: var(--dk-space-6);
@@ -698,7 +780,7 @@ html[data-direction='landing'] body {
   .fk-rail { display: flex; flex-direction: column; gap: var(--dk-space-5); padding-left: var(--dk-space-4_5); }
   .fk-rail-list { grid-template-columns: 1fr; gap: var(--dk-space-2); }
   .fk-rail-list button { justify-content: flex-start; padding: var(--dk-space-2) var(--dk-space-3_5); border-radius: var(--dk-radius-lg); }
-  .fk-rail-t { display: inline; font-size: var(--dk-font-size-15); font-weight: var(--dk-font-weight-650); }
+  .fk-rail-t { display: inline; font-size: var(--dk-font-size-14); font-weight: var(--dk-font-weight-650); }
   .fk-rail-track {
     display: block;
     position: absolute;
@@ -887,8 +969,15 @@ html[data-direction='landing'] body {
   border-radius: var(--dk-radius-xs);
 }
 
-.hk-status { display: grid; align-content: start; gap: var(--dk-space-2); min-width: 0; }
-.hk-status-text { font-size: var(--dk-font-size-14); font-weight: var(--dk-font-weight-600); line-height: var(--dk-font-line-height-130); color: var(--dk-color-text-muted); text-wrap: pretty; }
+/* The sentence belongs to the app, under it, not in a side gutter. */
+.hk-status {
+  margin: 0;
+  max-width: 46em;
+  font-size: var(--dk-font-size-15);
+  font-weight: var(--dk-font-weight-650);
+  line-height: var(--dk-font-line-height-140);
+  text-wrap: pretty;
+}
 
 /* 5 · the rename */
 .hk-old del { text-decoration: line-through; text-decoration-thickness: var(--dk-border-width-thin); color: var(--dk-color-terminal-muted); }
@@ -897,7 +986,6 @@ html[data-direction='landing'] body {
 
 @media (min-width: 900px) /* token: breakpoint.md */ {
   .hk-preview {
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 180px);
     padding: var(--dk-space-5) var(--dk-space-6) var(--dk-space-5) var(--dk-space-6);
   }
   .hk-el-h { font-size: var(--dk-font-size-38); }
@@ -911,7 +999,7 @@ html[data-direction='landing'] body {
   .hk-el-p { font-size: var(--dk-font-size-20); }
   .hk-el-b { font-size: var(--dk-font-size-18); }
   .hk-app-body { gap: var(--dk-space-5); }
-  .hk-status-text { font-size: var(--dk-font-size-15); }
+  .hk-status { font-size: var(--dk-font-size-16); }
 }
 @media (max-width: 559px) /* token: breakpoint.sm */ {
   .hk-preview { padding: var(--dk-space-2) var(--dk-space-2_5) var(--dk-space-2_5); gap: var(--dk-space-1_5); }
@@ -926,7 +1014,7 @@ html[data-direction='landing'] body {
   .hk-el-b { font-size: var(--dk-font-size-13); }
   .hk-btn { border-width: var(--dk-border-width-thin); box-shadow: var(--dk-shadow-sticker-sm); }
   .hk-missing { font-size: var(--dk-font-size-9); padding: var(--dk-space-0_5) var(--dk-space-1); }
-  .hk-status-text { font-size: var(--dk-font-size-12); }
+  .hk-status { font-size: var(--dk-font-size-13); }
 }
 
 /* Phones: the preview takes the room the file header and captions had. Its
@@ -1047,7 +1135,9 @@ html[data-direction='landing'] body {
   border-radius: var(--dk-radius-xl);
   background: var(--dk-color-wash-pond);
 }
-@media (max-width: 899px) /* token: breakpoint.md */ {
+/* One pane at a time on a phone, so it can be tall. Stacked panes keep the
+   shorter desktop heights. */
+@media (max-width: 559px) /* token: breakpoint.sm */ {
   .fk-pane, .fk-pane--cli { height: 470px; }
 }
 

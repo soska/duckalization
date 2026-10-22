@@ -13,10 +13,10 @@ import '@fontsource-variable/jetbrains-mono';
 import { Button, Command, Duck, Logo, Meter, SegmentedControl, TextLink, Toggle } from '../design/index.ts';
 import './landing.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { INSTALL, LLMS_URL, NODE_REQUIREMENT, REPO_URL, VERSION } from '../shared/facts.ts';
+import { ES_CATALOG as DEMO_ES, INSTALL, LLMS_URL, MESSAGES, NODE_REQUIREMENT, REPO_URL, VERSION } from '../shared/facts.ts';
 import { useDirection } from '../shared/motion.ts';
 import { useControlSize } from '../shared/media.ts';
-import { DuckProvider, useLocale } from '../shared/real.ts';
+import { createDuck, DuckProvider, useLocale } from '../shared/real.ts';
 import { HowItWorks } from './HowItWorks.tsx';
 import { coverage, duck, SwapAnimationContext, useT, XrayContext } from './i18n.tsx';
 import { Replay } from './Replay.tsx';
@@ -58,10 +58,14 @@ function Toolbar({ xray, setXray, onSwitch }: { xray: boolean; setXray: (v: bool
             onChange={(code) => {
               onSwitch();
               setLocale(code);
+              // Spanish is the demo. Mark what fell back, so a mix of languages
+              // reads as the catalog and not as an unfinished page. English is
+              // the source, so the marks go away with it.
+              setXray(code !== 'en');
             }}
           />
           <Toggle pressed={xray} onChange={setXray} size={size}>
-            {__('Show fallbacks')}
+            {__('Highlight untranslated')}
           </Toggle>
           <p className="fk-count">
             <Meter value={coverage.translated / coverage.total} />
@@ -94,35 +98,71 @@ function CopyLine({ command }: { command: string }) {
   );
 }
 
+/** One real string from the demo cart: source text, its real ID, what ships. */
+const sample = createDuck({ sourceLocale: 'en', locale: 'es', onMissing: false });
+sample.load('es', DEMO_ES);
+const SHIPPED = sample.__('Welcome back, {name}', { name: 'Ana' });
+
+function Specimen() {
+  const { __, __s } = useT();
+  return (
+    <aside className="fk-specimen" aria-label={__s('One string, from your code to the screen')}>
+      <p className="fk-specimen-face">
+        <Duck className="fk-duck-hero" />
+        <span className="fk-specimen-squint">{__('Quotes for eyes. Underscores for the water.')}</span>
+      </p>
+      <ol className="fk-specimen-life">
+        <li>
+          <span className="fk-specimen-k">{__('you write')}</span>
+          <code>Welcome back, {'{name}'}</code>
+        </li>
+        <li>
+          <span className="fk-specimen-k">{__('its ID')}</span>
+          <code className="fk-specimen-id">{MESSAGES.welcome.id}</code>
+        </li>
+        <li>
+          <span className="fk-specimen-k">{__('what ships')}</span>
+          <code>{SHIPPED}</code>
+        </li>
+      </ol>
+    </aside>
+  );
+}
+
 function Hero() {
   const { __, __s } = useT();
   return (
     <header className="fk-hero">
       <div className="fk-wrap">
-        <div className="fk-hero-copy">
-          <h1 className="fk-title">{__('Write English. Your agent translates. The duck checks.')}</h1>
-          <p className="fk-lede">
-            {__(
-              'No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.'
-            )}
-          </p>
-          <ul className="fk-install" aria-label={__s('Install')}>
-            <CopyLine command={INSTALL.react} />
-            <CopyLine command={INSTALL.cli} />
-          </ul>
-          <p className="fk-links">
-            <Button variant="primary" href={REPO_URL}>
-              {__('Source on GitHub')}
-            </Button>
-            <TextLink href={LLMS_URL}>{__('The guide for agents (llms.txt)')}</TextLink>
-          </p>
+        <h1 className="fk-title">{__('Write English. Your agent translates. The duck checks.')}</h1>
+        <div className="fk-hero-grid">
+          <div className="fk-hero-copy">
+            <p className="fk-lede">
+              {__(
+                'No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.'
+              )}
+            </p>
+            <ul className="fk-install" aria-label={__s('Install')}>
+              <CopyLine command={INSTALL.react} />
+              <CopyLine command={INSTALL.cli} />
+            </ul>
+            <p className="fk-links">
+              <Button variant="primary" href={LLMS_URL}>
+                {__('Read the agent guide')}
+              </Button>
+              <Button variant="secondary" href={REPO_URL}>
+                {__('Source on GitHub')}
+              </Button>
+            </p>
+          </div>
+          <Specimen />
         </div>
       </div>
       <div className="fk-wrap">
         <p className="fk-demo-note">
           <strong>{__('This page is translated with duckalization.')}</strong>{' '}
           {__(
-            'Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.'
+            'Its Spanish catalog is deliberately incomplete, so some strings stay in English.'
           )}
         </p>
       </div>

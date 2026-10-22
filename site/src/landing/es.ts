@@ -4,16 +4,15 @@ import { messageId, type Catalog, type Message } from '../shared/real.ts';
  * The page's Spanish catalog, written as English → Spanish so no ID is ever
  * typed by hand: each key is the real messageId of the English source.
  *
- * Deliberately partial, with a gap in every section so the x-ray always has
- * something to show: the duck-face joke, the llms.txt link, the footer,
- * "Copied", the skip link, two notes and a caption in "How it works", and the
- * "Proof" label, "real runtime" and "fallback" in the replay.
+ * Deliberately partial, but only in the chrome — the lesson itself is
+ * translated. The gaps the highlight is meant to find are the note under the
+ * hero, the footer, "Copied", and the skip link.
  */
 const PAIRS: Array<[Message, Message]> = [
   // chrome + hero (shared with direction D)
   ['Translation demo', 'Demo de traducción'],
   ['Page language', 'Idioma de la página'],
-  ['Show fallbacks', 'Resaltar lo no traducido'],
+  ['Highlight untranslated', 'Resaltar lo no traducido'],
   ['{translated} of {total} strings translated', '{translated} de {total} textos traducidos'],
   [
     { one: '{count} is still English-only', other: '{count} are still English-only' },
@@ -27,11 +26,14 @@ const PAIRS: Array<[Message, Message]> = [
     'Sin claves de traducción: el ID de cada mensaje es el hash de su propio texto. La CLI extrae tus textos, le entrega un encargo a cualquier agente y revisa cada traducción antes de aplicarla.',
   ],
   ['Source on GitHub', 'Código en GitHub'],
+  ['Read the agent guide', 'Lee la guía para agentes'],
   ['This page is translated with duckalization.', 'Esta página está traducida con duckalization.'],
-  [
-    'Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.',
-    'Su catálogo en español está incompleto a propósito. Activa «Resaltar lo no traducido» para ver qué textos siguen en inglés.',
-  ],
+  // The next sentence is the hero's deliberate gap: it stays English.
+  ['Quotes for eyes. Underscores for the water.', 'Comillas por ojos. Guiones bajos por el agua.'],
+  ['One string, from your code to the screen', 'Un texto, de tu código a la pantalla'],
+  ['you write', 'tú escribes'],
+  ['its ID', 'su ID'],
+  ['what ships', 'lo que se publica'],
 
   // how it works
   ['How it works', 'Cómo funciona'],
@@ -89,7 +91,10 @@ const PAIRS: Array<[Message, Message]> = [
   ['Your app, in Spanish', 'Tu app, en español'],
 
   // replay
-  ['Now watch a real run.', 'Ahora mira una ejecución real.'],
+  ['Every line the CLI printed.', 'Cada línea que imprimió la CLI.'],
+  ['Proof', 'Prueba'],
+  ['real runtime', 'runtime real'],
+  ['fallback', 'sin traducir'],
   [
     'A replay of a real session against the same component. Every line in the duckalize pane is what the CLI printed. The agent pane is the only place a model is involved.',
     'La repetición de una sesión real con el mismo componente. Cada línea del panel de duckalize es lo que imprimió la CLI. El panel del agente es el único lugar donde interviene un modelo.',
@@ -133,9 +138,12 @@ const PAIRS: Array<[Message, Message]> = [
   ['Previous', 'Anterior'],
   ['Next', 'Siguiente'],
   ['Session position', 'Posición en la sesión'],
-  // H: the pinned app preview and the rename step. Left in English on purpose:
-  // the rename status line and the label for the two-ID group.
   ['Your app', 'Tu app'],
+  [
+    'You renamed the button. The new text isn’t translated yet, so it falls back.',
+    'Cambiaste el botón. El texto nuevo todavía no está traducido, así que se muestra en inglés.',
+  ],
+  ['What happens to the two IDs', 'Qué pasa con los dos IDs'],
   ['es · draft', 'es · borrador'],
   ['not in this answer', 'falta en la respuesta'],
   ['Your English, rendered exactly as written.', 'Tu inglés, tal como lo escribiste.'],
@@ -145,6 +153,22 @@ const PAIRS: Array<[Message, Message]> = [
   ['Rejected. Nothing was written, so your app is still in English.', 'Rechazado. No se escribió nada, así que tu app sigue en inglés.'],
   ['Applied to es.json. Your app is live in Spanish.', 'Aplicado a es.json. Tu app ya está en español.'],
   ['Each call is one string in your app above. Same number, same color.', 'Cada llamada es un texto de tu app, arriba. Mismo número, mismo color.'],
+  [
+    'Keep __ a bare identifier. That is what duckalize extract scans for.',
+    'Deja __ como identificador pelado. Eso es lo que busca duckalize extract.',
+  ],
+  [
+    'One entry of locales/.work/es.brief.json. The brief also carries the locale, its plural categories, instructions, style and glossary.',
+    'Una entrada de locales/.work/es.brief.json. El encargo también lleva el idioma, sus categorías de plural, las instrucciones, el estilo y el glosario.',
+  ],
+  [
+    'Reads the instructions, style, glossary and context, then decides how it should sound.',
+    'Lee las instrucciones, el estilo, el glosario y el contexto, y decide cómo debe sonar.',
+  ],
+  [
+    'An invented placeholder and an unknown ID. The next step catches both.',
+    'Un placeholder inventado y un ID desconocido. El siguiente paso atrapa los dos.',
+  ],
   ['You edit the copy. New text, new ID.', 'Cambias el texto. Texto nuevo, ID nuevo.'],
   ['old', 'viejo'],
   ['new', 'nuevo'],
