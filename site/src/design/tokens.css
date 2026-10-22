@@ -7,6 +7,7 @@
 
 /* Primitives and type never change with the theme. */
 :root {
+  --dk-color-brown-0: #ffffff;
   --dk-color-brown-50: #fffbf0;
   --dk-color-brown-100: #fff3d6;
   --dk-color-brown-150: #fbefd6;
@@ -256,6 +257,7 @@
   color-scheme: light;
   --dk-color-surface-page: var(--dk-color-brown-100);
   --dk-color-surface-raised: var(--dk-color-brown-50);
+  --dk-color-surface-screen: var(--dk-color-brown-0);
   --dk-color-surface-inverse: var(--dk-color-brown-900);
   --dk-color-text-default: var(--dk-color-brown-900);
   --dk-color-text-muted: var(--dk-color-brown-600);
@@ -298,6 +300,7 @@
     color-scheme: dark;
     --dk-color-surface-page: var(--dk-color-brown-925);
     --dk-color-surface-raised: var(--dk-color-brown-850);
+    --dk-color-surface-screen: var(--dk-color-brown-950);
     --dk-color-surface-inverse: var(--dk-color-brown-150);
     --dk-color-text-default: var(--dk-color-brown-150);
     --dk-color-text-muted: var(--dk-color-brown-400);
@@ -340,6 +343,7 @@
   color-scheme: dark;
   --dk-color-surface-page: var(--dk-color-brown-925);
   --dk-color-surface-raised: var(--dk-color-brown-850);
+  --dk-color-surface-screen: var(--dk-color-brown-950);
   --dk-color-surface-inverse: var(--dk-color-brown-150);
   --dk-color-text-default: var(--dk-color-brown-150);
   --dk-color-text-muted: var(--dk-color-brown-400);

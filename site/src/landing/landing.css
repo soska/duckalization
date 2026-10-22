@@ -733,15 +733,20 @@ html[data-direction='landing'] body {
   background: var(--dk-color-surface-raised);
   min-width: 0;
 }
-/* The app is the protagonist: the only box with the sticker outline. */
 .fk-card > .hk-preview,
-.hk-frame-previews .hk-preview {
+.hk-frame-previews .hk-preview { border-radius: var(--dk-radius-lg); }
+.fk-card > .hk-preview { margin: var(--dk-space-3) var(--dk-space-4) 0 var(--dk-space-3); }
+.hk-app {
+  display: grid;
+  gap: var(--dk-space-3);
+  min-width: 0;
+  padding: var(--dk-space-5) var(--dk-space-3);
+  background: var(--dk-color-surface-screen);
+  /* The app is the protagonist: the only box with the sticker outline. */
   border: var(--dk-border-width-default) solid var(--dk-color-border-default);
-  border-radius: var(--dk-radius-lg);
+  border-radius: var(--dk-radius-sm);
   box-shadow: var(--dk-shadow-sticker-lg);
 }
-.fk-card > .hk-preview { margin: var(--dk-space-3) var(--dk-space-4) 0 var(--dk-space-3); }
-.hk-app { display: grid; gap: var(--dk-space-3); min-width: 0; }
 .hk-app-bar {
   display: flex;
   align-items: center;
@@ -848,24 +853,23 @@ html[data-direction='landing'] body {
     grid-template-columns: minmax(0, 1fr) minmax(150px, 180px);
     padding: var(--dk-space-5) var(--dk-space-6) var(--dk-space-5) var(--dk-space-6);
   }
-  .hk-status { padding-left: var(--dk-space-5); border-left: var(--dk-border-width-default) dashed var(--dk-color-border-subtle); }
   .hk-el-h { font-size: var(--dk-font-size-38); }
   .hk-el-p { font-size: var(--dk-font-size-18); }
   .hk-el-b { font-size: var(--dk-font-size-17); }
 }
 @media (min-width: 1100px) and (min-height: 760px) /* token: breakpoint.lg, breakpoint.tall */ {
   .hk-preview { padding-top: var(--dk-space-6); padding-bottom: var(--dk-space-7); }
-  .hk-app { gap: var(--dk-space-4); }
+  .hk-app { gap: var(--dk-space-2); }
   .hk-el-h { font-size: var(--dk-font-size-46); }
   .hk-el-p { font-size: var(--dk-font-size-20); }
   .hk-el-b { font-size: var(--dk-font-size-18); }
-  .hk-app-body { gap: var(--dk-space-4); }
+  .hk-app-body { gap: var(--dk-space-5); }
   .hk-status-text { font-size: var(--dk-font-size-15); }
 }
 @media (max-width: 559px) /* token: breakpoint.sm */ {
   .hk-preview { padding: var(--dk-space-2) var(--dk-space-2_5) var(--dk-space-2_5); gap: var(--dk-space-1_5); }
-  .fk-card > .hk-preview { margin: var(--dk-space-2) var(--dk-space-2_5) 0 var(--dk-space-2); border-radius: var(--dk-radius-md); box-shadow: var(--dk-shadow-sticker-md); }
-  .hk-app { gap: var(--dk-space-1); }
+  .fk-card > .hk-preview { margin: var(--dk-space-2) var(--dk-space-2_5) 0 var(--dk-space-2); border-radius: var(--dk-radius-md); }
+  .hk-app { gap: var(--dk-space-1); padding: var(--dk-space-2); box-shadow: var(--dk-shadow-sticker-md); }
   .hk-app-bar { font-size: var(--dk-font-size-10); }
   .hk-app-body { gap: var(--dk-space-0_5); }
   .hk-el { grid-template-columns: 18px minmax(0, 1fr); gap: var(--dk-space-2); }
@@ -927,7 +931,6 @@ html[data-direction='landing'] body {
 @media (min-width: 900px) /* token: breakpoint.md */ {
   .hk-frame-previews:has(> :nth-child(2)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hk-frame-previews:has(> :nth-child(2)) .hk-preview { grid-template-columns: minmax(0, 1fr); }
-  .hk-frame-previews:has(> :nth-child(2)) .hk-status { padding-left: 0; border-left: 0; }
 }
 
 /* reduced motion: five static, numbered frames */

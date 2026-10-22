@@ -4,6 +4,9 @@
     "$type": "color",
     "brown": {
       "$description": "Warm neutrals, from paper to ink.",
+      "0": {
+        "$value": "#ffffff"
+      },
       "50": {
         "$value": "#fffbf0"
       },

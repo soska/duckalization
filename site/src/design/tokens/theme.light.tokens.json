@@ -11,6 +11,10 @@
         "$value": "{color.brown.50}",
         "$description": "Cards, inputs, panels that sit on the page."
       },
+      "screen": {
+        "$value": "{color.brown.0}",
+        "$description": "The app inside the preview: a screen set into a card."
+      },
       "inverse": {
         "$value": "{color.brown.900}",
         "$description": "Ink fills: pressed segments, tabs."
