@@ -18,10 +18,15 @@ export function useReducedMotion(): boolean {
  * reaches the viewport top, 1 when its bottom reaches the viewport bottom
  * (the usual shape for a tall section with a sticky child). Calls `onProgress`
  * on rAF without re-rendering, so callers can write transforms directly.
+ *
+ * With `smoothing` (a time constant in ms), the reported progress chases the
+ * scroll position instead of jumping to it, so a mouse wheel's discrete steps
+ * become a short glide. The page itself still scrolls natively.
  */
 export function useScrollProgress(
   ref: RefObject<HTMLElement | null>,
-  onProgress: (progress: number) => void
+  onProgress: (progress: number) => void,
+  { smoothing = 0 }: { smoothing?: number } = {}
 ): void {
   const callback = useRef(onProgress);
   callback.current = onProgress;
@@ -29,25 +34,47 @@ export function useScrollProgress(
     const el = ref.current;
     if (!el) return;
     let frame = 0;
-    const update = () => {
-      frame = 0;
+    let shown = -1;
+    let last = 0;
+    const target = () => {
       const rect = el.getBoundingClientRect();
       const travel = rect.height - window.innerHeight;
       const p = travel <= 0 ? (rect.top <= 0 ? 1 : 0) : -rect.top / travel;
-      callback.current(Math.min(1, Math.max(0, p)));
+      return Math.min(1, Math.max(0, p));
+    };
+    const update = (now: number) => {
+      frame = 0;
+      const goal = target();
+      if (!smoothing || shown < 0) {
+        shown = goal;
+      } else {
+        // Frame-rate independent exponential approach; snap once sub-pixel.
+        const dt = Math.min(64, now - last);
+        shown += (goal - shown) * (1 - Math.exp(-dt / smoothing));
+        if (Math.abs(goal - shown) < 0.0001) shown = goal;
+        else frame = requestAnimationFrame(update);
+      }
+      last = now;
+      callback.current(shown);
     };
     const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
+      if (frame) return;
+      last = performance.now();
+      frame = requestAnimationFrame(update);
     };
-    update();
+    const snap = () => {
+      shown = -1;
+      schedule();
+    };
+    update(performance.now());
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
+    window.addEventListener('resize', snap);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
+      window.removeEventListener('resize', snap);
     };
-  }, [ref]);
+  }, [ref, smoothing]);
 }
 
 /** True once the element has entered the viewport (one-shot). */

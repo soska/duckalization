@@ -18,6 +18,18 @@ import { EDITED_SOURCE, EDITED_STRING, EDITED_TRANSCRIPT } from './script.ts';
 
 const STEPS = 5;
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+/** Ease in and out of a 0–1 range: motion starts and settles instead of snapping. */
+const smoothstep = (n: number) => n * n * (3 - 2 * n);
+
+/**
+ * Scroll choreography. Ranges are in steps (one step ≈ one viewport of
+ * scroll). `?raw` restores the original linear, unsmoothed timing so the two
+ * can be compared side by side.
+ */
+const RAW = new URLSearchParams(window.location.search).has('raw');
+const MOTION = RAW
+  ? { smoothing: 0, plateFade: 0.1, reveal: 0.08, ease: (n: number) => n }
+  : { smoothing: 110, plateFade: 0.24, reveal: 0.18, ease: smoothstep };
 /** 3671270527149185 → "3 671 270 527 149 185". */
 const groupDigits = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -204,8 +216,10 @@ export function HowItWorks() {
     platesRef.current.forEach((el, i) => {
       const t = s - i;
       let o = 1;
-      if (i > 0) o = Math.min(o, clamp01((t + 0.05) / 0.1));
-      if (i < STEPS - 1) o = Math.min(o, clamp01((1.05 - t) / 0.1));
+      const half = MOTION.plateFade / 2;
+      if (i > 0) o = Math.min(o, clamp01((t + half) / MOTION.plateFade));
+      if (i < STEPS - 1) o = Math.min(o, clamp01((1 + half - t) / MOTION.plateFade));
+      o = MOTION.ease(o);
       const dir = t < 0.5 ? 1 : -1;
       el.style.opacity = String(o);
       el.style.transform = `translate3d(0, ${((1 - o) * 18 * dir).toFixed(2)}px, 0)`;
@@ -213,7 +227,7 @@ export function HowItWorks() {
     });
 
     for (const r of revealRef.current) {
-      const k = clamp01((s - r.plate - r.at) / 0.08);
+      const k = MOTION.ease(clamp01((s - r.plate - r.at) / MOTION.reveal));
       if (r.leader) {
         r.el.style.transform = `scaleX(${k.toFixed(3)})`;
       } else {
@@ -246,7 +260,7 @@ export function HowItWorks() {
         li.toggleAttribute('data-done', i < active);
       });
     }
-  });
+  }, { smoothing: MOTION.smoothing });
 
   /** Rail buttons jump to the middle of a step's scroll window. */
   const goTo = (i: number) => {
