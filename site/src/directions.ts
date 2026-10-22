@@ -35,4 +35,14 @@ export const DIRECTIONS = [
     name: 'Scroll the replay (D + A + B)',
     concept: 'The Duck’s style and hero. One section where scrolling drives the real session replay, with the explanation pinned beside it.',
   },
+  {
+    path: '/h',
+    name: 'F + pinned preview',
+    concept: 'F, with the rendered Cart pinned on top of “How it works”. It changes with every step, and the explanation scrolls beneath it.',
+  },
+  {
+    path: '/i',
+    name: 'F + code ↔ UI',
+    concept: 'F, with code and the rendered UI side by side, joined by lines that light up as each step touches a string.',
+  },
 ] as const;
