@@ -477,22 +477,33 @@ html[data-direction='h'] {
   max-width: 12em;
   text-wrap: balance;
 }
+/* A line of dialogue from the duck: set like a quote, nothing clickable about it. */
 .fk-motto {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  background: var(--duck);
-  color: #23190c;
-  font-weight: 700;
-  font-size: 16px;
-  box-shadow: 3px 3px 0 var(--ink);
+  gap: 14px;
+  max-width: 24em;
+  color: var(--ink);
+  font: 600 clamp(17px, 1.7vw, 21px)/1.3 var(--sans);
+  text-wrap: balance;
 }
-.fk-motto .fk-duck-paren { -webkit-text-stroke-color: #23190c; color: var(--paper); }
-.fk-motto .fk-duck-eye,
-.fk-motto .fk-duck-water { color: #23190c; }
+.fk-duck-motto { flex: none; font-size: 36px; }
+/* One hanging opening mark, pull-quote style: the translated text is an
+   inline-block span, so marks can't flow around it. `quotes: auto` gives
+   “ in English and « in Spanish. */
+.fk-motto { gap: 26px; }
+.fk-motto q { position: relative; quotes: auto; }
+.fk-motto q::before {
+  content: open-quote;
+  position: absolute;
+  right: 100%;
+  top: -0.08em;
+  margin-right: 0.12em;
+  color: var(--beak);
+  font-size: 1.9em;
+  line-height: 1;
+}
+.fk-motto q::after { content: no-close-quote; }
 .fk[data-xray] .fk-motto .fk-s[data-missing] { color: var(--xray-ink); }
 
 /* ================================================================ */
@@ -711,6 +722,16 @@ html[data-direction='h'] {
   }
   .fk-note { margin: 0; }
   .fk-row-body code { font-size: 13px; }
+}
+
+/* Narrow screens: notes can't float beside their line, and stacking them
+   under it would split the listing. Unwrap the rows so lines and notes share
+   one column, then send the notes after the code (desktop is unchanged). */
+@media (max-width: 899px) {
+  .fk-code { display: flex; flex-direction: column; }
+  .fk-code .fk-row { display: contents; }
+  .fk-code .fk-note { order: 1; }
+  .fk-code .fk-note:first-of-type { margin-top: 10px; }
 }
 
 /* 1 · source listing: dark rows, notes on paper */

@@ -290,9 +290,10 @@ export function HowItWorks() {
             })}
           </p>
         </div>
+        {/* The duck speaking, not a control: no pill, no outline, no shadow. */}
         <p className="fk-motto">
-          <Duck className="fk-duck-inline" />
-          {__('It does the judgment. I do the checking.')}
+          <Duck className="fk-duck-motto" />
+          <q>{__('It does the judgment. I do the checking.')}</q>
         </p>
       </div>
 
