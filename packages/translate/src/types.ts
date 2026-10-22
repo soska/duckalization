@@ -6,6 +6,7 @@ export type Catalog = Record<string, Message>;
 export interface CatalogMetaEntry {
   message: Message;
   context?: string;
+  explicitId?: true;
   refs: string[];
 }
 export type CatalogMeta = Record<string, CatalogMetaEntry>;
@@ -18,7 +19,8 @@ export interface GlossaryEntry {
   note?: string;
   /** Team-approved translations, keyed by locale. An array lists several
    * acceptable renderings (e.g. "due" → ["vence", "fecha de vencimiento"]);
-   * any one of them satisfies the check. */
+   * any one of them satisfies the check. A regional locale without its own
+   * key uses its base language's ('es-MX' → 'es'). */
   translations?: Record<string, string | string[]>;
 }
 export type Glossary = Record<string, GlossaryEntry>;

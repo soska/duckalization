@@ -23,5 +23,10 @@ if (!result.diagnostics.some((d) => d.severity === 'error')) {
 }
 ```
 
+Non-JS projects can produce the catalog with their own extractor and set
+`"extractor": "external"`; `extract()` then reads and verifies it
+(`verifyCatalog` is exported for custom checks) and `writeOutputs` refuses
+to overwrite it. See [the formats contract](https://github.com/soska/duckalization/blob/main/docs/formats.md).
+
 Complete usage guide: [duckalization README](https://github.com/soska/duckalization#readme).
 Agents: [`llms.txt`](https://github.com/soska/duckalization/blob/main/llms.txt).

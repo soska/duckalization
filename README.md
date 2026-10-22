@@ -85,6 +85,13 @@ Optional `duckalization.config.json` in the project root:
 Dynamic messages, template expressions, malformed plurals, and colliding IDs
 are errors. Diagnostics include file:line; nothing is written.
 
+Not a JS/TS project? Write `locales/en.json` + `en.meta.json` with your own
+extractor and set `"extractor": "external"`: `duckalize extract` then
+verifies that catalog (IDs included) instead of overwriting it, and the
+translate workflow runs unchanged. The file formats and the ID hash are a
+documented contract: [docs/formats.md](docs/formats.md),
+[packages/id/SPEC.md](packages/id/SPEC.md) (with test vectors).
+
 ## Translate
 
 `duckalize` does not call a model. It writes a brief of missing entries;
@@ -139,7 +146,8 @@ Set `"targetLocales"` in config, or pass locales as arguments. Optional
 
 Terms with `"translate": false` (brand names like *Tweet* or *Git*) must appear
 verbatim or `apply` rejects the file. Per-locale `style` (inline or `.md`)
-is how you pin tone (tú vs. usted) in config.
+is how you pin tone (tú vs. usted) in config. A regional locale (`es-MX`)
+inherits `es` style and glossary translations, adding or overriding its own.
 
 Get the glossary right first: a wrong term is wrong in every string that
 uses it. `translate brief` / `apply` refuse to run for a locale until its

@@ -1,0 +1,208 @@
+{
+  "$comment": "Test vectors for @duckalization/id messageId(). See SPEC.md. Every implementation must reproduce \"input\", \"hash\" and \"id\" for each vector.",
+  "version": 1,
+  "vectors": [
+    {
+      "name": "plain ASCII",
+      "message": "Sign in",
+      "input": "Sign in",
+      "utf16Length": 7,
+      "hash": 8182637392502218,
+      "id": "28ki3q224lm"
+    },
+    {
+      "name": "trailing space is significant",
+      "message": "Sign in ",
+      "input": "Sign in ",
+      "utf16Length": 8,
+      "hash": 8001123783956785,
+      "id": "26s5tiu2ng1"
+    },
+    {
+      "name": "case is significant",
+      "message": "sign in",
+      "input": "sign in",
+      "utf16Length": 7,
+      "hash": 4779817116232138,
+      "id": "1b2axo3s7uy"
+    },
+    {
+      "name": "placeholder text is hashed as-is",
+      "message": "Welcome back, {name}",
+      "input": "Welcome back, {name}",
+      "utf16Length": 20,
+      "hash": 3671270527149185,
+      "id": "105cueagvb5"
+    },
+    {
+      "name": "newline and tab",
+      "message": "Line one\n\tLine two",
+      "input": "Line one\n\tLine two",
+      "utf16Length": 18,
+      "hash": 2755663709653091,
+      "id": "r4sufjlk6b"
+    },
+    {
+      "name": "Latin-1 (precomposed é, U+00E9)",
+      "message": "Café",
+      "input": "Café",
+      "utf16Length": 4,
+      "hash": 7022241938569312,
+      "id": "1x56detb61s"
+    },
+    {
+      "name": "no Unicode normalization (e + U+0301)",
+      "message": "Café",
+      "input": "Café",
+      "utf16Length": 5,
+      "hash": 2291408905591079,
+      "id": "mk8ipvyplz"
+    },
+    {
+      "name": "CJK (BMP)",
+      "message": "登录",
+      "input": "登录",
+      "utf16Length": 2,
+      "hash": 4081726014272046,
+      "id": "146un1lurzi"
+    },
+    {
+      "name": "astral plane: one emoji = two UTF-16 code units",
+      "message": "Ship it 🚀",
+      "input": "Ship it 🚀",
+      "utf16Length": 10,
+      "hash": 7305653311547182,
+      "id": "1zxmysrbe3y"
+    },
+    {
+      "name": "ZWJ emoji sequence",
+      "message": "👩‍💻",
+      "input": "👩‍💻",
+      "utf16Length": 5,
+      "hash": 7745482099161604,
+      "id": "249jlcrf3es"
+    },
+    {
+      "name": "long message",
+      "message": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
+      "input": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.",
+      "utf16Length": 359,
+      "hash": 3126294149227510,
+      "id": "us6fpdxdkm"
+    },
+    {
+      "name": "empty string",
+      "message": "",
+      "input": "",
+      "utf16Length": 0,
+      "hash": 3338908027751811,
+      "id": "wvjl67o803"
+    },
+    {
+      "name": "context",
+      "message": "Book",
+      "context": "verb",
+      "input": "verb\u0000Book",
+      "utf16Length": 9,
+      "hash": 2805764911574213,
+      "id": "rmk6ltnbut"
+    },
+    {
+      "name": "different context, same message",
+      "message": "Book",
+      "context": "noun",
+      "input": "noun\u0000Book",
+      "utf16Length": 9,
+      "hash": 899959834671874,
+      "id": "8v0bu9aewy"
+    },
+    {
+      "name": "empty context is the same as no context",
+      "message": "Book",
+      "context": "",
+      "input": "Book",
+      "utf16Length": 4,
+      "hash": 6923765541751708,
+      "id": "1w69pz98ae4"
+    },
+    {
+      "name": "non-ASCII context",
+      "message": "Abrir",
+      "context": "menú",
+      "input": "menú\u0000Abrir",
+      "utf16Length": 10,
+      "hash": 6338530038843552,
+      "id": "1qetki14qlc"
+    },
+    {
+      "name": "plural: one/other",
+      "message": {
+        "one": "{count} item",
+        "other": "{count} items"
+      },
+      "input": "one\u0001{count} item\u0001other\u0001{count} items",
+      "utf16Length": 36,
+      "hash": 3837054580201784,
+      "id": "11s4ejf8ldk"
+    },
+    {
+      "name": "plural: forms listed out of CLDR order",
+      "message": {
+        "other": "{count} items",
+        "one": "{count} item"
+      },
+      "input": "one\u0001{count} item\u0001other\u0001{count} items",
+      "utf16Length": 36,
+      "hash": 3837054580201784,
+      "id": "11s4ejf8ldk"
+    },
+    {
+      "name": "plural: other only",
+      "message": {
+        "other": "{count} items"
+      },
+      "input": "other\u0001{count} items",
+      "utf16Length": 19,
+      "hash": 6679014082498866,
+      "id": "1trigploppu"
+    },
+    {
+      "name": "plural: all six forms",
+      "message": {
+        "zero": "z",
+        "one": "o",
+        "two": "t",
+        "few": "f",
+        "many": "m",
+        "other": "x"
+      },
+      "input": "zero\u0001z\u0001one\u0001o\u0001two\u0001t\u0001few\u0001f\u0001many\u0001m\u0001other\u0001x",
+      "utf16Length": 39,
+      "hash": 8969548421902329,
+      "id": "2gbftnriu49"
+    },
+    {
+      "name": "plural with context",
+      "message": {
+        "one": "# file",
+        "other": "# files"
+      },
+      "context": "upload",
+      "input": "upload\u0000one\u0001# file\u0001other\u0001# files",
+      "utf16Length": 31,
+      "hash": 8903433735849331,
+      "id": "2fo04zqh7cj"
+    },
+    {
+      "name": "plural with astral characters",
+      "message": {
+        "one": "{count} 🦆",
+        "other": "{count} 🦆🦆"
+      },
+      "input": "one\u0001{count} 🦆\u0001other\u0001{count} 🦆🦆",
+      "utf16Length": 33,
+      "hash": 7156428250666532,
+      "id": "1ygqpr2y0pw"
+    }
+  ]
+}

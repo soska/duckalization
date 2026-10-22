@@ -62,6 +62,7 @@ export function buildCatalog(entries: MessageEntry[]): CatalogBuild {
     meta[id] = {
       message: first.message,
       ...(first.context !== undefined && { context: first.context }),
+      ...(first.explicitId && { explicitId: true as const }),
       refs: [...new Set(group.map(formatRef))].sort(),
     };
   }

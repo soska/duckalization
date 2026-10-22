@@ -21,6 +21,11 @@ export async function writeOutputs(
   result: ExtractResult,
   config: ExtractConfig
 ): Promise<EmitPaths> {
+  if (config.extractor === 'external') {
+    throw new Error(
+      'Refusing to overwrite the source catalog: "extractor" is "external", so another tool owns it.'
+    );
+  }
   const paths = outputPaths(config);
   await fs.mkdir(path.dirname(paths.catalogPath), { recursive: true });
   await fs.writeFile(paths.catalogPath, JSON.stringify(result.catalog, null, 2) + '\n');

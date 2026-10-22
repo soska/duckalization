@@ -14,6 +14,11 @@ messageId('Book', 'verb');
 messageId({ one: '{count} item', other: '{count} items' });
 ```
 
+Implementing IDs in another language (e.g. a Rust extractor)? Follow
+[`SPEC.md`](./SPEC.md) and check against
+[`test-vectors.json`](./test-vectors.json) (also importable as
+`@duckalization/id/test-vectors.json`).
+
 - `messageId(message, context?)`
 - `canonicalMessage(message)`
 - `PLURAL_FORMS`

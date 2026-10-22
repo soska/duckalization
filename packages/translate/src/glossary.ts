@@ -2,6 +2,7 @@ import path from 'node:path';
 import type { Message } from '@duckalization/id';
 import type { TranslateConfig } from './config.js';
 import { readJson } from './fsio.js';
+import { forLocale } from './locale.js';
 import { messageForms } from './placeholders.js';
 import type { BriefGlossaryEntry, Glossary, GlossaryEntry } from './types.js';
 
@@ -104,7 +105,7 @@ export function glossarySubset(
     const resolved: BriefGlossaryEntry = {};
     if (entry.translate === false) resolved.doNotTranslate = true;
     if (entry.note) resolved.note = entry.note;
-    const approved = entry.translations?.[locale];
+    const approved = forLocale(entry.translations, locale);
     if (approved && approved.length > 0) resolved.approvedTranslation = approved;
     subset[term] = resolved;
   }

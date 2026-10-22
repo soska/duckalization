@@ -7,6 +7,7 @@ import {
 } from './config.js';
 import { readJson, writeJsonSorted } from './fsio.js';
 import { loadGlossary, termApplies } from './glossary.js';
+import { forLocale } from './locale.js';
 import { loadSourceCatalog } from './status.js';
 import type {
   Catalog,
@@ -49,7 +50,7 @@ function termHash(entry: GlossaryEntry, locale: string): string {
 /** A locale's approved renderings as a list — `"tarea"` and `["tarea"]` are
  * the same decision, so they hash and compare the same. */
 function renderings(entry: GlossaryEntry, locale: string): string[] {
-  return asList(entry.translations?.[locale]);
+  return asList(forLocale(entry.translations, locale));
 }
 
 function asList(value: string | string[] | undefined): string[] {
@@ -140,7 +141,7 @@ export async function approveGlossary(
     }
     const hash = termHash(entry, locale);
     if (sidecar[term]?.hash !== hash) {
-      const translation = entry.translations?.[locale];
+      const translation = forLocale(entry.translations, locale);
       sidecar[term] = {
         hash,
         ...(translation?.length && { translation }),

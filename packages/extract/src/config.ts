@@ -14,6 +14,12 @@ export interface ExtractConfig {
   outDir: string;
   /** Locale of the messages in source code. */
   sourceLocale: string;
+  /**
+   * 'js' scans include globs with the built-in JS/TS extractor. 'external'
+   * means another tool (e.g. a Rust extractor) writes the source catalog:
+   * `duckalize extract` then only verifies it and never overwrites it.
+   */
+  extractor: 'js' | 'external';
 }
 
 export const CONFIG_FILENAME = 'duckalization.config.json';
@@ -30,6 +36,7 @@ export const defaultConfig: Omit<ExtractConfig, 'cwd'> = {
   functions: ['__'],
   outDir: 'locales',
   sourceLocale: 'en',
+  extractor: 'js',
 };
 
 /**
@@ -56,5 +63,11 @@ export async function resolveConfig(
     }
   }
 
-  return { ...defaultConfig, ...fromFile, ...overrides, cwd };
+  const config = { ...defaultConfig, ...fromFile, ...overrides, cwd };
+  if (config.extractor !== 'js' && config.extractor !== 'external') {
+    throw new Error(
+      `Unknown "extractor" ${JSON.stringify(config.extractor)} in config: expected "js" or "external"`
+    );
+  }
+  return config;
 }

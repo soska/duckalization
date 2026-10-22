@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import pc from 'picocolors';
-import { extract, writeOutputs, type Diagnostic } from '@duckalization/extract';
+import { extract, outputPaths, writeOutputs, type Diagnostic } from '@duckalization/extract';
 import {
   applyOutput,
   approve,
@@ -26,6 +26,8 @@ const HELP = `duckalize — content-addressed i18n tooling
 
 Usage:
   duckalize extract                     Scan source, write <outDir>/<locale>.json + .meta.json
+                                        (with "extractor": "external": verify that catalog
+                                        against the format contract instead; writes nothing)
   duckalize translate status            Missing/orphaned counts per target locale
   duckalize translate check             Exit 1 if any target locale has missing entries (CI)
   duckalize translate brief [locale…]   Write work orders to <outDir>/.work/<locale>.brief.json
@@ -91,6 +93,19 @@ async function runExtract(flags: Flags): Promise<number> {
 
   const errors = result.diagnostics.filter((d) => d.severity === 'error');
   for (const d of flags.silent ? errors : result.diagnostics) printExtractDiagnostic(d);
+
+  if (result.config.extractor === 'external') {
+    if (errors.length > 0) {
+      console.error(pc.red(`✗ ${errors.length} error${errors.length === 1 ? '' : 's'} in the externally extracted catalog.`));
+      return 1;
+    }
+    if (!flags.silent) {
+      const { messages } = result.stats;
+      const catalog = path.relative(result.config.cwd, outputPaths(result.config).catalogPath);
+      console.log(`${pc.green('✓')} ${messages} message${messages === 1 ? '' : 's'} in ${pc.cyan(catalog)} verified (external extractor — nothing written)`);
+    }
+    return 0;
+  }
 
   const { files, calls, messages, durationMs } = result.stats;
   const summary = `${messages} unique message${messages === 1 ? '' : 's'} from ${calls} call${calls === 1 ? '' : 's'} in ${files} file${files === 1 ? '' : 's'} (${durationMs.toFixed(0)}ms)`;
