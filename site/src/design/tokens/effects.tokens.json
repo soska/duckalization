@@ -1,0 +1,38 @@
+{
+  "$description": "Effect styles. Figma: one effect style per token; the color is bound to the Theme variable color.shadow.sticker.",
+  "shadow": {
+    "$type": "shadow",
+    "sticker": {
+      "sm": {
+        "$value": {
+          "color": "{color.shadow.sticker}",
+          "offsetX": "2px",
+          "offsetY": "2px",
+          "blur": "0px",
+          "spread": "0px"
+        },
+        "$description": "Small controls: steppers, compact buttons."
+      },
+      "md": {
+        "$value": {
+          "color": "{color.shadow.sticker}",
+          "offsetX": "3px",
+          "offsetY": "3px",
+          "blur": "0px",
+          "spread": "0px"
+        },
+        "$description": "Buttons, the play button, the active chapter."
+      },
+      "lg": {
+        "$value": {
+          "color": "{color.shadow.sticker}",
+          "offsetX": "5px",
+          "offsetY": "5px",
+          "blur": "0px",
+          "spread": "0px"
+        },
+        "$description": "The app card and the terminal: the page's protagonists."
+      }
+    }
+  }
+}

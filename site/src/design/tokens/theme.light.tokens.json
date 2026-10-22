@@ -1,0 +1,158 @@
+{
+  "$description": "Semantic colors, light mode. Figma collection: Theme, mode: Light. Keys must match theme.dark.tokens.json.",
+  "color": {
+    "$type": "color",
+    "surface": {
+      "page": {
+        "$value": "{color.brown.100}",
+        "$description": "Page background."
+      },
+      "raised": {
+        "$value": "{color.brown.50}",
+        "$description": "Cards, inputs, panels that sit on the page."
+      },
+      "inverse": {
+        "$value": "{color.brown.900}",
+        "$description": "Ink fills: pressed segments, tabs."
+      }
+    },
+    "text": {
+      "default": {
+        "$value": "{color.brown.900}",
+        "$description": "Body text and ink."
+      },
+      "muted": {
+        "$value": "{color.brown.600}",
+        "$description": "Secondary text."
+      },
+      "inverse": {
+        "$value": "{color.brown.100}",
+        "$description": "Text on an ink (text.default) fill."
+      },
+      "on-accent": {
+        "$value": "{color.brown.900}",
+        "$description": "Text on the duck yellow, in both modes."
+      },
+      "on-color": {
+        "$value": "{color.brown.50}",
+        "$description": "Text on saturated fills (pond, danger)."
+      }
+    },
+    "border": {
+      "default": {
+        "$value": "{color.brown.900}",
+        "$description": "Sticker outlines and rules."
+      },
+      "subtle": {
+        "$value": "{color.brown.200}",
+        "$description": "Hairlines, dashed dividers, tracks."
+      }
+    },
+    "shadow": {
+      "sticker": {
+        "$value": "{color.brown.900}",
+        "$description": "Offset sticker shadows (see effects)."
+      }
+    },
+    "accent": {
+      "duck": {
+        "$value": "{color.yellow.500}",
+        "$description": "Duck yellow: primary actions, highlights."
+      },
+      "beak": {
+        "$value": "{color.orange.500}",
+        "$description": "Orange: eyebrows, links, the human."
+      },
+      "pond": {
+        "$value": "{color.teal.700}",
+        "$description": "Teal: the agent, success, focus."
+      }
+    },
+    "status": {
+      "danger": {
+        "$value": "{color.red.600}",
+        "$description": "Rejections and errors."
+      },
+      "success": {
+        "$value": "{color.teal.700}",
+        "$description": "Passed checks."
+      },
+      "warning": {
+        "$value": "{color.orange.500}",
+        "$description": "Warnings."
+      }
+    },
+    "wash": {
+      "pond": {
+        "$value": "{color.teal.100}",
+        "$description": "Teal tint on raised surfaces (agent areas, done steps)."
+      },
+      "danger": {
+        "$value": "{color.red.600-a14}",
+        "$description": "Translucent red behind flagged text."
+      },
+      "duck": {
+        "$value": "{color.yellow.500-a34}",
+        "$description": "Translucent yellow behind highlighted strings."
+      }
+    },
+    "stamp": {
+      "danger": {
+        "$value": "{color.red.100}",
+        "$description": "Rejected stamp fill."
+      },
+      "success": {
+        "$value": "{color.teal.100}",
+        "$description": "Applied stamp fill."
+      },
+      "warning": {
+        "$value": "{color.orange.100}",
+        "$description": "Warning stamp fill."
+      }
+    },
+    "xray": {
+      "bg": {
+        "$value": "{color.pink.100}",
+        "$description": "Fallback highlight fill."
+      },
+      "fg": {
+        "$value": "{color.pink.700}",
+        "$description": "Fallback highlight text and tags."
+      }
+    },
+    "terminal": {
+      "bg": {
+        "$value": "{color.brown.900}",
+        "$description": "Terminal and code background."
+      },
+      "fg": {
+        "$value": "{color.brown.150}",
+        "$description": "Terminal text."
+      },
+      "muted": {
+        "$value": "{color.brown.450}",
+        "$description": "Terminal secondary text, line numbers."
+      },
+      "divider": {
+        "$value": "{color.brown.150-a20}",
+        "$description": "Rules inside the terminal."
+      },
+      "ok": {
+        "$value": "{color.green.300}",
+        "$description": "Success output."
+      },
+      "err": {
+        "$value": "{color.red.300}",
+        "$description": "Error output."
+      },
+      "warn": {
+        "$value": "{color.yellow.300}",
+        "$description": "Warning output."
+      },
+      "hit": {
+        "$value": "{color.yellow.500-a20}",
+        "$description": "Highlighted code line."
+      }
+    }
+  }
+}

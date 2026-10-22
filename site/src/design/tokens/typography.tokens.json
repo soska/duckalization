@@ -1,0 +1,260 @@
+{
+  "$description": "Text styles. Figma: one text style per token (fluid styles use the max size; the clamp lives in $extensions).",
+  "text": {
+    "$type": "typography",
+    "display": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.800}",
+        "fontSize": "{font.size.108}",
+        "lineHeight": "{font.lineHeight.92}",
+        "letterSpacing": "{font.letterSpacing.tight}"
+      },
+      "$description": "Hero headline. Fluid 46–108px.",
+      "$extensions": {
+        "dev.duckalization.fontStretch": "{font.stretch.75}",
+        "dev.duckalization.fluid": {
+          "min": "{font.size.46}",
+          "max": "{font.size.108}",
+          "vw": 7.6
+        }
+      }
+    },
+    "heading-2": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.800}",
+        "fontSize": "{font.size.68}",
+        "lineHeight": "{font.lineHeight.95}",
+        "letterSpacing": "{font.letterSpacing.tight}"
+      },
+      "$description": "Section headline. Fluid 34–68px.",
+      "$extensions": {
+        "dev.duckalization.fontStretch": "{font.stretch.78}",
+        "dev.duckalization.fluid": {
+          "min": "{font.size.34}",
+          "max": "{font.size.68}",
+          "vw": 5.4
+        }
+      }
+    },
+    "heading-3": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.800}",
+        "fontSize": "{font.size.34}",
+        "lineHeight": "{font.lineHeight.100}",
+        "letterSpacing": "{font.letterSpacing.snug}"
+      },
+      "$description": "Step title in “How it works”. Fluid 24–34px.",
+      "$extensions": {
+        "dev.duckalization.fontStretch": "{font.stretch.80}",
+        "dev.duckalization.fluid": {
+          "min": "{font.size.24}",
+          "max": "{font.size.34}",
+          "vw": 2.6
+        }
+      }
+    },
+    "heading-4": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.800}",
+        "fontSize": "{font.size.30}",
+        "lineHeight": "{font.lineHeight.110}"
+      },
+      "$description": "Card headline. Fluid 22–30px.",
+      "$extensions": {
+        "dev.duckalization.fontStretch": "{font.stretch.85}",
+        "dev.duckalization.fluid": {
+          "min": "{font.size.22}",
+          "max": "{font.size.30}",
+          "vw": 2.4
+        }
+      }
+    },
+    "lede": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.400}",
+        "fontSize": "{font.size.20}",
+        "lineHeight": "{font.lineHeight.150}"
+      },
+      "$description": "Intro paragraph under a headline. Fluid 17–20px.",
+      "$extensions": {
+        "dev.duckalization.fluid": {
+          "min": "{font.size.17}",
+          "max": "{font.size.20}",
+          "vw": 1.6
+        }
+      }
+    },
+    "body": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.400}",
+        "fontSize": "{font.size.17}",
+        "lineHeight": "{font.lineHeight.150}"
+      },
+      "$description": "Running text."
+    },
+    "body-sm": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.400}",
+        "fontSize": "{font.size.16}",
+        "lineHeight": "{font.lineHeight.140}"
+      },
+      "$description": "Step descriptions."
+    },
+    "caption": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.400}",
+        "fontSize": "{font.size.14}",
+        "lineHeight": "{font.lineHeight.140}"
+      },
+      "$description": "Figure captions, secondary notes."
+    },
+    "quote": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.600}",
+        "fontSize": "{font.size.20}",
+        "lineHeight": "{font.lineHeight.130}"
+      },
+      "$description": "The duck's line. Fluid 17–20px.",
+      "$extensions": {
+        "dev.duckalization.fluid": {
+          "min": "{font.size.17}",
+          "max": "{font.size.20}",
+          "vw": 1.7
+        }
+      }
+    },
+    "label": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.650}",
+        "fontSize": "{font.size.15}",
+        "lineHeight": "{font.lineHeight.120}"
+      },
+      "$description": "Toolbar controls and step buttons."
+    },
+    "button": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.700}",
+        "fontSize": "{font.size.16}",
+        "lineHeight": "{font.lineHeight.120}"
+      },
+      "$description": "Buttons."
+    },
+    "note": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.650}",
+        "fontSize": "{font.size.13}",
+        "lineHeight": "{font.lineHeight.130}"
+      },
+      "$description": "Sticker notes beside code."
+    },
+    "wordmark": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.750}",
+        "fontSize": "{font.size.18}",
+        "lineHeight": "{font.lineHeight.100}",
+        "letterSpacing": "{font.letterSpacing.tight}"
+      },
+      "$description": "The duckalization wordmark."
+    },
+    "eyebrow": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.700}",
+        "fontSize": "{font.size.14}",
+        "lineHeight": "{font.lineHeight.100}",
+        "letterSpacing": "{font.letterSpacing.wide}"
+      },
+      "$description": "Section eyebrows."
+    },
+    "code": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.500}",
+        "fontSize": "{font.size.12}",
+        "lineHeight": "{font.lineHeight.165}"
+      },
+      "$description": "Code listings and JSON."
+    },
+    "terminal": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.500}",
+        "fontSize": "{font.size.12}",
+        "lineHeight": "{font.lineHeight.165}"
+      },
+      "$description": "Terminal output."
+    },
+    "editor": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.500}",
+        "fontSize": "{font.size.12}",
+        "lineHeight": "{font.lineHeight.175}"
+      },
+      "$description": "The editor pane."
+    },
+    "code-label": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.700}",
+        "fontSize": "{font.size.13}",
+        "lineHeight": "{font.lineHeight.120}"
+      },
+      "$description": "Mono labels: pane titles, zone labels."
+    },
+    "tag": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.600}",
+        "fontSize": "{font.size.10}",
+        "lineHeight": "{font.lineHeight.100}",
+        "letterSpacing": "{font.letterSpacing.wide}"
+      },
+      "$description": "ID and fallback chips."
+    },
+    "app-heading": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.800}",
+        "fontSize": "{font.size.30}",
+        "lineHeight": "{font.lineHeight.100}",
+        "letterSpacing": "{font.letterSpacing.snug}"
+      },
+      "$description": "The demo app's heading (sm 30 → md 38 → lg 46).",
+      "$extensions": {
+        "dev.duckalization.fontStretch": "{font.stretch.78}"
+      }
+    },
+    "app-body": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.400}",
+        "fontSize": "{font.size.17}",
+        "lineHeight": "{font.lineHeight.130}"
+      },
+      "$description": "The demo app's body text (sm 17 → md 18 → lg 20)."
+    },
+    "app-button": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.750}",
+        "fontSize": "{font.size.16}",
+        "lineHeight": "{font.lineHeight.120}"
+      },
+      "$description": "The demo app's button (sm 16 → md 17 → lg 18)."
+    }
+  }
+}

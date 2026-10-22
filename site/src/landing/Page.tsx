@@ -10,6 +10,7 @@
  */
 import '@fontsource-variable/bricolage-grotesque/standard.css';
 import '@fontsource-variable/jetbrains-mono';
+import '../design/tokens.css';
 import './landing.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { INSTALL, LLMS_URL, NODE_REQUIREMENT, REPO_URL, VERSION } from '../shared/facts.ts';

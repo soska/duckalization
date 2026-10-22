@@ -1,0 +1,533 @@
+{
+  "$description": "Raw values with no meaning attached. Figma collection: Primitives (one mode). Semantic roles live in theme.*.tokens.json and reference these.",
+  "color": {
+    "$type": "color",
+    "brown": {
+      "$description": "Warm neutrals, from paper to ink.",
+      "50": {
+        "$value": "#fffbf0"
+      },
+      "100": {
+        "$value": "#fff3d6"
+      },
+      "150": {
+        "$value": "#fbefd6"
+      },
+      "200": {
+        "$value": "#e8d7b0"
+      },
+      "400": {
+        "$value": "#bca987"
+      },
+      "450": {
+        "$value": "#b7a37f"
+      },
+      "550": {
+        "$value": "#8f7d5f"
+      },
+      "600": {
+        "$value": "#74624a"
+      },
+      "800": {
+        "$value": "#3a2e1c"
+      },
+      "850": {
+        "$value": "#241b0f"
+      },
+      "900": {
+        "$value": "#23190c"
+      },
+      "925": {
+        "$value": "#19130a"
+      },
+      "950": {
+        "$value": "#0f0b06"
+      },
+      "150-a20": {
+        "$value": "#fbefd633",
+        "$description": "brown.150 at 20% (terminal dividers)."
+      }
+    },
+    "yellow": {
+      "300": {
+        "$value": "#ffd166"
+      },
+      "400": {
+        "$value": "#ffc94a"
+      },
+      "500": {
+        "$value": "#ffc21a"
+      },
+      "400-a34": {
+        "$value": "#ffc94a57",
+        "$description": "yellow.400 at 34%."
+      },
+      "500-a20": {
+        "$value": "#ffc21a33",
+        "$description": "yellow.500 at 20%."
+      },
+      "500-a34": {
+        "$value": "#ffc21a57",
+        "$description": "yellow.500 at 34%."
+      }
+    },
+    "orange": {
+      "100": {
+        "$value": "#fde7d4",
+        "$description": "orange.500 at 13% over brown.50."
+      },
+      "400": {
+        "$value": "#ff8a3d"
+      },
+      "500": {
+        "$value": "#ee5f1b"
+      },
+      "900": {
+        "$value": "#402915",
+        "$description": "orange.400 at 13% over brown.850."
+      }
+    },
+    "teal": {
+      "100": {
+        "$value": "#e0e9de",
+        "$description": "teal.700 at 13% over brown.50."
+      },
+      "300": {
+        "$value": "#5fd0c4"
+      },
+      "700": {
+        "$value": "#0d6e68"
+      },
+      "900": {
+        "$value": "#2c3327",
+        "$description": "teal.300 at 13% over brown.850."
+      }
+    },
+    "red": {
+      "100": {
+        "$value": "#f8ded8",
+        "$description": "red.600 at 13% over brown.50."
+      },
+      "300": {
+        "$value": "#ff8f8f"
+      },
+      "400": {
+        "$value": "#ff6b7d"
+      },
+      "600": {
+        "$value": "#c81e3a"
+      },
+      "900": {
+        "$value": "#40251d",
+        "$description": "red.400 at 13% over brown.850."
+      },
+      "400-a14": {
+        "$value": "#ff6b7d24",
+        "$description": "red.400 at 14%."
+      },
+      "600-a14": {
+        "$value": "#c81e3a24",
+        "$description": "red.600 at 14%."
+      }
+    },
+    "pink": {
+      "100": {
+        "$value": "#ffc8e1"
+      },
+      "200": {
+        "$value": "#ffb8d7"
+      },
+      "700": {
+        "$value": "#9c0f55"
+      },
+      "900": {
+        "$value": "#5c1c3c"
+      }
+    },
+    "green": {
+      "300": {
+        "$value": "#93e0a8"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": [
+          "Bricolage Grotesque Variable",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "mono": {
+        "$value": [
+          "JetBrains Mono Variable",
+          "ui-monospace",
+          "SF Mono",
+          "Menlo",
+          "monospace"
+        ]
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "400": {
+        "$value": 400
+      },
+      "500": {
+        "$value": 500
+      },
+      "600": {
+        "$value": 600
+      },
+      "650": {
+        "$value": 650
+      },
+      "700": {
+        "$value": 700
+      },
+      "750": {
+        "$value": 750
+      },
+      "800": {
+        "$value": 800
+      }
+    },
+    "stretch": {
+      "$type": "number",
+      "$description": "Width axis of Bricolage Grotesque, in percent (CSS font-stretch).",
+      "$extensions": {
+        "dev.duckalization.cssUnit": "%"
+      },
+      "75": {
+        "$value": 75
+      },
+      "78": {
+        "$value": 78
+      },
+      "80": {
+        "$value": 80
+      },
+      "85": {
+        "$value": 85
+      },
+      "100": {
+        "$value": 100
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "9": {
+        "$value": "9px"
+      },
+      "10": {
+        "$value": "10px"
+      },
+      "11": {
+        "$value": "11px"
+      },
+      "12": {
+        "$value": "12px"
+      },
+      "13": {
+        "$value": "13px"
+      },
+      "14": {
+        "$value": "14px"
+      },
+      "15": {
+        "$value": "15px"
+      },
+      "16": {
+        "$value": "16px"
+      },
+      "17": {
+        "$value": "17px"
+      },
+      "18": {
+        "$value": "18px"
+      },
+      "20": {
+        "$value": "20px"
+      },
+      "22": {
+        "$value": "22px"
+      },
+      "24": {
+        "$value": "24px"
+      },
+      "26": {
+        "$value": "26px"
+      },
+      "30": {
+        "$value": "30px"
+      },
+      "34": {
+        "$value": "34px"
+      },
+      "38": {
+        "$value": "38px"
+      },
+      "46": {
+        "$value": "46px"
+      },
+      "56": {
+        "$value": "56px"
+      },
+      "68": {
+        "$value": "68px"
+      },
+      "72": {
+        "$value": "72px"
+      },
+      "108": {
+        "$value": "108px"
+      }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "$description": "Unitless multipliers; the key is the value in percent (Figma line height %).",
+      "92": {
+        "$value": 0.92
+      },
+      "95": {
+        "$value": 0.95
+      },
+      "100": {
+        "$value": 1
+      },
+      "110": {
+        "$value": 1.1
+      },
+      "115": {
+        "$value": 1.15
+      },
+      "120": {
+        "$value": 1.2
+      },
+      "130": {
+        "$value": 1.3
+      },
+      "140": {
+        "$value": 1.4
+      },
+      "150": {
+        "$value": 1.5
+      },
+      "165": {
+        "$value": 1.65
+      },
+      "175": {
+        "$value": 1.75
+      }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "tight": {
+        "$value": "-0.01em"
+      },
+      "snug": {
+        "$value": "-0.005em"
+      },
+      "wide": {
+        "$value": "0.02em"
+      }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "4px grid; `_5` is a half step (space.1_5 = 6px).",
+    "px": {
+      "$value": "1px"
+    },
+    "0_5": {
+      "$value": "2px"
+    },
+    "1": {
+      "$value": "4px"
+    },
+    "1_5": {
+      "$value": "6px"
+    },
+    "2": {
+      "$value": "8px"
+    },
+    "2_5": {
+      "$value": "10px"
+    },
+    "3": {
+      "$value": "12px"
+    },
+    "3_5": {
+      "$value": "14px"
+    },
+    "4": {
+      "$value": "16px"
+    },
+    "4_5": {
+      "$value": "18px"
+    },
+    "5": {
+      "$value": "20px"
+    },
+    "6": {
+      "$value": "24px"
+    },
+    "7": {
+      "$value": "28px"
+    },
+    "8": {
+      "$value": "32px"
+    },
+    "9": {
+      "$value": "36px"
+    },
+    "10": {
+      "$value": "40px"
+    },
+    "12": {
+      "$value": "48px"
+    },
+    "14": {
+      "$value": "56px"
+    },
+    "16": {
+      "$value": "64px"
+    },
+    "18": {
+      "$value": "72px"
+    },
+    "24": {
+      "$value": "96px"
+    },
+    "28": {
+      "$value": "112px"
+    },
+    "30": {
+      "$value": "120px"
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "xs": {
+      "$value": "4px"
+    },
+    "sm": {
+      "$value": "8px"
+    },
+    "md": {
+      "$value": "12px"
+    },
+    "lg": {
+      "$value": "16px"
+    },
+    "xl": {
+      "$value": "24px"
+    },
+    "full": {
+      "$value": "999px",
+      "$description": "Pills, and circles on square elements."
+    }
+  },
+  "borderWidth": {
+    "$type": "dimension",
+    "thin": {
+      "$value": "1.5px"
+    },
+    "default": {
+      "$value": "2px"
+    },
+    "thick": {
+      "$value": "2.5px",
+      "$description": "The agent's dashed outline."
+    },
+    "focus": {
+      "$value": "3px"
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "press": {
+      "$value": "140ms"
+    },
+    "fast": {
+      "$value": "180ms"
+    },
+    "base": {
+      "$value": "260ms"
+    },
+    "slow": {
+      "$value": "320ms"
+    },
+    "slower": {
+      "$value": "480ms"
+    },
+    "deliberate": {
+      "$value": "640ms"
+    }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "out": {
+      "$value": [
+        0.2,
+        0.8,
+        0.2,
+        1
+      ],
+      "$description": "Arrivals: fast start, soft landing."
+    },
+    "standard": {
+      "$value": [
+        0.3,
+        0,
+        0.3,
+        1
+      ],
+      "$description": "The duck's head moves."
+    },
+    "ease": {
+      "$value": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "$description": "CSS `ease`."
+    },
+    "in-out": {
+      "$value": [
+        0.42,
+        0,
+        0.58,
+        1
+      ],
+      "$description": "CSS `ease-in-out`."
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Media queries can't read custom properties: CSS uses these literals with a /* token: breakpoint.x */ comment.",
+    "sm": {
+      "$value": "560px"
+    },
+    "md": {
+      "$value": "900px"
+    },
+    "lg": {
+      "$value": "1100px"
+    },
+    "tall": {
+      "$value": "760px",
+      "$description": "min-height for the roomy desktop figure (with breakpoint.lg)."
+    }
+  },
+  "zIndex": {
+    "$type": "number",
+    "sticky": {
+      "$value": 50
+    }
+  }
+}
