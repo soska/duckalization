@@ -150,134 +150,6 @@ function useMedia(query: string): boolean {
 /** Phones too short to hold the pinned app and a whole step at once. */
 const SHORT_PHONE = '(max-width: 559px) and (max-height: 740px)';
 
-/* -------------------------------------------------------------- */
-/* Step 1 wires: each __() line → the element it renders above.    */
-/* -------------------------------------------------------------- */
-
-/** Offset of `el` inside `host`, summed along offsetParents: transforms
- * (the scrub's fades and reveals) don't count, so geometry stays put. */
-function offsetIn(el: HTMLElement, host: HTMLElement): { x: number; y: number } | null {
-  let x = 0;
-  let y = 0;
-  let node: HTMLElement | null = el;
-  while (node && node !== host) {
-    x += node.offsetLeft;
-    y += node.offsetTop;
-    node = node.offsetParent as HTMLElement | null;
-  }
-  return node === host ? { x, y } : null;
-}
-
-/** Scroll position (in steps) → how much of wire `i` is drawn, 0–1. They draw
- * in one after another, hold, then pull back as step 2 arrives. */
-function wireAt(s: number, i: number): number {
-  const draw = clamp01((s - (0.3 + i * 0.09)) / 0.2);
-  const retract = clamp01((s - 0.8) / 0.16);
-  return draw * (1 - retract);
-}
-
-const WIRES = [1, 2, 3];
-
-/**
- * Three wires routed through the left gutter: out of each code line's
- * marker, up a lane, into the matching marker of the rendered app. `control`
- * receives a setter the scroll handler calls with the step position; without
- * one (reduced motion) the wires are simply drawn.
- */
-function Wires({
-  host,
-  control,
-}: {
-  host: RefObject<HTMLElement | null>;
-  control?: RefObject<((s: number) => void) | null>;
-}) {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const lastS = useRef(0);
-
-  // Re-measure after every render (a locale switch reflows the notes) and on
-  // resize. A passive effect: the host's ref is attached after our layout phase.
-  useEffect(() => {
-    const root = host.current;
-    const svg = svgRef.current;
-    if (!root || !svg) return;
-    const measure = () => {
-      const ends = WIRES.map((n) => {
-        const from = root.querySelector<HTMLElement>(`[data-wire-from="${n}"]`);
-        const to = root.querySelector<HTMLElement>(`[data-wire-to="${n}"]`);
-        const a = from && offsetIn(from, root);
-        const b = to && offsetIn(to, root);
-        if (!from || !to || !a || !b) return null;
-        return {
-          sx: a.x,
-          sy: a.y + from.offsetHeight / 2,
-          tx: b.x,
-          ty: b.y + to.offsetHeight / 2,
-        };
-      });
-      // Lanes run left of the markers *and* of the step heading, so the wires
-      // never cross the title text they pass on the way up.
-      const head = root.querySelector<HTMLElement>('.fk-plate-head');
-      const headX = (head && offsetIn(head, root)?.x) ?? Infinity;
-      const left = Math.min(headX, ...ends.map((e) => (e ? Math.min(e.sx, e.tx) : Infinity)));
-      svg.querySelectorAll<SVGGElement>('g[data-i]').forEach((g, i) => {
-        const e = ends[i];
-        if (!e || !Number.isFinite(left)) {
-          g.style.display = 'none';
-          return;
-        }
-        g.style.display = '';
-        // Wire 1 takes the outer lane, so the crossings stay down by the code
-        // and the wires arrive at the app untangled.
-        const lane = Math.max(4, left - 30 + i * 9);
-        const r = Math.min(8, (e.sy - e.ty) / 2);
-        const d =
-          `M ${e.sx} ${e.sy} H ${lane + r} Q ${lane} ${e.sy} ${lane} ${e.sy - r} ` +
-          `V ${e.ty + r} Q ${lane} ${e.ty} ${lane + r} ${e.ty} H ${e.tx}`;
-        g.querySelectorAll('path').forEach((path) => path.setAttribute('d', d));
-      });
-    };
-    measure();
-    // The card keeps its size while fonts load and text reflows inside it, so
-    // watch the blocks that hold the endpoints too.
-    const ro = new ResizeObserver(measure);
-    ro.observe(root);
-    root.querySelectorAll('[data-wire-from], [data-wire-to]').forEach((el) => {
-      if (el.parentElement) ro.observe(el.parentElement);
-      const block = el.closest('.fk-code, .hk-app');
-      if (block) ro.observe(block);
-    });
-    void document.fonts?.ready.then(measure);
-    return () => ro.disconnect();
-  });
-
-  useEffect(() => {
-    if (!control) return;
-    const set = (s: number) => {
-      lastS.current = s;
-      svgRef.current?.querySelectorAll<SVGGElement>('g[data-i]').forEach((g, i) => {
-        const k = wireAt(s, i);
-        g.style.opacity = k > 0 ? '1' : '0';
-        g.style.strokeDashoffset = String(1 - k);
-      });
-    };
-    control.current = set;
-    set(lastS.current);
-    return () => {
-      control.current = null;
-    };
-  }, [control]);
-
-  return (
-    <svg ref={svgRef} className="hk-wires" data-scrub={control ? '' : undefined} aria-hidden="true">
-      {WIRES.map((n, i) => (
-        <g key={n} data-i={i} data-n={n}>
-          <path className="hk-wire-under" pathLength={1} />
-          <path className="hk-wire" pathLength={1} />
-        </g>
-      ))}
-    </svg>
-  );
-}
 
 /* -------------------------------------------------------------- */
 
@@ -300,8 +172,6 @@ export function HowItWorks() {
   const previewCtl = useRef<((s: PreviewState) => void) | null>(null);
   const previewStateRef = useRef<PreviewState>('write');
   const cardRef = useRef<HTMLDivElement>(null);
-  const plate1Ref = useRef<HTMLElement>(null);
-  const wiresCtl = useRef<((s: number) => void) | null>(null);
   const moodRef = useRef<DuckMood>('idle');
   // A re-render (e.g. a locale switch) resets the duck to idle; let the next
   // scroll frame put its mood back.
@@ -373,8 +243,6 @@ export function HowItWorks() {
       moodRef.current = mood;
       checkerRef.current.firstElementChild?.setAttribute('data-mood', mood);
     }
-
-    wiresCtl.current?.(s);
 
     const state = previewStateAt(s);
     if (state !== previewStateRef.current) {
@@ -448,7 +316,6 @@ export function HowItWorks() {
 
           <div ref={cardRef} className="fk-card">
             {!reduced && <PinnedPreview control={previewCtl} />}
-            {!reduced && <Wires host={cardRef} control={wiresCtl} />}
 
             <div className="fk-plates">
               {/* 1 · Write */}
@@ -456,8 +323,6 @@ export function HowItWorks() {
                 index={0}
                 title={titles[0]}
                 previews={reduced ? ['write'] : undefined}
-                figureRef={plate1Ref}
-                overlay={reduced ? <Wires host={plate1Ref} /> : undefined}
                 body={__('The string in your code is the message. Nothing else changes.')}
                 caption={__('No translation keys. IDs are hashed from the text. The same string in many places is one catalog entry.')}
               >
@@ -482,7 +347,7 @@ export function HowItWorks() {
                           <span
                             className="hk-marker hk-port"
                             data-n={marker}
-                            data-wire-from={marker}
+                            data-pair={marker}
                             aria-hidden="true"
                             data-at={0.18 + marker * 0.04}
                           >

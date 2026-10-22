@@ -133,8 +133,8 @@ function SlotLayers({
 
 /**
  * The app being localized: the three strings from src/Cart.tsx, rendered.
- * The numbered markers match the code lines; in step 1 a wire joins each
- * `__()` line to its marker here (see Wires in HowItWorks.tsx).
+ * The numbered markers match the ones on the `__()` lines in the code below:
+ * same number, same color (`data-pair`).
  */
 export function Preview({
   state,
@@ -169,7 +169,7 @@ export function Preview({
         </p>
         <div className="hk-app-body">
           <p className="hk-el hk-el-h">
-            <span className="hk-marker" data-n="1" data-wire-to="1" aria-hidden="true">
+            <span className="hk-marker" data-n="1" data-pair="1" aria-hidden="true">
               1
             </span>
             <SlotLayers
@@ -192,7 +192,7 @@ export function Preview({
             />
           </p>
           <p className="hk-el hk-el-p">
-            <span className="hk-marker" data-n="2" data-wire-to="2" aria-hidden="true">
+            <span className="hk-marker" data-n="2" data-pair="2" aria-hidden="true">
               2
             </span>
             <SlotLayers
@@ -215,7 +215,7 @@ export function Preview({
             />
           </p>
           <p className="hk-el hk-el-b">
-            <span className="hk-marker" data-n="3" data-wire-to="3" aria-hidden="true">
+            <span className="hk-marker" data-n="3" data-pair="3" aria-hidden="true">
               3
             </span>
             <SlotLayers
