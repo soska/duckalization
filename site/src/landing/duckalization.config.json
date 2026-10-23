@@ -1,5 +1,5 @@
 {
-  "include": ["*.tsx"],
+  "include": ["Page.tsx", "Flow.tsx"],
   "functions": ["__", "__s"],
   "outDir": "locales",
   "sourceLocale": "en"

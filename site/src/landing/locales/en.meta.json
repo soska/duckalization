@@ -1,624 +1,324 @@
 {
-  "11iuvymbsoe": {
-    "message": "Still in es.json, no longer in en.json: an orphan. prune archives it.",
+  "12q45r1bkv2": {
+    "message": "Build like you always do",
     "refs": [
-      "HowItWorks.tsx:537:30"
+      "Page.tsx:47:44"
     ]
   },
-  "11z1x0tf8px": {
-    "message": "Play",
+  "12xolwm9i83": {
+    "message": "What are you building?",
     "refs": [
-      "Replay.tsx:518:78"
+      "Flow.tsx:166:63"
     ]
   },
-  "12j7duvyjla": {
-    "message": {
-      "one": "{count} is still English-only",
-      "other": "{count} are still English-only"
-    },
+  "148qk9urf6z": {
+    "message": "Translation style",
     "refs": [
-      "Page.tsx:78:18"
+      "Flow.tsx:199:66"
     ]
   },
-  "13nvzb4ez35": {
-    "message": "Rejected. Nothing was written, so your app is still in English.",
+  "14ih4p55u6c": {
+    "message": "Interactive illustration with example translations. In your project, your configured coding agent does the translating.",
     "refs": [
-      "Preview.tsx:152:13"
+      "Flow.tsx:205:38"
     ]
   },
-  "13vl8cid5at": {
-    "message": "How it works",
+  "163nehrgczm": {
+    "message": "No translation keys. No switching gears. Set your languages and style guide, then let your coding agent keep your app translated as you build.",
     "refs": [
-      "HowItWorks.tsx:255:52"
+      "Page.tsx:34:37"
     ]
   },
-  "142smhsnbg1": {
-    "message": "Apply-time checks for two answers from the agent",
+  "169hxwq2p2b": {
+    "message": "An invitation",
     "refs": [
-      "HowItWorks.tsx:458:51"
+      "Flow.tsx:152:40"
     ]
   },
-  "15wbzzvm2ya": {
-    "message": "Same text, same ID, everywhere.",
+  "17458yacmgv": {
+    "message": "Always English",
     "refs": [
-      "HowItWorks.tsx:358:30"
+      "Flow.tsx:171:65"
     ]
   },
-  "176f33q4dj1": {
-    "message": "Every string now has an ID, hashed from its text.",
+  "17nhqxlj91k": {
+    "message": "Stay in your flow",
     "refs": [
-      "Preview.tsx:149:14"
+      "Flow.tsx:157:40"
     ]
   },
-  "17an5tsvsjs": {
-    "message": "Follow one string, {message}, from the line you write to the catalog you ship.",
+  "1dc09b327sn": {
+    "message": "Short & direct",
     "refs": [
-      "HowItWorks.tsx:257:14"
+      "Flow.tsx:199:337"
     ]
   },
-  "18bqg589e7r": {
-    "message": "You edit the copy. New text, new ID.",
+  "1ggoxrzntcm": {
+    "message": "Warm & friendly",
     "refs": [
-      "HowItWorks.tsx:525:30"
+      "Flow.tsx:199:196"
     ]
   },
-  "19y16nvuua0": {
-    "message": "you",
+  "1k0nlwdtqb9": {
+    "message": "A new project",
     "refs": [
-      "Replay.tsx:321:19"
+      "Flow.tsx:152:19"
     ]
   },
-  "1b07bm3o4hi": {
-    "message": "The agent’s first answer",
+  "1lgxrcdugnw": {
+    "message": "A little setup. A lot less work.",
     "refs": [
-      "HowItWorks.tsx:424:81"
+      "Page.tsx:40:35"
     ]
   },
-  "1bbkldovkiv": {
-    "message": "Write English inline",
+  "1lj75o8mico": {
+    "message": "Set the voice",
     "refs": [
-      "HowItWorks.tsx:175:5",
-      "Replay.tsx:335:5",
-      "Replay.tsx:342:5"
+      "Flow.tsx:162:65"
     ]
   },
-  "1c5b6eblw1u": {
-    "message": "Your editor",
+  "1mrv4tkor59": {
+    "message": "See it happen",
     "refs": [
-      "Replay.tsx:321:60"
+      "Page.tsx:35:83"
     ]
   },
-  "1cgxqstkcak": {
-    "message": "agent",
+  "1os4fuy8hwz": {
+    "message": "Your agent translates",
     "refs": [
-      "Replay.tsx:332:21"
+      "Flow.tsx:162:86"
     ]
   },
-  "1cxmzy4qboq": {
-    "message": "The CLI never calls a model. Bring whichever agent you like.",
+  "1p9gzgi4hpz": {
+    "message": "You’re building…",
     "refs": [
-      "HowItWorks.tsx:397:23"
+      "Flow.tsx:181:232",
+      "Flow.tsx:181:381"
     ]
   },
-  "1d61huuaojz": {
-    "message": "session player",
+  "1tbyldeczti": {
+    "message": "Just your words. That’s the whole idea.",
     "refs": [
-      "Replay.tsx:451:35"
-    ]
-  },
-  "1fzo4sdnshs": {
-    "message": "What happens to the two IDs",
-    "refs": [
-      "HowItWorks.tsx:536:68"
-    ]
-  },
-  "1g4epozyv6f": {
-    "message": "Your English, rendered exactly as written.",
-    "refs": [
-      "Preview.tsx:148:12"
-    ]
-  },
-  "1h07orxip0q": {
-    "message": "Unknown IDs, empty strings, malformed plurals and invented placeholders are rejected before anything is written.",
-    "refs": [
-      "HowItWorks.tsx:450:23"
-    ]
-  },
-  "1hnvwjwn24i": {
-    "message": "Applied to es.json. Your app is live in Spanish.",
-    "refs": [
-      "Preview.tsx:153:11"
-    ]
-  },
-  "1il5cozqn8i": {
-    "message": "Highlight untranslated",
-    "refs": [
-      "Page.tsx:68:14"
-    ]
-  },
-  "1jdn8xzrjpe": {
-    "message": "Pipeline steps",
-    "refs": [
-      "HowItWorks.tsx:271:48"
-    ]
-  },
-  "1jf4lxzcshp": {
-    "message": "Translation demo",
-    "refs": [
-      "Page.tsx:52:63"
-    ]
-  },
-  "1kk15kibcns": {
-    "message": "Write English. Your agent translates. The duck checks.",
-    "refs": [
-      "Page.tsx:137:35"
-    ]
-  },
-  "1kyh8yydyyg": {
-    "message": "Session transcript. Left and right arrows change chapter.",
-    "refs": [
-      "Replay.tsx:454:19"
-    ]
-  },
-  "1n0o1gahzmt": {
-    "message": "Exact text: no trimming, no case folding.",
-    "refs": [
-      "HowItWorks.tsx:346:30"
-    ]
-  },
-  "1n1huz9o75z": {
-    "message": "A replay of a real session against the same component. Every line in the duckalize pane is what the CLI printed. The agent pane is the only place a model is involved.",
-    "refs": [
-      "Replay.tsx:439:14"
-    ]
-  },
-  "1nxcvv2mqgf": {
-    "message": "deterministic · never calls a model",
-    "refs": [
-      "Replay.tsx:329:13"
-    ]
-  },
-  "1oq6ehy5qe8": {
-    "message": "Every line the CLI printed.",
-    "refs": [
-      "Replay.tsx:436:77"
-    ]
-  },
-  "1pfdkx4262w": {
-    "message": "Waiting for a brief. The agent only sees what duckalize translate brief hands it.",
-    "refs": [
-      "Replay.tsx:246:10"
-    ]
-  },
-  "1ru4vakrjgm": {
-    "message": "Replay",
-    "refs": [
-      "Replay.tsx:518:62"
-    ]
-  },
-  "1t6sw9uoyti": {
-    "message": "Your app",
-    "refs": [
-      "Preview.tsx:162:18"
-    ]
-  },
-  "1tqpfb1r4cd": {
-    "message": "Brief entry",
-    "refs": [
-      "HowItWorks.tsx:368:67"
+      "Page.tsx:36:119"
     ]
   },
   "1u8fb2niukv": {
     "message": "Copy",
     "refs": [
-      "Page.tsx:96:45"
+      "Page.tsx:45:239",
+      "Page.tsx:45:332"
     ]
   },
   "1ug6mn8z8qz": {
     "message": "Page language",
     "refs": [
-      "Page.tsx:54:20"
+      "Page.tsx:27:36"
     ]
   },
-  "1v8xq7wheao": {
-    "message": "No translation keys. IDs are hashed from the text. The same string in many places is one catalog entry.",
+  "1wk6oz4tcpm": {
+    "message": "This page speaks duckalization, too.",
     "refs": [
-      "HowItWorks.tsx:297:26"
+      "Page.tsx:52:67"
     ]
   },
-  "1vm61p7gabp": {
-    "message": "what ships",
+  "1zk51l4ogxd": {
+    "message": "Keep building",
     "refs": [
-      "Page.tsx:124:44"
+      "Flow.tsx:162:115"
     ]
   },
-  "1wazwmrpsyg": {
-    "message": "Pause",
+  "21w5emqto6i": {
+    "message": "Or follow the documentation yourself",
     "refs": [
-      "Replay.tsx:518:39"
+      "Page.tsx:43:324"
     ]
   },
-  "1wfwltunc0e": {
-    "message": "Each call is one string in your app above. Same number, same color.",
+  "25qv8zxerpu": {
+    "message": "Give your agent the guide. Then go make something.",
     "refs": [
-      "HowItWorks.tsx:307:29"
+      "Page.tsx:41:33"
     ]
   },
-  "1wkhjc2djgm": {
-    "message": "Keep __ a bare identifier. That is what duckalize extract scans for.",
+  "2796eipf4ai": {
+    "message": "A style guide you set once. A voice your agent carries forward.",
     "refs": [
-      "HowItWorks.tsx:305:27"
+      "Flow.tsx:198:92"
     ]
   },
-  "1zg12szv5bt": {
-    "message": "es · draft",
+  "291g5wny9kn": {
+    "message": "Your style guide goes with every string.",
     "refs": [
-      "Preview.tsx:156:84"
+      "Flow.tsx:181:273"
     ]
   },
-  "1zq7l7rbaa6": {
-    "message": "The brief leaves duckalize as a file, and the answer comes back as one.",
+  "29ftwhx4x79": {
+    "message": "Set it up once",
     "refs": [
-      "HowItWorks.tsx:398:26"
+      "Page.tsx:35:177"
     ]
   },
-  "20bhojduukv": {
-    "message": "MIT licensed. Version {version}. Requires {node}.",
+  "2af786rz494": {
+    "message": "Open source. MIT licensed.",
     "refs": [
-      "Page.tsx:179:13"
+      "Page.tsx:52:130"
     ]
   },
-  "21f26ph510g": {
-    "message": "any model · the only judgment",
+  "2anva15kzqi": {
+    "message": "Pick what you’re building. Choose a voice. The English stays in your code; your agent takes care of the rest.",
     "refs": [
-      "Replay.tsx:332:40"
+      "Flow.tsx:158:15"
     ]
   },
-  "23z8xnzuuar": {
-    "message": "duckalize rejects that answer, writes nothing, and accepts the corrected one.",
+  "2dsmoiq6hq7": {
+    "message": "Your agent localizes.",
     "refs": [
-      "Replay.tsx:352:5"
-    ]
-  },
-  "28p21smgkms": {
-    "message": "The agent reads the brief and writes es.out.json. Its first answer invents a placeholder and an ID.",
-    "refs": [
-      "Replay.tsx:351:5"
-    ]
-  },
-  "28r9nd2tzxm": {
-    "message": "The string in your code is the message. Nothing else changes.",
-    "refs": [
-      "HowItWorks.tsx:296:23",
-      "Replay.tsx:349:5"
-    ]
-  },
-  "28zafmmjvc7": {
-    "message": "Reads the instructions, style, glossary and context, then decides how it should sound.",
-    "refs": [
-      "HowItWorks.tsx:419:24"
-    ]
-  },
-  "29y08ymlqht": {
-    "message": "not in this answer",
-    "refs": [
-      "Preview.tsx:201:64"
-    ]
-  },
-  "2akr54fkof4": {
-    "message": "passes",
-    "refs": [
-      "HowItWorks.tsx:486:51",
-      "HowItWorks.tsx:490:61"
-    ]
-  },
-  "2b3mzz0abys": {
-    "message": "{translated} of {total} strings translated",
-    "refs": [
-      "Page.tsx:73:16"
-    ]
-  },
-  "2bfzln8zrc7": {
-    "message": "How a string gets translated",
-    "refs": [
-      "HowItWorks.tsx:255:79"
-    ]
-  },
-  "2d7928kw9z8": {
-    "message": "Ship a partial catalog",
-    "refs": [
-      "HowItWorks.tsx:179:5",
-      "Replay.tsx:339:5",
-      "Replay.tsx:346:5"
-    ]
-  },
-  "2dfmzapb2qq": {
-    "message": "Rename Checkout to Check out and it gets a new ID, {newId}. The old entry, {oldId}, is orphaned, and the new text renders in English.",
-    "refs": [
-      "Replay.tsx:353:5"
+      "Page.tsx:33:90"
     ]
   },
   "2edtth2bfnq": {
     "message": "Skip to content",
     "refs": [
-      "Page.tsx:188:13"
+      "Page.tsx:22:46"
     ]
   },
-  "2ei64yo4igb": {
-    "message": "its ID",
+  "2ejkl1p6p09": {
+    "message": "Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.",
     "refs": [
-      "Page.tsx:120:44"
+      "Page.tsx:46:81"
     ]
   },
-  "2f1kra0u723": {
-    "message": "How the ID is derived",
+  "2rbhbtplym": {
+    "message": "Set up the project",
     "refs": [
-      "HowItWorks.tsx:345:68"
+      "Page.tsx:45:44"
     ]
   },
-  "2fg28o85i60": {
-    "message": "You renamed the button. The new text isn’t translated yet, so it falls back.",
+  "5lsu18io9a": {
+    "message": "You build it. Your agent translates it.",
     "refs": [
-      "Preview.tsx:154:11"
+      "Flow.tsx:157:89"
     ]
   },
-  "2g1yho4el6d": {
-    "message": "Actors",
+  "5zqcddgcg9": {
+    "message": "Write English inline with __(). With the translation workflow in its instructions, your agent handles the catalogs as it works.",
     "refs": [
-      "Replay.tsx:460:67"
+      "Page.tsx:47:84"
     ]
   },
-  "5b6cqq6xsu": {
-    "message": "first answer, as returned",
+  "6s11f3l2om": {
+    "message": "Your app, translated",
     "refs": [
-      "HowItWorks.tsx:425:47"
+      "Flow.tsx:184:59"
     ]
   },
-  "5uesicm2of": {
-    "message": "This page is translated with duckalization.",
+  "7cch5iqmmu": {
+    "message": "Explore freely",
     "refs": [
-      "Page.tsx:163:20"
+      "Flow.tsx:163:80"
     ]
   },
-  "5y4w6au5ju": {
-    "message": "Its Spanish catalog is deliberately incomplete, so some strings stay in English.",
+  "7lia56gd75": {
+    "message": "Write English.",
     "refs": [
-      "Page.tsx:164:12"
+      "Page.tsx:33:32"
     ]
   },
-  "7j6avdyrhi": {
-    "message": "Agent output",
+  "bni14b5710": {
+    "message": "A launch",
     "refs": [
-      "Replay.tsx:332:85"
+      "Flow.tsx:152:61"
     ]
   },
-  "865cb5ecdp": {
-    "message": "Not in es.json yet, so your app renders the inline English.",
+  "bvgcl2r9qz": {
+    "message": "Install duckalization and ask your agent to follow the guide for your app.",
     "refs": [
-      "HowItWorks.tsx:541:30"
+      "Page.tsx:45:78"
     ]
   },
-  "97xxl3b27e": {
-    "message": "Your app, in Spanish",
+  "e7gco2w8bm": {
+    "message": "Localization for the way you build now.",
     "refs": [
-      "Replay.tsx:137:16"
+      "Page.tsx:32:35"
     ]
   },
-  "99nmimj8ch": {
-    "message": "Errors reject the whole file; nothing is written.",
+  "fwv031hc3": {
+    "message": "Preview language",
     "refs": [
-      "HowItWorks.tsx:451:26"
+      "Flow.tsx:184:130"
     ]
   },
-  "ba0vlh2lvk": {
-    "message": "Source on GitHub",
+  "gntht8p7jc": {
+    "message": "Your agent is translating…",
     "refs": [
-      "Page.tsx:154:18"
+      "Flow.tsx:181:322",
+      "Flow.tsx:181:432"
     ]
   },
-  "cufy88iyt3": {
-    "message": "you write",
+  "h2e0hm4b0j": {
+    "message": "Your voice, in every language",
     "refs": [
-      "Page.tsx:116:44"
+      "Flow.tsx:198:45"
     ]
   },
-  "d47i5tcqva": {
-    "message": "One string, from your code to the screen",
+  "j8bpxfo8k5": {
+    "message": "Tell it how you sound",
     "refs": [
-      "Page.tsx:109:48"
+      "Page.tsx:46:44"
     ]
   },
-  "dqdpvsguk1": {
-    "message": "Any agent translates",
+  "l0jm1v99o0": {
+    "message": "Your agent can wire up duckalization, configure your languages, and keep translations part of its development workflow. You stay focused on the app.",
     "refs": [
-      "HowItWorks.tsx:177:5",
-      "Replay.tsx:337:5",
-      "Replay.tsx:344:5"
+      "Page.tsx:43:45"
     ]
   },
-  "dt73z1afws": {
-    "message": "A partial target catalog is safe to ship. The next brief picks up the new string.",
+  "nzkbnrawqo": {
+    "message": "Scroll to follow the flow",
     "refs": [
-      "HowItWorks.tsx:514:26"
+      "Flow.tsx:203:56"
     ]
   },
-  "hwu1vdqh9t": {
-    "message": "Check",
+  "p04seyn225": {
+    "message": "Write English",
     "refs": [
-      "HowItWorks.tsx:461:42"
-    ]
-  },
-  "hyhq1ab0h6": {
-    "message": "old",
-    "refs": [
-      "HowItWorks.tsx:538:46"
-    ]
-  },
-  "hyp729e5xp": {
-    "message": "Quotes for eyes. Underscores for the water.",
-    "refs": [
-      "Page.tsx:112:47"
-    ]
-  },
-  "i4rrfqkl3u": {
-    "message": "Session player. Space plays or pauses; left and right arrows change chapter.",
-    "refs": [
-      "Replay.tsx:455:19"
-    ]
-  },
-  "j8o5lzedrh": {
-    "message": "The translating agent needs no repo access.",
-    "refs": [
-      "HowItWorks.tsx:384:30"
-    ]
-  },
-  "n0m5w59b32": {
-    "message": "The duck is checking the answer.",
-    "refs": [
-      "Preview.tsx:151:15"
-    ]
-  },
-  "nyn38sv53k": {
-    "message": "duckalize output",
-    "refs": [
-      "Replay.tsx:330:15"
-    ]
-  },
-  "o31qissmwe": {
-    "message": "One entry of locales/.work/es.brief.json. The brief also carries the locale, its plural categories, instructions, style and glossary.",
-    "refs": [
-      "HowItWorks.tsx:343:26"
-    ]
-  },
-  "o54cnfr1fb": {
-    "message": "Next",
-    "refs": [
-      "Replay.tsx:510:20"
-    ]
-  },
-  "o76v8onznu": {
-    "message": "real runtime",
-    "refs": [
-      "Replay.tsx:137:58"
-    ]
-  },
-  "p7i7pqi6tw": {
-    "message": "The agent’s draft. Not live: nothing has been applied.",
-    "refs": [
-      "Preview.tsx:150:12"
+      "Flow.tsx:162:44"
     ]
   },
   "q8iycaqi8p": {
     "message": "Read the agent guide",
     "refs": [
-      "Page.tsx:151:18"
+      "Page.tsx:43:247"
     ]
   },
-  "qgs5i1t9r0": {
-    "message": "any agent",
+  "qxjpwdw731": {
+    "message": "Workflow chapters",
     "refs": [
-      "HowItWorks.tsx:417:51"
+      "Flow.tsx:161:49"
     ]
   },
-  "qqaoguhe3q": {
-    "message": "Install",
+  "sg63uh8266": {
+    "message": "Main navigation",
     "refs": [
-      "Page.tsx:145:52"
-    ]
-  },
-  "qvnu5kpdmn": {
-    "message": "It does the judgment. I do the checking.",
-    "refs": [
-      "HowItWorks.tsx:265:15"
-    ]
-  },
-  "r5yk94y244": {
-    "message": "Answer 1",
-    "refs": [
-      "HowItWorks.tsx:463:28"
-    ]
-  },
-  "to90fddnwe": {
-    "message": "Extract a brief",
-    "refs": [
-      "HowItWorks.tsx:176:5",
-      "Replay.tsx:336:5",
-      "Replay.tsx:343:5"
-    ]
-  },
-  "upzujjlxsu": {
-    "message": "The CLI hashes each string into an ID and writes a self-contained work order for an agent.",
-    "refs": [
-      "HowItWorks.tsx:342:23",
-      "Replay.tsx:350:5"
+      "Page.tsx:25:26"
     ]
   },
   "vh88ypv7zp": {
     "message": "Copied",
     "refs": [
-      "Page.tsx:96:70"
+      "Page.tsx:45:264",
+      "Page.tsx:45:357"
     ]
   },
-  "vjxiut1gq9": {
-    "message": "Previous",
+  "w6hnb2xkfx": {
+    "message": "Translations are up to date.",
     "refs": [
-      "Replay.tsx:507:22"
+      "Flow.tsx:181:467"
     ]
   },
-  "vlq258xfgp": {
-    "message": "fallback",
+  "y598y77ys": {
+    "message": "Make it yours. Try another scene or voice.",
     "refs": [
-      "Replay.tsx:145:14"
-    ]
-  },
-  "ws48nq1d1k": {
-    "message": "Answer 2",
-    "refs": [
-      "HowItWorks.tsx:466:28"
-    ]
-  },
-  "wuutpjossh": {
-    "message": "Session position",
-    "refs": [
-      "Replay.tsx:552:31"
-    ]
-  },
-  "xc99mdugub": {
-    "message": "Proof",
-    "refs": [
-      "Replay.tsx:436:57"
-    ]
-  },
-  "ybzd4e635q": {
-    "message": "Missing translations fall back to the inline English.",
-    "refs": [
-      "HowItWorks.tsx:513:23"
-    ]
-  },
-  "ye8hcz1y3h": {
-    "message": "Code checks the work",
-    "refs": [
-      "HowItWorks.tsx:178:5",
-      "Replay.tsx:338:5",
-      "Replay.tsx:345:5"
-    ]
-  },
-  "yj9vauciil": {
-    "message": "No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.",
-    "refs": [
-      "Page.tsx:141:16"
-    ]
-  },
-  "zdmbatlga6": {
-    "message": "An invented placeholder and an unknown ID. The next step catches both.",
-    "refs": [
-      "HowItWorks.tsx:437:30"
-    ]
-  },
-  "zw4py93ch1": {
-    "message": "new",
-    "refs": [
-      "HowItWorks.tsx:542:46"
+      "Flow.tsx:203:90"
     ]
   }
 }
