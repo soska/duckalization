@@ -84,7 +84,7 @@ export function Flow() {
     const element = root.current;
     if (!element) return;
     const media = gsap.matchMedia();
-    media.add('(min-width: 1050px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(min-width: 1240px) and (min-height: 780px) and (prefers-reduced-motion: no-preference)', () => {
       element.classList.add('flow-cinematic');
       setCinematic(true);
       setChapter(0);
@@ -190,7 +190,8 @@ export function Flow() {
           <div className="flow-editor">
             <header><span className="flow-dot" />App.tsx <span>{__('Always English')}</span></header>
             <div className="flow-code" lang="en" tabIndex={0} role="region" aria-label={__s('Example React component')}>
-              <p><span>import</span> {'{ createDuck, DuckProvider, useDuck }'} from '@duckalization/react';</p>
+              <p><span>import</span> {'{ createDuck, DuckProvider, useDuck }'}</p>
+              <p>  from '@duckalization/react';</p>
               <p>const duck = createDuck({'{'} sourceLocale: 'en' {'}'});</p>
               <p>function Screen() {'{'}</p>
               <p>  const {'{ __ }'} = useDuck();</p>
