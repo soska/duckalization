@@ -2,7 +2,7 @@
   "11hwith8ac": {
     "message": "English →",
     "refs": [
-      "Flow.tsx:205:59"
+      "Flow.tsx:210:59"
     ]
   },
   "125q6ryqq7c": {
@@ -14,13 +14,13 @@
   "12q45r1bkv2": {
     "message": "Build like you always do",
     "refs": [
-      "Page.tsx:51:44"
+      "Page.tsx:76:44"
     ]
   },
   "12xolwm9i83": {
     "message": "What are you building?",
     "refs": [
-      "Flow.tsx:179:63"
+      "Flow.tsx:184:63"
     ]
   },
   "12zwwxnk4ky": {
@@ -44,7 +44,7 @@
   "14ih4p55u6c": {
     "message": "Interactive illustration with example translations. In your project, your configured coding agent does the translating.",
     "refs": [
-      "Flow.tsx:222:38"
+      "Flow.tsx:227:38"
     ]
   },
   "15n4xa8pk2t": {
@@ -62,38 +62,44 @@
   "169hxwq2p2b": {
     "message": "An invitation",
     "refs": [
-      "Flow.tsx:164:40"
+      "Flow.tsx:169:40"
+    ]
+  },
+  "16wsrzle7gy": {
+    "message": "Missing means English, never blank.",
+    "refs": [
+      "Page.tsx:56:20"
     ]
   },
   "17458yacmgv": {
     "message": "Always English",
     "refs": [
-      "Flow.tsx:186:65"
+      "Flow.tsx:191:65"
     ]
   },
   "17nhqxlj91k": {
     "message": "Stay in your flow",
     "refs": [
-      "Flow.tsx:169:40"
+      "Flow.tsx:174:40"
     ]
   },
   "1a14hv299pf": {
     "message": "Translate into",
     "refs": [
-      "Flow.tsx:205:119"
+      "Flow.tsx:210:119"
     ]
   },
   "1cnbnlqpmeg": {
     "message": "Try a voice. Watch the translation change.",
     "refs": [
-      "Flow.tsx:201:340",
+      "Flow.tsx:206:340",
       "Flow.tsx:56:14"
     ]
   },
   "1cxrkblj5l4": {
     "message": "Package manager",
     "refs": [
-      "Page.tsx:49:228"
+      "Page.tsx:74:228"
     ]
   },
   "1dc09b327sn": {
@@ -114,16 +120,22 @@
       "Flow.tsx:58:97"
     ]
   },
+  "1ghho5m8lsn": {
+    "message": "Glossary terms need a human sign-off. Until a language’s terms are approved, the CLI won’t brief or apply it, and the agent guide tells your agent to ask you instead of approving them itself.",
+    "refs": [
+      "Page.tsx:63:19"
+    ]
+  },
   "1k0nlwdtqb9": {
     "message": "A new project",
     "refs": [
-      "Flow.tsx:164:19"
+      "Flow.tsx:169:19"
     ]
   },
   "1lgxrcdugnw": {
     "message": "A little setup. A lot less work.",
     "refs": [
-      "Page.tsx:44:35"
+      "Page.tsx:69:35"
     ]
   },
   "1mrv4tkor59": {
@@ -135,20 +147,26 @@
   "1os4fuy8hwz": {
     "message": "Your agent translates",
     "refs": [
-      "Flow.tsx:174:65"
+      "Flow.tsx:179:65"
     ]
   },
   "1p9gzgi4hpz": {
     "message": "You’re building…",
     "refs": [
-      "Flow.tsx:201:264",
-      "Flow.tsx:201:415"
+      "Flow.tsx:206:264",
+      "Flow.tsx:206:415"
     ]
   },
   "1pdomrxrgr": {
     "message": "Professional, without the corporate fog.",
     "refs": [
       "StyleExamples.tsx:21:13"
+    ]
+  },
+  "1sct6oiog27": {
+    "message": "duckalization never calls a model. It hands your agent a brief, then validates every answer before a single string reaches your catalogs.",
+    "refs": [
+      "Page.tsx:46:43"
     ]
   },
   "1tbyldeczti": {
@@ -160,8 +178,8 @@
   "1u8fb2niukv": {
     "message": "Copy",
     "refs": [
-      "Page.tsx:49:591",
-      "Page.tsx:49:730"
+      "Page.tsx:74:591",
+      "Page.tsx:74:730"
     ]
   },
   "1ug6mn8z8qz": {
@@ -170,22 +188,28 @@
       "Page.tsx:30:36"
     ]
   },
+  "1vjfgbpxg10": {
+    "message": "Unknown IDs, typo’d placeholders, wrong plural forms, a translated brand name: one error rejects the whole file, and nothing is written.",
+    "refs": [
+      "Page.tsx:51:19"
+    ]
+  },
   "1wk6oz4tcpm": {
     "message": "This page speaks duckalization, too.",
     "refs": [
-      "Page.tsx:56:67"
+      "Page.tsx:81:67"
     ]
   },
   "1ylhvn9h5to": {
     "message": "Scroll the code sideways to read each line.",
     "refs": [
-      "Flow.tsx:200:44"
+      "Flow.tsx:205:44"
     ]
   },
   "1zk51l4ogxd": {
     "message": "Keep building",
     "refs": [
-      "Flow.tsx:174:112"
+      "Flow.tsx:179:112"
     ]
   },
   "21kbow3ow4r": {
@@ -197,19 +221,19 @@
   "21w5emqto6i": {
     "message": "Or follow the documentation yourself",
     "refs": [
-      "Page.tsx:47:324"
+      "Page.tsx:72:324"
     ]
   },
   "25qv8zxerpu": {
     "message": "Give your agent the guide. Then go make something.",
     "refs": [
-      "Page.tsx:45:33"
+      "Page.tsx:70:33"
     ]
   },
   "2796eipf4ai": {
     "message": "A style guide you set once. A voice your agent carries forward.",
     "refs": [
-      "Flow.tsx:216:92"
+      "Flow.tsx:221:92"
     ]
   },
   "28szaxtrie1": {
@@ -224,16 +248,22 @@
       "Page.tsx:38:177"
     ]
   },
+  "29vytz63l5j": {
+    "message": "You approve the words that matter.",
+    "refs": [
+      "Page.tsx:62:20"
+    ]
+  },
   "2af786rz494": {
     "message": "Open source. MIT licensed.",
     "refs": [
-      "Page.tsx:56:130"
+      "Page.tsx:81:130"
     ]
   },
   "2anva15kzqi": {
     "message": "Pick what you’re building. Choose a voice. The English stays in your code; your agent takes care of the rest.",
     "refs": [
-      "Flow.tsx:170:15"
+      "Flow.tsx:175:15"
     ]
   },
   "2dsmoiq6hq7": {
@@ -251,7 +281,7 @@
   "2ejkl1p6p09": {
     "message": "Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.",
     "refs": [
-      "Page.tsx:50:81"
+      "Page.tsx:75:81"
     ]
   },
   "2f1asnkfpqd": {
@@ -263,13 +293,19 @@
   "2rbhbtplym": {
     "message": "Set up the project",
     "refs": [
-      "Page.tsx:49:44"
+      "Page.tsx:74:44"
     ]
   },
   "32byzlued6": {
     "message": "Example React component",
     "refs": [
-      "Flow.tsx:187:89"
+      "Flow.tsx:192:89"
+    ]
+  },
+  "4g6eci0psi": {
+    "message": "Your agent translates. duckalization checks the work.",
+    "refs": [
+      "Page.tsx:45:38"
     ]
   },
   "55wee83l2t": {
@@ -281,7 +317,7 @@
   "5lsu18io9a": {
     "message": "You build it. Your agent translates it.",
     "refs": [
-      "Flow.tsx:169:89"
+      "Flow.tsx:174:89"
     ]
   },
   "5n7a99ceza": {
@@ -293,13 +329,13 @@
   "5zqcddgcg9": {
     "message": "Write English inline with __(). With the translation workflow in its instructions, your agent handles the catalogs as it works.",
     "refs": [
-      "Page.tsx:51:84"
+      "Page.tsx:76:84"
     ]
   },
   "7cch5iqmmu": {
     "message": "Explore freely",
     "refs": [
-      "Flow.tsx:175:74"
+      "Flow.tsx:180:74"
     ]
   },
   "7lia56gd75": {
@@ -311,13 +347,19 @@
   "8w0ylwdiz5": {
     "message": "Scroll to see English become your next language",
     "refs": [
-      "Flow.tsx:220:72"
+      "Flow.tsx:225:72"
     ]
   },
   "9ttcvkqy9h": {
     "message": "A little of that voice",
     "refs": [
       "StyleExamples.tsx:64:18"
+    ]
+  },
+  "a2kwln2rxq": {
+    "message": "A string without a translation renders the English you wrote. Ship a partial catalog today, and add a CI check when you want every language complete.",
+    "refs": [
+      "Page.tsx:57:19"
     ]
   },
   "aztcvtmcjc": {
@@ -329,25 +371,37 @@
   "b43gk1bff8": {
     "message": "Your voice",
     "refs": [
-      "Flow.tsx:174:94"
+      "Flow.tsx:179:94"
     ]
   },
   "bni14b5710": {
     "message": "A launch",
     "refs": [
-      "Flow.tsx:164:61"
+      "Flow.tsx:169:61"
     ]
   },
   "bvgcl2r9qz": {
     "message": "Install duckalization and ask your agent to follow the guide for your app.",
     "refs": [
-      "Page.tsx:49:78"
+      "Page.tsx:74:78"
     ]
   },
   "e7gco2w8bm": {
     "message": "Localization for the way you build now.",
     "refs": [
       "Page.tsx:35:35"
+    ]
+  },
+  "erqzg6nwxs": {
+    "message": "Trust, but verify.",
+    "refs": [
+      "Page.tsx:44:35"
+    ]
+  },
+  "f7gniqao3f": {
+    "message": "A bad answer changes nothing.",
+    "refs": [
+      "Page.tsx:50:20"
     ]
   },
   "fhxmrzk781": {
@@ -359,14 +413,14 @@
   "gntht8p7jc": {
     "message": "Your agent is translating…",
     "refs": [
-      "Flow.tsx:201:305",
-      "Flow.tsx:201:466"
+      "Flow.tsx:206:305",
+      "Flow.tsx:206:466"
     ]
   },
   "h2e0hm4b0j": {
     "message": "Your voice, in every language",
     "refs": [
-      "Flow.tsx:216:45"
+      "Flow.tsx:221:45"
     ]
   },
   "hl5rudwtt": {
@@ -378,31 +432,31 @@
   "j8bpxfo8k5": {
     "message": "Tell it how you sound",
     "refs": [
-      "Page.tsx:50:44"
+      "Page.tsx:75:44"
     ]
   },
   "l0jm1v99o0": {
     "message": "Your agent can wire up duckalization, configure your languages, and keep translations part of its development workflow. You stay focused on the app.",
     "refs": [
-      "Page.tsx:47:45"
+      "Page.tsx:72:45"
     ]
   },
   "p04seyn225": {
     "message": "Write English",
     "refs": [
-      "Flow.tsx:174:44"
+      "Flow.tsx:179:44"
     ]
   },
   "q8iycaqi8p": {
     "message": "Read the agent guide",
     "refs": [
-      "Page.tsx:47:247"
+      "Page.tsx:72:247"
     ]
   },
   "qxjpwdw731": {
     "message": "Workflow chapters",
     "refs": [
-      "Flow.tsx:173:49"
+      "Flow.tsx:178:49"
     ]
   },
   "r4bmbyojwj": {
@@ -426,21 +480,21 @@
   "vh88ypv7zp": {
     "message": "Copied",
     "refs": [
-      "Page.tsx:49:616",
-      "Page.tsx:49:755",
+      "Page.tsx:74:616",
+      "Page.tsx:74:755",
       "StyleExamples.tsx:71:130"
     ]
   },
   "w6hnb2xkfx": {
     "message": "Translations are up to date.",
     "refs": [
-      "Flow.tsx:201:501"
+      "Flow.tsx:206:501"
     ]
   },
   "y598y77ys": {
     "message": "Make it yours. Try another scene or voice.",
     "refs": [
-      "Flow.tsx:220:128"
+      "Flow.tsx:225:128"
     ]
   }
 }

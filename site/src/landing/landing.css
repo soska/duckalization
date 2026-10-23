@@ -38,7 +38,7 @@
 .style-examples { margin-top: 20px; border: 1px solid var(--dk-color-border-default); border-radius: 18px; background: var(--dk-color-surface-raised); overflow: hidden; }
 .style-example-options { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px; border-bottom: 1px solid var(--dk-color-border-subtle); }
 .style-example-options button { padding: 8px 12px; border: 1px solid transparent; border-radius: 20px; background: transparent; color: inherit; cursor: pointer; font-size: 13px; line-height: 1.4; }
-.style-example-options button[aria-pressed='true'] { background: var(--dk-color-accent-duck); border-color: var(--dk-color-border-default); }
+.style-example-options button[aria-pressed='true'] { background: var(--dk-color-accent-duck); color: var(--dk-color-text-on-accent); border-color: var(--dk-color-border-default); }
 .style-example-options button:hover:not([aria-pressed='true']) { background: var(--dk-color-wash-pond); }
 .style-example-content { padding: 20px; }
 .style-example-content > header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 16px; }
@@ -51,7 +51,27 @@
 .style-example-wording q:last-child { font-weight: 700; }
 .style-example-action { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
 .style-example-action > span { font-size: 12px; color: var(--dk-color-text-muted); }
-.style-example-action button { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border: 1px solid var(--dk-color-border-default); border-radius: 24px; background: var(--dk-color-accent-duck); color: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.style-example-action button { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border: 1px solid var(--dk-color-border-default); border-radius: 24px; background: var(--dk-color-accent-duck); color: var(--dk-color-text-on-accent); font-size: 14px; font-weight: 700; cursor: pointer; }
 .style-example-feedback { display: block; font-size: 12px; line-height: 1.5; color: var(--dk-color-accent-pond); }
 .style-example-feedback:not(:empty) { margin-top: 10px; }
 @media (max-width: 700px) { .style-example-content { padding: 16px; }.style-example-options { gap: 4px; }.style-example-options button { padding-inline: 10px; } }
+
+/* Guardrails: why it's safe to let an agent translate. Every claim maps to
+   documented CLI/runtime behavior (llms.txt: apply validation, fallback,
+   glossary sign-off gate). */
+.guardrails { padding-block: 96px; background: var(--dk-color-wash-pond); border-bottom: 1px solid var(--dk-color-border-default); }
+.guardrails h2 { max-width: 15em; }
+.guardrails-lede { max-width: 40em; font-size: 18px; margin-top: 20px; color: var(--dk-color-text-muted); text-wrap: pretty; }
+.guardrails-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 48px; }
+.guardrails-list li { display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--dk-color-border-default); border-radius: 18px; background: var(--dk-color-surface-raised); }
+.guardrails-list h3 { font-size: 20px; font-weight: 800; line-height: 1.25; }
+.guardrails-list p { font-size: 15px; color: var(--dk-color-text-muted); text-wrap: pretty; }
+.guardrail-mark { display: grid; place-items: center; width: 40px; height: 40px; border: 1.5px solid var(--dk-color-border-default); border-radius: 50%; }
+.guardrail-mark svg { width: 20px; height: 20px; stroke-width: 1.75; }
+.guardrail-mark[data-tone='danger'] { background: var(--dk-color-wash-danger); color: var(--dk-color-status-danger); }
+.guardrail-mark[data-tone='fallback'] { background: var(--dk-color-xray-bg); color: var(--dk-color-xray-fg); }
+.guardrail-mark[data-tone='ok'] { background: var(--dk-color-wash-pond); color: var(--dk-color-accent-pond); }
+.guardrail-codes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.guardrail-command { margin-top: auto; align-self: start; padding: 6px 10px; border-radius: 8px; background: var(--dk-color-terminal-bg); color: var(--dk-color-terminal-fg); font: 12px var(--dk-font-family-mono); }
+@media (max-width: 900px) { .guardrails-list { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .guardrails { padding-block: 64px; } }

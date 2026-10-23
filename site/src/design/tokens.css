@@ -29,6 +29,7 @@
   --dk-color-yellow-500-a20: #ffc21a33;
   --dk-color-yellow-500-a34: #ffc21a57;
   --dk-color-orange-100: #fde7d4;
+  --dk-color-orange-200: #eeb78a;
   --dk-color-orange-400: #ff8a3d;
   --dk-color-orange-500: #ee5f1b;
   --dk-color-orange-900: #402915;
@@ -289,6 +290,7 @@
   --dk-color-terminal-ok: var(--dk-color-green-300);
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
+  --dk-color-terminal-keyword: var(--dk-color-orange-200);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
   --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
@@ -332,6 +334,7 @@
     --dk-color-terminal-ok: var(--dk-color-green-300);
     --dk-color-terminal-err: var(--dk-color-red-300);
     --dk-color-terminal-warn: var(--dk-color-yellow-300);
+    --dk-color-terminal-keyword: var(--dk-color-orange-200);
     --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
     --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
@@ -375,6 +378,7 @@
   --dk-color-terminal-ok: var(--dk-color-green-300);
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
+  --dk-color-terminal-keyword: var(--dk-color-orange-200);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
   --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);

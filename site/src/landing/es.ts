@@ -2,6 +2,16 @@ import { messageId, type Catalog } from '../shared/real.ts';
 
 // The landing page is localized with duckalization itself.
 const PAIRS: [string, string][] = [
+  ['Trust, but verify.', 'Confía, pero verifica.'],
+  ['Your agent translates. duckalization checks the work.', 'Tu agente traduce. duckalization revisa el trabajo.'],
+  ['duckalization never calls a model. It hands your agent a brief, then validates every answer before a single string reaches your catalogs.', 'duckalization nunca llama a un modelo. Le entrega a tu agente un encargo y valida cada respuesta antes de que un solo texto llegue a tus catálogos.'],
+  ['A bad answer changes nothing.', 'Una mala respuesta no cambia nada.'],
+  ['Unknown IDs, typo’d placeholders, wrong plural forms, a translated brand name: one error rejects the whole file, and nothing is written.', 'IDs desconocidos, marcadores mal escritos, formas de plural incorrectas, un nombre de marca traducido: un solo error rechaza el archivo completo y no se escribe nada.'],
+  ['Missing means English, never blank.', 'Si falta, sale en inglés, nunca en blanco.'],
+  ['A string without a translation renders the English you wrote. Ship a partial catalog today, and add a CI check when you want every language complete.', 'Un texto sin traducción muestra el inglés que escribiste. Publica hoy un catálogo parcial y agrega una verificación en CI cuando quieras todos los idiomas completos.'],
+  ['You approve the words that matter.', 'Tú apruebas las palabras importantes.'],
+  ['Glossary terms need a human sign-off. Until a language’s terms are approved, the CLI won’t brief or apply it, and the agent guide tells your agent to ask you instead of approving them itself.', 'Los términos del glosario necesitan la aprobación de una persona. Hasta que se aprueben los de un idioma, la CLI no genera encargos ni aplica traducciones para él, y la guía para agentes le indica a tu agente que te pregunte en lugar de aprobarlos por su cuenta.'],
+
   ["Argentina · Youth", "Argentina · Jóvenes"],
   ["Casual. Local. Never trying too hard.", "Informal y local. Sin forzar la onda."],
   ["Configure duckalization for a young adult audience in Argentina (es-AR). Use vos and natural Rioplatense Spanish. Keep it playful, clear, and brief, without forced slang or Spain-specific phrasing. Keep product names unchanged. Save this as the es-AR translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para un público de adultos jóvenes en Argentina (es-AR). Usa vos y español rioplatense natural. Mantén un tono divertido, claro y breve, sin jerga forzada ni expresiones propias de España. Conserva los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-AR y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],

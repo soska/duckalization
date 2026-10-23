@@ -89,6 +89,11 @@ export function Flow() {
       setCinematic(true);
       setChapter(0);
       let currentChapter = -1;
+      // GSAP tweens resolved colors, so read the theme's tokens once per build.
+      const token = (name: string) => getComputedStyle(element).getPropertyValue(`--dk-color-${name}`).trim();
+      const ring = token('accent-duck');
+      const lineHit = token('terminal-hit');
+      const copyHit = token('wash-duck');
       const timeline = gsap.timeline({
         defaults: { ease: 'power2.inOut' },
         scrollTrigger: {
@@ -109,16 +114,16 @@ export function Flow() {
       // the remaining scroll is room to compare and try the voice controls.
       timeline
         .fromTo('.flow-app', { rotateZ: 1.2, scale: 0.97 }, { rotateZ: 0, scale: 1, duration: 0.3 }, 0.08)
-        .fromTo('.flow-voice-choice', { boxShadow: '0 0 0 0px #f8cc65' }, { boxShadow: '0 0 0 4px #f8cc65', duration: 0.08 }, 0.47)
-        .to('.flow-voice-choice', { boxShadow: '0 0 0 0px #f8cc65', duration: 0.1 }, 0.62)
+        .fromTo('.flow-voice-choice', { boxShadow: `0 0 0 0px ${ring}` }, { boxShadow: `0 0 0 4px ${ring}`, duration: 0.08 }, 0.47)
+        .to('.flow-voice-choice', { boxShadow: `0 0 0 0px ${ring}`, duration: 0.1 }, 0.62)
         .fromTo('.flow-progress-fill', { scaleX: 0 }, { scaleX: 1, duration: 1, ease: 'none' }, 0);
       ['title', 'body', 'action'].forEach((message, index) => {
         const at = 0.15 + index * 0.085;
         timeline
           .fromTo(`.flow-copy-stack[data-message="${message}"] .flow-source-copy`, { opacity: 1 }, { opacity: 0, duration: 0.07 }, at)
           .fromTo(`.flow-copy-stack[data-message="${message}"] .flow-translated-copy`, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, at)
-          .fromTo(`.flow-line[data-message="${message}"]`, { backgroundColor: 'transparent' }, { backgroundColor: '#4d4629', duration: 0.045 }, at)
-          .fromTo(`.flow-copy-stack[data-message="${message}"]`, { backgroundColor: 'transparent' }, { backgroundColor: '#f8cc65', duration: 0.045 }, at)
+          .fromTo(`.flow-line[data-message="${message}"]`, { backgroundColor: 'transparent' }, { backgroundColor: lineHit, duration: 0.045 }, at)
+          .fromTo(`.flow-copy-stack[data-message="${message}"]`, { backgroundColor: 'transparent' }, { backgroundColor: copyHit, duration: 0.045 }, at)
           .to(`.flow-line[data-message="${message}"], .flow-copy-stack[data-message="${message}"]`, { backgroundColor: 'transparent', duration: 0.1 }, at + 0.09);
       });
       let alive = true;

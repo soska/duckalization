@@ -79,6 +79,9 @@
         "$value": "#fde7d4",
         "$description": "orange.500 at 13% over brown.50."
       },
+      "200": {
+        "$value": "#eeb78a"
+      },
       "400": {
         "$value": "#ff8a3d"
       },

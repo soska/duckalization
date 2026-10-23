@@ -1,7 +1,8 @@
 import '@fontsource-variable/bricolage-grotesque/standard.css';
 import '@fontsource-variable/jetbrains-mono';
 import { useEffect, useState } from 'react';
-import { Button, Command, Duck, Logo, SegmentedControl, TextLink } from '../design/index.ts';
+import { BadgeCheck, FileX2, Undo2 } from 'lucide-react';
+import { Button, Command, Duck, Logo, SegmentedControl, Tag, TextLink } from '../design/index.ts';
 import { LLMS_URL, REPO_URL } from '../shared/facts.ts';
 import { DuckProvider, useLocale } from '../shared/real.ts';
 import { useDirection } from '../shared/motion.ts';
@@ -40,6 +41,33 @@ function Shell() {
           <p className="hero-explanation">{__('The English inside __() is the catalog entry. There’s no key file to maintain, and the CLI refuses structurally invalid translations.')}</p>
         </section>
         <Flow />
+        <section className="guardrails" aria-labelledby="guardrails-title">
+          <div className="fk-wrap">
+          <p className="eyebrow">{__('Trust, but verify.')}</p>
+          <h2 id="guardrails-title">{__('Your agent translates. duckalization checks the work.')}</h2>
+          <p className="guardrails-lede">{__('duckalization never calls a model. It hands your agent a brief, then validates every answer before a single string reaches your catalogs.')}</p>
+          <ol className="guardrails-list">
+            <li>
+              <span className="guardrail-mark" data-tone="danger" aria-hidden="true"><FileX2 /></span>
+              <h3>{__('A bad answer changes nothing.')}</h3>
+              <p>{__('Unknown IDs, typo’d placeholders, wrong plural forms, a translated brand name: one error rejects the whole file, and nothing is written.')}</p>
+              <div className="guardrail-codes" lang="en">{['unknown-id', 'unknown-placeholder', 'missing-other', 'glossary-dnt'].map((code) => <Tag key={code} tone="danger" size="sm">{code}</Tag>)}</div>
+            </li>
+            <li>
+              <span className="guardrail-mark" data-tone="fallback" aria-hidden="true"><Undo2 /></span>
+              <h3>{__('Missing means English, never blank.')}</h3>
+              <p>{__('A string without a translation renders the English you wrote. Ship a partial catalog today, and add a CI check when you want every language complete.')}</p>
+              <code className="guardrail-command">duckalize translate check</code>
+            </li>
+            <li>
+              <span className="guardrail-mark" data-tone="ok" aria-hidden="true"><BadgeCheck /></span>
+              <h3>{__('You approve the words that matter.')}</h3>
+              <p>{__('Glossary terms need a human sign-off. Until a language’s terms are approved, the CLI won’t brief or apply it, and the agent guide tells your agent to ask you instead of approving them itself.')}</p>
+              <code className="guardrail-command">duckalize glossary review es</code>
+            </li>
+          </ol>
+          </div>
+        </section>
         <section className="setup fk-wrap" id="get-started" aria-labelledby="setup-title">
           <p className="eyebrow">{__('A little setup. A lot less work.')}</p>
           <h2 id="setup-title">{__('Give your agent the guide. Then go make something.')}</h2>
