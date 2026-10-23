@@ -1,324 +1,446 @@
 {
+  "11hwith8ac": {
+    "message": "English →",
+    "refs": [
+      "Flow.tsx:205:59"
+    ]
+  },
+  "125q6ryqq7c": {
+    "message": "Give your agent a starting point.",
+    "refs": [
+      "StyleExamples.tsx:70:18"
+    ]
+  },
   "12q45r1bkv2": {
     "message": "Build like you always do",
     "refs": [
-      "Page.tsx:47:44"
+      "Page.tsx:51:44"
     ]
   },
   "12xolwm9i83": {
     "message": "What are you building?",
     "refs": [
-      "Flow.tsx:166:63"
+      "Flow.tsx:179:63"
+    ]
+  },
+  "12zwwxnk4ky": {
+    "message": "Configure duckalization for business professionals in Spain (es-ES). Address readers as usted. Use clear, precise language and a confident, respectful tone. Prefer presupuesto for quote. Avoid hype, buzzwords, and unnecessary anglicisms. Keep product names unchanged. Save this as the es-ES translation style guide and connect it in the config, preserving other locale settings.",
+    "refs": [
+      "StyleExamples.tsx:22:15"
     ]
   },
   "148qk9urf6z": {
     "message": "Translation style",
     "refs": [
-      "Flow.tsx:199:66"
+      "Flow.tsx:57:60"
+    ]
+  },
+  "14afaco74gv": {
+    "message": "Spain · Business",
+    "refs": [
+      "StyleExamples.tsx:19:14"
     ]
   },
   "14ih4p55u6c": {
     "message": "Interactive illustration with example translations. In your project, your configured coding agent does the translating.",
     "refs": [
-      "Flow.tsx:205:38"
+      "Flow.tsx:222:38"
+    ]
+  },
+  "15n4xa8pk2t": {
+    "message": "Style guide examples",
+    "refs": [
+      "StyleExamples.tsx:55:71"
     ]
   },
   "163nehrgczm": {
     "message": "No translation keys. No switching gears. Set your languages and style guide, then let your coding agent keep your app translated as you build.",
     "refs": [
-      "Page.tsx:34:37"
+      "Page.tsx:37:37"
     ]
   },
   "169hxwq2p2b": {
     "message": "An invitation",
     "refs": [
-      "Flow.tsx:152:40"
+      "Flow.tsx:164:40"
     ]
   },
   "17458yacmgv": {
     "message": "Always English",
     "refs": [
-      "Flow.tsx:171:65"
+      "Flow.tsx:186:65"
     ]
   },
   "17nhqxlj91k": {
     "message": "Stay in your flow",
     "refs": [
-      "Flow.tsx:157:40"
+      "Flow.tsx:169:40"
+    ]
+  },
+  "1a14hv299pf": {
+    "message": "Translate into",
+    "refs": [
+      "Flow.tsx:205:119"
+    ]
+  },
+  "1cnbnlqpmeg": {
+    "message": "Try a voice. Watch the translation change.",
+    "refs": [
+      "Flow.tsx:201:340",
+      "Flow.tsx:56:14"
+    ]
+  },
+  "1cxrkblj5l4": {
+    "message": "Package manager",
+    "refs": [
+      "Page.tsx:49:228"
     ]
   },
   "1dc09b327sn": {
     "message": "Short & direct",
     "refs": [
-      "Flow.tsx:199:337"
+      "Flow.tsx:59:103"
+    ]
+  },
+  "1gc2dl4htf5": {
+    "message": "Copy prompt",
+    "refs": [
+      "StyleExamples.tsx:71:145"
     ]
   },
   "1ggoxrzntcm": {
     "message": "Warm & friendly",
     "refs": [
-      "Flow.tsx:199:196"
+      "Flow.tsx:58:97"
     ]
   },
   "1k0nlwdtqb9": {
     "message": "A new project",
     "refs": [
-      "Flow.tsx:152:19"
+      "Flow.tsx:164:19"
     ]
   },
   "1lgxrcdugnw": {
     "message": "A little setup. A lot less work.",
     "refs": [
-      "Page.tsx:40:35"
-    ]
-  },
-  "1lj75o8mico": {
-    "message": "Set the voice",
-    "refs": [
-      "Flow.tsx:162:65"
+      "Page.tsx:44:35"
     ]
   },
   "1mrv4tkor59": {
     "message": "See it happen",
     "refs": [
-      "Page.tsx:35:83"
+      "Page.tsx:38:83"
     ]
   },
   "1os4fuy8hwz": {
     "message": "Your agent translates",
     "refs": [
-      "Flow.tsx:162:86"
+      "Flow.tsx:174:65"
     ]
   },
   "1p9gzgi4hpz": {
     "message": "You’re building…",
     "refs": [
-      "Flow.tsx:181:232",
-      "Flow.tsx:181:381"
+      "Flow.tsx:201:264",
+      "Flow.tsx:201:415"
+    ]
+  },
+  "1pdomrxrgr": {
+    "message": "Professional, without the corporate fog.",
+    "refs": [
+      "StyleExamples.tsx:21:13"
     ]
   },
   "1tbyldeczti": {
     "message": "Just your words. That’s the whole idea.",
     "refs": [
-      "Page.tsx:36:119"
+      "Page.tsx:39:119"
     ]
   },
   "1u8fb2niukv": {
     "message": "Copy",
     "refs": [
-      "Page.tsx:45:239",
-      "Page.tsx:45:332"
+      "Page.tsx:49:591",
+      "Page.tsx:49:730"
     ]
   },
   "1ug6mn8z8qz": {
     "message": "Page language",
     "refs": [
-      "Page.tsx:27:36"
+      "Page.tsx:30:36"
     ]
   },
   "1wk6oz4tcpm": {
     "message": "This page speaks duckalization, too.",
     "refs": [
-      "Page.tsx:52:67"
+      "Page.tsx:56:67"
+    ]
+  },
+  "1ylhvn9h5to": {
+    "message": "Scroll the code sideways to read each line.",
+    "refs": [
+      "Flow.tsx:200:44"
     ]
   },
   "1zk51l4ogxd": {
     "message": "Keep building",
     "refs": [
-      "Flow.tsx:162:115"
+      "Flow.tsx:174:112"
+    ]
+  },
+  "21kbow3ow4r": {
+    "message": "Warm enough to welcome. Clear enough to sell.",
+    "refs": [
+      "StyleExamples.tsx:29:13"
     ]
   },
   "21w5emqto6i": {
     "message": "Or follow the documentation yourself",
     "refs": [
-      "Page.tsx:43:324"
+      "Page.tsx:47:324"
     ]
   },
   "25qv8zxerpu": {
     "message": "Give your agent the guide. Then go make something.",
     "refs": [
-      "Page.tsx:41:33"
+      "Page.tsx:45:33"
     ]
   },
   "2796eipf4ai": {
     "message": "A style guide you set once. A voice your agent carries forward.",
     "refs": [
-      "Flow.tsx:198:92"
+      "Flow.tsx:216:92"
     ]
   },
-  "291g5wny9kn": {
-    "message": "Your style guide goes with every string.",
+  "28szaxtrie1": {
+    "message": "Copy style prompt",
     "refs": [
-      "Flow.tsx:181:273"
+      "StyleExamples.tsx:71:78"
     ]
   },
   "29ftwhx4x79": {
     "message": "Set it up once",
     "refs": [
-      "Page.tsx:35:177"
+      "Page.tsx:38:177"
     ]
   },
   "2af786rz494": {
     "message": "Open source. MIT licensed.",
     "refs": [
-      "Page.tsx:52:130"
+      "Page.tsx:56:130"
     ]
   },
   "2anva15kzqi": {
     "message": "Pick what you’re building. Choose a voice. The English stays in your code; your agent takes care of the rest.",
     "refs": [
-      "Flow.tsx:158:15"
+      "Flow.tsx:170:15"
     ]
   },
   "2dsmoiq6hq7": {
     "message": "Your agent localizes.",
     "refs": [
-      "Page.tsx:33:90"
+      "Page.tsx:36:90"
     ]
   },
   "2edtth2bfnq": {
     "message": "Skip to content",
     "refs": [
-      "Page.tsx:22:46"
+      "Page.tsx:25:46"
     ]
   },
   "2ejkl1p6p09": {
     "message": "Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.",
     "refs": [
-      "Page.tsx:46:81"
+      "Page.tsx:50:81"
+    ]
+  },
+  "2f1asnkfpqd": {
+    "message": "Mexico · Launch",
+    "refs": [
+      "StyleExamples.tsx:27:14"
     ]
   },
   "2rbhbtplym": {
     "message": "Set up the project",
     "refs": [
-      "Page.tsx:45:44"
+      "Page.tsx:49:44"
+    ]
+  },
+  "32byzlued6": {
+    "message": "Example React component",
+    "refs": [
+      "Flow.tsx:187:89"
+    ]
+  },
+  "55wee83l2t": {
+    "message": "Configure duckalization for a young adult audience in Argentina (es-AR). Use vos and natural Rioplatense Spanish. Keep it playful, clear, and brief, without forced slang or Spain-specific phrasing. Keep product names unchanged. Save this as the es-AR translation style guide and connect it in the config, preserving other locale settings.",
+    "refs": [
+      "StyleExamples.tsx:14:15"
     ]
   },
   "5lsu18io9a": {
     "message": "You build it. Your agent translates it.",
     "refs": [
-      "Flow.tsx:157:89"
+      "Flow.tsx:169:89"
+    ]
+  },
+  "5n7a99ceza": {
+    "message": "Couldn’t copy. Select the prompt text to copy it.",
+    "refs": [
+      "StyleExamples.tsx:73:138"
     ]
   },
   "5zqcddgcg9": {
     "message": "Write English inline with __(). With the translation workflow in its instructions, your agent handles the catalogs as it works.",
     "refs": [
-      "Page.tsx:47:84"
-    ]
-  },
-  "6s11f3l2om": {
-    "message": "Your app, translated",
-    "refs": [
-      "Flow.tsx:184:59"
+      "Page.tsx:51:84"
     ]
   },
   "7cch5iqmmu": {
     "message": "Explore freely",
     "refs": [
-      "Flow.tsx:163:80"
+      "Flow.tsx:175:74"
     ]
   },
   "7lia56gd75": {
     "message": "Write English.",
     "refs": [
-      "Page.tsx:33:32"
+      "Page.tsx:36:32"
+    ]
+  },
+  "8w0ylwdiz5": {
+    "message": "Scroll to see English become your next language",
+    "refs": [
+      "Flow.tsx:220:72"
+    ]
+  },
+  "9ttcvkqy9h": {
+    "message": "A little of that voice",
+    "refs": [
+      "StyleExamples.tsx:64:18"
+    ]
+  },
+  "aztcvtmcjc": {
+    "message": "Casual. Local. Never trying too hard.",
+    "refs": [
+      "StyleExamples.tsx:13:13"
+    ]
+  },
+  "b43gk1bff8": {
+    "message": "Your voice",
+    "refs": [
+      "Flow.tsx:174:94"
     ]
   },
   "bni14b5710": {
     "message": "A launch",
     "refs": [
-      "Flow.tsx:152:61"
+      "Flow.tsx:164:61"
     ]
   },
   "bvgcl2r9qz": {
     "message": "Install duckalization and ask your agent to follow the guide for your app.",
     "refs": [
-      "Page.tsx:45:78"
+      "Page.tsx:49:78"
     ]
   },
   "e7gco2w8bm": {
     "message": "Localization for the way you build now.",
     "refs": [
-      "Page.tsx:32:35"
+      "Page.tsx:35:35"
     ]
   },
-  "fwv031hc3": {
-    "message": "Preview language",
+  "fhxmrzk781": {
+    "message": "Prompt copied.",
     "refs": [
-      "Flow.tsx:184:130"
+      "StyleExamples.tsx:73:90"
     ]
   },
   "gntht8p7jc": {
     "message": "Your agent is translating…",
     "refs": [
-      "Flow.tsx:181:322",
-      "Flow.tsx:181:432"
+      "Flow.tsx:201:305",
+      "Flow.tsx:201:466"
     ]
   },
   "h2e0hm4b0j": {
     "message": "Your voice, in every language",
     "refs": [
-      "Flow.tsx:198:45"
+      "Flow.tsx:216:45"
+    ]
+  },
+  "hl5rudwtt": {
+    "message": "The English inside __() is the catalog entry. There’s no key file to maintain, and the CLI refuses structurally invalid translations.",
+    "refs": [
+      "Page.tsx:40:44"
     ]
   },
   "j8bpxfo8k5": {
     "message": "Tell it how you sound",
     "refs": [
-      "Page.tsx:46:44"
+      "Page.tsx:50:44"
     ]
   },
   "l0jm1v99o0": {
     "message": "Your agent can wire up duckalization, configure your languages, and keep translations part of its development workflow. You stay focused on the app.",
     "refs": [
-      "Page.tsx:43:45"
-    ]
-  },
-  "nzkbnrawqo": {
-    "message": "Scroll to follow the flow",
-    "refs": [
-      "Flow.tsx:203:56"
+      "Page.tsx:47:45"
     ]
   },
   "p04seyn225": {
     "message": "Write English",
     "refs": [
-      "Flow.tsx:162:44"
+      "Flow.tsx:174:44"
     ]
   },
   "q8iycaqi8p": {
     "message": "Read the agent guide",
     "refs": [
-      "Page.tsx:43:247"
+      "Page.tsx:47:247"
     ]
   },
   "qxjpwdw731": {
     "message": "Workflow chapters",
     "refs": [
-      "Flow.tsx:161:49"
+      "Flow.tsx:173:49"
+    ]
+  },
+  "r4bmbyojwj": {
+    "message": "Configure duckalization for a marketing site launching in Mexico (es-MX), aimed at small-business owners. Use tú and natural Mexican Spanish. Lead with concrete benefits and clear calls to action. Sound warm and confident, without exaggerated promises or forced slang. Preserve prices and product names. Save this as the es-MX translation style guide and connect it in the config, preserving other locale settings.",
+    "refs": [
+      "StyleExamples.tsx:30:15"
     ]
   },
   "sg63uh8266": {
     "message": "Main navigation",
     "refs": [
-      "Page.tsx:25:26"
+      "Page.tsx:28:26"
+    ]
+  },
+  "sljh66pfc0": {
+    "message": "Argentina · Youth",
+    "refs": [
+      "StyleExamples.tsx:11:14"
     ]
   },
   "vh88ypv7zp": {
     "message": "Copied",
     "refs": [
-      "Page.tsx:45:264",
-      "Page.tsx:45:357"
+      "Page.tsx:49:616",
+      "Page.tsx:49:755",
+      "StyleExamples.tsx:71:130"
     ]
   },
   "w6hnb2xkfx": {
     "message": "Translations are up to date.",
     "refs": [
-      "Flow.tsx:181:467"
+      "Flow.tsx:201:501"
     ]
   },
   "y598y77ys": {
     "message": "Make it yours. Try another scene or voice.",
     "refs": [
-      "Flow.tsx:203:90"
+      "Flow.tsx:220:128"
     ]
   }
 }

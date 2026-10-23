@@ -1,17 +1,20 @@
 import '@fontsource-variable/bricolage-grotesque/standard.css';
 import '@fontsource-variable/jetbrains-mono';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Command, Duck, Logo, SegmentedControl, TextLink } from '../design/index.ts';
-import { INSTALL, LLMS_URL, REPO_URL } from '../shared/facts.ts';
+import { LLMS_URL, REPO_URL } from '../shared/facts.ts';
 import { DuckProvider, useLocale } from '../shared/real.ts';
 import { useDirection } from '../shared/motion.ts';
 import { duck, useT } from './i18n.tsx';
 import { Flow } from './Flow.tsx';
+import { StyleExamples } from './StyleExamples.tsx';
 import './landing.css';
 
 function Shell() {
   const { __, __s } = useT();
   const [locale, setLocale] = useLocale();
+  const [manager, setManager] = useState('npm');
+  const install = manager === 'npm' ? 'npm install' : `${manager} add`;
   useEffect(() => {
     const previous = document.documentElement.lang;
     document.documentElement.lang = locale;
@@ -34,6 +37,7 @@ function Shell() {
           <p className="hero-lede">{__('No translation keys. No switching gears. Set your languages and style guide, then let your coding agent keep your app translated as you build.')}</p>
           <div className="hero-actions"><Button variant="primary" href="#see-it">{__('See it happen')} <span aria-hidden="true">↓</span></Button><TextLink href="#get-started">{__('Set it up once')} ↗</TextLink></div>
           <div className="hero-signature"><code>{"__('Make something wonderful.')"}</code><Duck mood="happy" /><span>{__('Just your words. That’s the whole idea.')}</span></div>
+          <p className="hero-explanation">{__('The English inside __() is the catalog entry. There’s no key file to maintain, and the CLI refuses structurally invalid translations.')}</p>
         </section>
         <Flow />
         <section className="setup fk-wrap" id="get-started" aria-labelledby="setup-title">
@@ -42,8 +46,8 @@ function Shell() {
           <div className="setup-grid">
             <div className="setup-copy"><p>{__('Your agent can wire up duckalization, configure your languages, and keep translations part of its development workflow. You stay focused on the app.')}</p><Button variant="primary" href={LLMS_URL}>{__('Read the agent guide')} ↗</Button><TextLink href={`${REPO_URL}#readme`}>{__('Or follow the documentation yourself')}</TextLink></div>
             <ol className="setup-steps">
-              <li><span>01</span><div><h3>{__('Set up the project')}</h3><p>{__('Install duckalization and ask your agent to follow the guide for your app.')}</p><div className="setup-commands"><Command command={INSTALL.react} copyLabel={__('Copy')} copiedLabel={__('Copied')} size="sm" /><Command command={INSTALL.cli} copyLabel={__('Copy')} copiedLabel={__('Copied')} size="sm" /></div></div></li>
-              <li><span>02</span><div><h3>{__('Tell it how you sound')}</h3><p>{__('Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.')}</p></div></li>
+              <li><span>01</span><div><h3>{__('Set up the project')}</h3><p>{__('Install duckalization and ask your agent to follow the guide for your app.')}</p><div className="setup-manager"><label htmlFor="package-manager">{__('Package manager')}</label><select id="package-manager" value={manager} onChange={(event) => setManager(event.target.value)}>{['npm', 'pnpm', 'yarn', 'bun'].map((value) => <option key={value} value={value}>{value}</option>)}</select></div><div className="setup-commands"><Command key={`${manager}-react`} command={`${install} @duckalization/react`} copyLabel={__('Copy')} copiedLabel={__('Copied')} size="sm" /><Command key={`${manager}-cli`} command={`${install} -D @duckalization/cli`} copyLabel={__('Copy')} copiedLabel={__('Copied')} size="sm" /></div></div></li>
+              <li><span>02</span><div><h3>{__('Tell it how you sound')}</h3><p>{__('Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.')}</p><StyleExamples /></div></li>
               <li><span>03</span><div><h3>{__('Build like you always do')}</h3><p>{__('Write English inline with __(). With the translation workflow in its instructions, your agent handles the catalogs as it works.')}</p></div></li>
             </ol>
           </div>

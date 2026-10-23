@@ -2,6 +2,33 @@ import { messageId, type Catalog } from '../shared/real.ts';
 
 // The landing page is localized with duckalization itself.
 const PAIRS: [string, string][] = [
+  ["Argentina · Youth", "Argentina · Jóvenes"],
+  ["Casual. Local. Never trying too hard.", "Informal y local. Sin forzar la onda."],
+  ["Configure duckalization for a young adult audience in Argentina (es-AR). Use vos and natural Rioplatense Spanish. Keep it playful, clear, and brief, without forced slang or Spain-specific phrasing. Keep product names unchanged. Save this as the es-AR translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para un público de adultos jóvenes en Argentina (es-AR). Usa vos y español rioplatense natural. Mantén un tono divertido, claro y breve, sin jerga forzada ni expresiones propias de España. Conserva los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-AR y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Spain · Business", "España · Negocios"],
+  ["Professional, without the corporate fog.", "Profesional, sin lenguaje rebuscado."],
+  ["Configure duckalization for business professionals in Spain (es-ES). Address readers as usted. Use clear, precise language and a confident, respectful tone. Prefer presupuesto for quote. Avoid hype, buzzwords, and unnecessary anglicisms. Keep product names unchanged. Save this as the es-ES translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para profesionales de negocios en España (es-ES). Trata a los lectores de usted. Usa un lenguaje claro y preciso, con un tono seguro y respetuoso. Prefiere presupuesto para quote. Evita las exageraciones, las palabras de moda y los anglicismos innecesarios. Conserva los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-ES y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Mexico · Launch", "México · Lanzamiento"],
+  ["Warm enough to welcome. Clear enough to sell.", "Cercano para conectar. Claro para vender."],
+  ["Configure duckalization for a marketing site launching in Mexico (es-MX), aimed at small-business owners. Use tú and natural Mexican Spanish. Lead with concrete benefits and clear calls to action. Sound warm and confident, without exaggerated promises or forced slang. Preserve prices and product names. Save this as the es-MX translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para un sitio de marketing que se lanzará en México (es-MX), dirigido a dueños de pequeños negocios. Usa tú y español mexicano natural. Destaca beneficios concretos y llamadas a la acción claras. Usa un tono cálido y seguro, sin promesas exageradas ni jerga forzada. Conserva los precios y los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-MX y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Style guide examples", "Ejemplos de guías de estilo"],
+  ["A little of that voice", "Una muestra de esa voz"],
+  ["Give your agent a starting point.", "Dale un punto de partida a tu agente."],
+  ["Copy style prompt", "Copiar instrucciones de estilo"],
+  ["Copy prompt", "Copiar instrucciones"],
+  ["Prompt copied.", "Instrucciones copiadas."],
+  ["Couldn’t copy. Select the prompt text to copy it.", "No se pudo copiar. Selecciona el texto de las instrucciones para copiarlo."],
+
+  ['Scroll the code sideways to read each line.', 'Desliza el código hacia los lados para leer cada línea.'],
+  ["English →", "Inglés →"],
+  ["Translate into", "Traducir al"],
+  ["Try a voice. Watch the translation change.", "Prueba una voz. Mira cómo cambia la traducción."],
+  ["Package manager", "Gestor de paquetes"],
+  ["Example React component", "Componente React de ejemplo"],
+  ["Scroll to see English become your next language", "Desplázate para ver cómo el inglés se convierte en otro idioma"],
+  ["Your voice", "Tu voz"],
+  ["The English inside __() is the catalog entry. There’s no key file to maintain, and the CLI refuses structurally invalid translations.", "El inglés dentro de __() es la entrada del catálogo. No hay un archivo de claves que mantener, y la CLI rechaza las traducciones con una estructura inválida."],
+
   ['Your style guide goes with every string.', 'Tu guía de estilo acompaña cada texto.'],
   ['Workflow chapters', 'Etapas del flujo'],
   ['Write English', 'Escribe en inglés'],

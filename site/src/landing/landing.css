@@ -19,7 +19,7 @@
 .setup-copy > p { max-width: 35em; font-size: 18px; margin-bottom: 28px; }.setup-copy > a:last-child { display: block; margin-top: 20px; font-size: 13px; }
 .setup-steps { list-style: none; display: grid; gap: 28px; }
 .setup-steps li { display: flex; align-items: baseline; gap: 20px; }.setup-steps li > span { font: 12px var(--dk-font-family-mono); color: var(--dk-color-accent-pond); }
-.setup-steps h3 { font-size: 20px; font-weight: 800; }.setup-steps p { font-size: 14px; margin-top: 8px; color: var(--dk-color-text-muted); }
+.setup-steps h3 { font-size: 20px; font-weight: 800; }.setup-steps p { font-size: 16px; margin-top: 8px; color: var(--dk-color-text-muted); }
 .setup-steps li > div { min-width: 0; }
 .setup-commands { display: grid; gap: 8px; margin-top: 16px; }.setup-commands .dk-command { max-width: 100%; }.setup-commands code { overflow-x: auto; }
 .site-footer { border-top: 1px solid var(--dk-color-border-default); padding-block: 28px; display: flex; align-items: center; gap: 24px; font-size: 12px; }.site-footer > div { display: flex; align-items: center; gap: 16px; margin-right: auto; }.site-footer .dk-duck { font-size: 28px; }
@@ -29,3 +29,29 @@
 @media (prefers-reduced-motion: reduce) { .fk *, .fk *::before, .fk *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 .site-header nav a { white-space: nowrap; }
 @media (max-width: 700px) { .site-header { gap: 12px; }.site-header nav { gap: 12px; } }
+
+.hero-explanation { margin-top: 16px; max-width: 68ch; color: var(--dk-color-text-muted); font-size: 14px; }
+.setup-manager { display: flex; gap: 12px; align-items: center; margin-top: 16px; font-size: 12px; }
+.setup-manager select { border: 1px solid var(--dk-color-border-default); background: var(--dk-color-surface-raised); color: inherit; border-radius: 16px; padding: 4px 10px; }
+
+/* Copyable briefs demonstrate how an audience becomes a translation voice. */
+.style-examples { margin-top: 20px; border: 1px solid var(--dk-color-border-default); border-radius: 18px; background: var(--dk-color-surface-raised); overflow: hidden; }
+.style-example-options { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px; border-bottom: 1px solid var(--dk-color-border-subtle); }
+.style-example-options button { padding: 8px 12px; border: 1px solid transparent; border-radius: 20px; background: transparent; color: inherit; cursor: pointer; font-size: 13px; line-height: 1.4; }
+.style-example-options button[aria-pressed='true'] { background: var(--dk-color-accent-duck); border-color: var(--dk-color-border-default); }
+.style-example-options button:hover:not([aria-pressed='true']) { background: var(--dk-color-wash-pond); }
+.style-example-content { padding: 20px; }
+.style-example-content > header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+.style-example-locale { color: var(--dk-color-accent-pond); font: 12px var(--dk-font-family-mono); }
+.style-example-content h4 { font-size: 16px; font-weight: 750; line-height: 1.4; }
+.style-example-prompt { font-size: 16px; line-height: 1.65; text-wrap: pretty; user-select: text; animation: text-enter 180ms ease-out both; }
+.style-example-wording { display: grid; gap: 4px; padding: 16px; border-left: 3px solid var(--dk-color-accent-pond); background: var(--dk-color-wash-pond); border-radius: 0 10px 10px 0; margin-top: 20px; font-size: 16px; line-height: 1.5; }
+.style-example-wording > span:first-child { font: 11px/1.6 var(--dk-font-family-mono); margin-bottom: 4px; color: var(--dk-color-accent-pond); }
+.style-example-wording > span[aria-hidden] { font-size: 13px; color: var(--dk-color-accent-pond); }
+.style-example-wording q:last-child { font-weight: 700; }
+.style-example-action { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.style-example-action > span { font-size: 12px; color: var(--dk-color-text-muted); }
+.style-example-action button { display: flex; gap: 12px; align-items: center; padding: 10px 16px; border: 1px solid var(--dk-color-border-default); border-radius: 24px; background: var(--dk-color-accent-duck); color: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.style-example-feedback { display: block; font-size: 12px; line-height: 1.5; color: var(--dk-color-accent-pond); }
+.style-example-feedback:not(:empty) { margin-top: 10px; }
+@media (max-width: 700px) { .style-example-content { padding: 16px; }.style-example-options { gap: 4px; }.style-example-options button { padding-inline: 10px; } }
