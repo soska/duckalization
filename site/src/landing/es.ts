@@ -1,159 +1,229 @@
-import { messageId, type Catalog, type Message } from '../shared/real.ts';
+import { messageId, type Catalog } from '../shared/real.ts';
 
-/**
- * The page's Spanish catalog, written as English → Spanish so no ID is ever
- * typed by hand: each key is the real messageId of the English source.
- *
- * Deliberately partial, with a gap in every section so the x-ray always has
- * something to show: the duck-face joke, the llms.txt link, the footer,
- * "Copied", the skip link, two notes and a caption in "How it works", and the
- * "Proof" label, "real runtime" and "fallback" in the replay.
- */
-const PAIRS: Array<[Message, Message]> = [
-  // chrome + hero (shared with direction D)
-  ['Translation demo', 'Demo de traducción'],
-  ['Page language', 'Idioma de la página'],
-  ['Show fallbacks', 'Resaltar lo no traducido'],
-  ['{translated} of {total} strings translated', '{translated} de {total} textos traducidos'],
-  [
-    { one: '{count} is still English-only', other: '{count} are still English-only' },
-    { one: '{count} sigue solo en inglés', other: '{count} siguen solo en inglés' },
-  ],
-  ['Copy', 'Copiar'],
-  ['Install', 'Instalar'],
-  ['Write English. Your agent translates. The duck checks.', 'Escribe en inglés. Tu agente traduce. El pato revisa.'],
-  [
-    'No translation keys: every message’s ID is hashed from its own text. The CLI extracts your strings, hands any agent a brief, and checks every translation before it lands.',
-    'Sin claves de traducción: el ID de cada mensaje es el hash de su propio texto. La CLI extrae tus textos, le entrega un encargo a cualquier agente y revisa cada traducción antes de aplicarla.',
-  ],
-  ['Source on GitHub', 'Código en GitHub'],
-  ['This page is translated with duckalization.', 'Esta página está traducida con duckalization.'],
-  [
-    'Its Spanish catalog is deliberately incomplete. Switch to Español and turn on Show fallbacks to see which strings are still in English.',
-    'Su catálogo en español está incompleto a propósito. Activa «Resaltar lo no traducido» para ver qué textos siguen en inglés.',
-  ],
+// The landing page is localized with duckalization itself.
+const PAIRS: [string, string][] = [
+  ['Trust, but verify.', 'Confía, pero verifica.'],
+  ['Your agent translates. duckalization checks the work.', 'Tu agente traduce. duckalization revisa el trabajo.'],
+  ['duckalization never calls a model. It hands your agent a brief, then validates every answer before a single string reaches your catalogs.', 'duckalization nunca llama a un modelo. Le entrega a tu agente un encargo y valida cada respuesta antes de que un solo texto llegue a tus catálogos.'],
+  ['A bad answer changes nothing.', 'Una mala respuesta no cambia nada.'],
+  ['Unknown IDs, typo’d placeholders, wrong plural forms, a translated brand name: one error rejects the whole file, and nothing is written.', 'IDs desconocidos, marcadores mal escritos, formas de plural incorrectas, un nombre de marca traducido: un solo error rechaza el archivo completo y no se escribe nada.'],
+  ['Missing means English, never blank.', 'Si falta, sale en inglés, nunca en blanco.'],
+  ['A string without a translation renders the English you wrote. Ship a partial catalog today, and add a CI check when you want every language complete.', 'Un texto sin traducción muestra el inglés que escribiste. Publica hoy un catálogo parcial y agrega una verificación en CI cuando quieras todos los idiomas completos.'],
+  ['You approve the words that matter.', 'Tú apruebas las palabras importantes.'],
+  ['Glossary terms need a human sign-off. Until a language’s terms are approved, the CLI won’t brief or apply it, and the agent guide tells your agent to ask you instead of approving them itself.', 'Los términos del glosario necesitan la aprobación de una persona. Hasta que se aprueben los de un idioma, la CLI no genera encargos ni aplica traducciones para él, y la guía para agentes le indica a tu agente que te pregunte en lugar de aprobarlos por su cuenta.'],
 
-  // how it works
-  ['How it works', 'Cómo funciona'],
-  ['How a string gets translated', 'Cómo se traduce un texto'],
-  [
-    'Follow one string, {message}, from the line you write to the catalog you ship.',
-    'Sigue un texto, {message}, desde la línea que escribes hasta el catálogo que publicas.',
-  ],
-  ['It does the judgment. I do the checking.', 'Él pone el criterio. Yo hago la revisión.'],
-  ['Pipeline steps', 'Pasos del proceso'],
-  ['Write English inline', 'Escribe en inglés, en el código'],
-  ['Extract a brief', 'Extrae un encargo'],
-  ['Any agent translates', 'Cualquier agente traduce'],
-  ['Code checks the work', 'El código revisa el trabajo'],
-  ['Ship a partial catalog', 'Publica un catálogo incompleto'],
-  [
-    'The string in your code is the message. Nothing else changes.',
-    'El texto en tu código es el mensaje. Nada más cambia.',
-  ],
-  [
-    'No translation keys. IDs are hashed from the text. The same string in many places is one catalog entry.',
-    'Sin claves de traducción. Los IDs son el hash del texto. El mismo texto en muchos lugares es una sola entrada del catálogo.',
-  ],
-  [
-    'The CLI hashes each string into an ID and writes a self-contained work order for an agent.',
-    'La CLI convierte cada texto en un ID con un hash y escribe un encargo autosuficiente para un agente.',
-  ],
-  ['How the ID is derived', 'Cómo se obtiene el ID'],
-  ['Exact text: no trimming, no case folding.', 'Texto exacto: sin recortar espacios ni cambiar mayúsculas.'],
-  ['Same text, same ID, everywhere.', 'Mismo texto, mismo ID, en todas partes.'],
-  ['Brief entry', 'Entrada del encargo'],
-  ['The translating agent needs no repo access.', 'El agente que traduce no necesita acceso al repositorio.'],
-  [
-    'The CLI never calls a model. Bring whichever agent you like.',
-    'La CLI nunca llama a un modelo. Usa el agente que prefieras.',
-  ],
-  [
-    'The brief leaves duckalize as a file, and the answer comes back as one.',
-    'El encargo sale de duckalize como un archivo, y la respuesta vuelve como otro.',
-  ],
-  ['any agent', 'cualquier agente'],
-  ['The agent’s first answer', 'La primera respuesta del agente'],
-  ['first answer, as returned', 'primera respuesta, tal como llegó'],
-  [
-    'Unknown IDs, empty strings, malformed plurals and invented placeholders are rejected before anything is written.',
-    'Los IDs desconocidos, los textos vacíos, los plurales mal formados y los placeholders inventados se rechazan antes de escribir nada.',
-  ],
-  ['Errors reject the whole file; nothing is written.', 'Un error rechaza el archivo entero; no se escribe nada.'],
-  ['Apply-time checks for two answers from the agent', 'Revisiones al aplicar dos respuestas del agente'],
-  ['Check', 'Revisión'],
-  ['Answer 1', 'Respuesta 1'],
-  ['Answer 2', 'Respuesta 2'],
-  ['passes', 'pasa'],
-  ['Missing translations fall back to the inline English.', 'Lo que falta por traducir se muestra en el inglés del código.'],
-  ['Your app, in Spanish', 'Tu app, en español'],
+  ["Argentina · Youth", "Argentina · Jóvenes"],
+  ["Casual. Local. Never trying too hard.", "Informal y local. Sin forzar la onda."],
+  ["Configure duckalization for a young adult audience in Argentina (es-AR). Use vos and natural Rioplatense Spanish. Keep it playful, clear, and brief, without forced slang or Spain-specific phrasing. Keep product names unchanged. Save this as the es-AR translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para un público de adultos jóvenes en Argentina (es-AR). Usa vos y español rioplatense natural. Mantén un tono divertido, claro y breve, sin jerga forzada ni expresiones propias de España. Conserva los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-AR y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Spain · Business", "España · Negocios"],
+  ["Professional, without the corporate fog.", "Profesional, sin lenguaje rebuscado."],
+  ["Configure duckalization for business professionals in Spain (es-ES). Address readers as usted. Use clear, precise language and a confident, respectful tone. Prefer presupuesto for quote. Avoid hype, buzzwords, and unnecessary anglicisms. Keep product names unchanged. Save this as the es-ES translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para profesionales de negocios en España (es-ES). Trata a los lectores de usted. Usa un lenguaje claro y preciso, con un tono seguro y respetuoso. Prefiere presupuesto para quote. Evita las exageraciones, las palabras de moda y los anglicismos innecesarios. Conserva los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-ES y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Mexico · Launch", "México · Lanzamiento"],
+  ["Warm enough to welcome. Clear enough to sell.", "Cercano para conectar. Claro para vender."],
+  ["Configure duckalization for a marketing site launching in Mexico (es-MX), aimed at small-business owners. Use tú and natural Mexican Spanish. Lead with concrete benefits and clear calls to action. Sound warm and confident, without exaggerated promises or forced slang. Preserve prices and product names. Save this as the es-MX translation style guide and connect it in the config, preserving other locale settings.", "Configura duckalization para un sitio de marketing que se lanzará en México (es-MX), dirigido a dueños de pequeños negocios. Usa tú y español mexicano natural. Destaca beneficios concretos y llamadas a la acción claras. Usa un tono cálido y seguro, sin promesas exageradas ni jerga forzada. Conserva los precios y los nombres de los productos. Guarda estas instrucciones como guía de estilo de traducción para es-MX y vincúlala en la configuración, conservando los ajustes de los otros idiomas."],
+  ["Style guide examples", "Ejemplos de guías de estilo"],
+  ["A little of that voice", "Una muestra de esa voz"],
+  ["Give your agent a starting point.", "Dale un punto de partida a tu agente."],
+  ["Copy style prompt", "Copiar instrucciones de estilo"],
+  ["Copy prompt", "Copiar instrucciones"],
+  ["Prompt copied.", "Instrucciones copiadas."],
+  ["Couldn’t copy. Select the prompt text to copy it.", "No se pudo copiar. Selecciona el texto de las instrucciones para copiarlo."],
 
-  // replay
-  ['Now watch a real run.', 'Ahora mira una ejecución real.'],
+  ['Scroll the code sideways to read each line.', 'Desliza el código hacia los lados para leer cada línea.'],
+  ["English →", "Inglés →"],
+  ["Translate into", "Traducir al"],
+  ["Try a voice. Watch the translation change.", "Prueba una voz. Mira cómo cambia la traducción."],
+  ["Package manager", "Gestor de paquetes"],
+  ["Example React component", "Componente React de ejemplo"],
+  ["Scroll to see English become your next language", "Desplázate para ver cómo el inglés se convierte en otro idioma"],
+  ["Your voice", "Tu voz"],
+  ["The English inside __() is the catalog entry. There’s no key file to maintain, and the CLI refuses structurally invalid translations.", "El inglés dentro de __() es la entrada del catálogo. No hay un archivo de claves que mantener, y la CLI rechaza las traducciones con una estructura inválida."],
+
+  ['Your style guide goes with every string.', 'Tu guía de estilo acompaña cada texto.'],
+  ['Workflow chapters', 'Etapas del flujo'],
+  ['Write English', 'Escribe en inglés'],
+  ['Set the voice', 'Define la voz'],
+  ['Your agent translates', 'Tu agente traduce'],
+  ['Keep building', 'Sigue creando'],
+  ['Explore freely', 'Explora a tu ritmo'],
+  ['Scroll to follow the flow', 'Desplázate para seguir el flujo'],
+  ['Make it yours. Try another scene or voice.', 'Hazlo tuyo. Prueba otra escena o voz.'],
   [
-    'A replay of a real session against the same component. Every line in the duckalize pane is what the CLI printed. The agent pane is the only place a model is involved.',
-    'La repetición de una sesión real con el mismo componente. Cada línea del panel de duckalize es lo que imprimió la CLI. El panel del agente es el único lugar donde interviene un modelo.',
-  ],
-  ['you', 'tú'],
-  ['agent', 'agente'],
-  ['Your editor', 'Tu editor'],
-  ['duckalize output', 'Salida de duckalize'],
-  ['Agent output', 'Salida del agente'],
-  ['deterministic · never calls a model', 'determinista · nunca llama a un modelo'],
-  ['any model · the only judgment', 'cualquier modelo · el único criterio'],
-  [
-    'Waiting for a brief. The agent only sees what duckalize translate brief hands it.',
-    'Esperando un encargo. El agente solo ve lo que le entrega duckalize translate brief.',
-  ],
-  [
-    'The agent reads the brief and writes es.out.json. Its first answer invents a placeholder and an ID.',
-    'El agente lee el encargo y escribe es.out.json. Su primera respuesta inventa un placeholder y un ID.',
-  ],
-  [
-    'duckalize rejects that answer, writes nothing, and accepts the corrected one.',
-    'duckalize rechaza esa respuesta, no escribe nada y acepta la corregida.',
+    "Build like you always do",
+    "Crea como siempre"
   ],
   [
-    'Rename Checkout to Check out and it gets a new ID, {newId}. The old entry, {oldId}, is orphaned, and the new text renders in English.',
-    'Cambia Checkout por Check out y recibe un ID nuevo, {newId}. La entrada anterior, {oldId}, queda huérfana, y el texto nuevo se muestra en inglés.',
-  ],
-  ['session player', 'reproductor de sesión'],
-  [
-    'Session player. Space plays or pauses; left and right arrows change chapter.',
-    'Reproductor de sesión. La barra espaciadora reproduce o pausa; las flechas cambian de capítulo.',
+    "What are you building?",
+    "¿Qué estás creando?"
   ],
   [
-    'Session transcript. Left and right arrows change chapter.',
-    'Transcripción de la sesión. Las flechas cambian de capítulo.',
+    "Translation style",
+    "Estilo de traducción"
   ],
-  ['Actors', 'Participantes'],
-  ['Play', 'Reproducir'],
-  ['Pause', 'Pausar'],
-  ['Replay', 'Repetir'],
-  ['Previous', 'Anterior'],
-  ['Next', 'Siguiente'],
-  ['Session position', 'Posición en la sesión'],
-  // H: the pinned app preview and the rename step. Left in English on purpose:
-  // the rename status line and the label for the two-ID group.
-  ['Your app', 'Tu app'],
-  ['es · draft', 'es · borrador'],
-  ['not in this answer', 'falta en la respuesta'],
-  ['Your English, rendered exactly as written.', 'Tu inglés, tal como lo escribiste.'],
-  ['Every string now has an ID, hashed from its text.', 'Cada texto ya tiene un ID: el hash de su contenido.'],
-  ['The agent’s draft. Not live: nothing has been applied.', 'El borrador del agente. Todavía no está en vivo: no se ha aplicado nada.'],
-  ['The duck is checking the answer.', 'El pato está revisando la respuesta.'],
-  ['Rejected. Nothing was written, so your app is still in English.', 'Rechazado. No se escribió nada, así que tu app sigue en inglés.'],
-  ['Applied to es.json. Your app is live in Spanish.', 'Aplicado a es.json. Tu app ya está en español.'],
-  ['Each call is one string in your app above. Same number, same color.', 'Cada llamada es un texto de tu app, arriba. Mismo número, mismo color.'],
-  ['You edit the copy. New text, new ID.', 'Cambias el texto. Texto nuevo, ID nuevo.'],
-  ['old', 'viejo'],
-  ['new', 'nuevo'],
-  ['Still in es.json, no longer in en.json: an orphan. prune archives it.', 'Sigue en es.json, pero ya no en en.json: queda huérfano. prune lo archiva.'],
-  ['Not in es.json yet, so your app renders the inline English.', 'Todavía no está en es.json, así que tu app muestra el inglés del código.'],
   [
-    'A partial target catalog is safe to ship. The next brief picks up the new string.',
-    'Un catálogo incompleto se puede publicar sin problema. El próximo encargo incluye el texto nuevo.',
+    "Interactive illustration with example translations. In your project, your configured coding agent does the translating.",
+    "Ilustración interactiva con traducciones de ejemplo. En tu proyecto, tu agente de código configurado se encarga de traducir."
   ],
+  [
+    "No translation keys. No switching gears. Set your languages and style guide, then let your coding agent keep your app translated as you build.",
+    "Sin claves de traducción. Sin cambiar de contexto. Define los idiomas y el estilo, y deja que tu agente mantenga la app traducida mientras la construyes."
+  ],
+  [
+    "An invitation",
+    "Una invitación"
+  ],
+  [
+    "Always English",
+    "Siempre en inglés"
+  ],
+  [
+    "Stay in your flow",
+    "Sigue en lo tuyo"
+  ],
+  [
+    "Short & direct",
+    "Breve y directo"
+  ],
+  [
+    "Warm & friendly",
+    "Cálido y cercano"
+  ],
+  [
+    "A new project",
+    "Un proyecto nuevo"
+  ],
+  [
+    "A little setup. A lot less work.",
+    "Un poco de configuración. Mucho menos trabajo."
+  ],
+  [
+    "See it happen",
+    "Míralo en acción"
+  ],
+  [
+    "You’re building…",
+    "Estás creando…"
+  ],
+  [
+    "Just your words. That’s the whole idea.",
+    "Solo tus palabras. Esa es la idea."
+  ],
+  [
+    "Copy",
+    "Copiar"
+  ],
+  [
+    "Page language",
+    "Idioma de la página"
+  ],
+  [
+    "This page speaks duckalization, too.",
+    "Esta página también habla duckalization."
+  ],
+  [
+    "Or follow the documentation yourself",
+    "O sigue la documentación por tu cuenta"
+  ],
+  [
+    "Give your agent the guide. Then go make something.",
+    "Dale la guía a tu agente. Y ponte a crear."
+  ],
+  [
+    "A style guide you set once. A voice your agent carries forward.",
+    "Define el estilo una vez. Tu agente mantiene esa voz."
+  ],
+  [
+    "Set it up once",
+    "Configúralo una vez"
+  ],
+  [
+    "Open source. MIT licensed.",
+    "Código abierto. Licencia MIT."
+  ],
+  [
+    "Pick what you’re building. Choose a voice. The English stays in your code; your agent takes care of the rest.",
+    "Elige qué crear. Dale una voz. El inglés se queda en tu código; tu agente se encarga del resto."
+  ],
+  [
+    "Skip to content",
+    "Ir al contenido"
+  ],
+  [
+    "Choose your languages. Define your tone, terminology, and style. Your agent receives that guidance with the strings it translates.",
+    "Elige los idiomas. Define el tono, la terminología y el estilo. Tu agente recibe esas indicaciones junto con los textos que traduce."
+  ],
+  [
+    "Set up the project",
+    "Prepara el proyecto"
+  ],
+  [
+    "Your agent localizes.",
+    "Tu agente localiza."
+  ],
+  [
+    "You build it. Your agent translates it.",
+    "Tú creas. Tu agente traduce."
+  ],
+  [
+    "Write English inline with __(). With the translation workflow in its instructions, your agent handles the catalogs as it works.",
+    "Escribe en inglés con __(). Con el flujo de traducción en sus instrucciones, tu agente se encarga de los catálogos mientras trabaja."
+  ],
+  [
+    "Your app, translated",
+    "Tu app, traducida"
+  ],
+  [
+    "Write English.",
+    "Escribe en inglés."
+  ],
+  [
+    "A launch",
+    "Un lanzamiento"
+  ],
+  [
+    "Install duckalization and ask your agent to follow the guide for your app.",
+    "Instala duckalization y pídele a tu agente que siga la guía para tu app."
+  ],
+  [
+    "Localization for the way you build now.",
+    "Localización para tu nueva forma de crear."
+  ],
+  [
+    "Preview language",
+    "Idioma de la vista previa"
+  ],
+  [
+    "Your agent is translating…",
+    "Tu agente está traduciendo…"
+  ],
+  [
+    "Your voice, in every language",
+    "Tu voz, en todos los idiomas"
+  ],
+  [
+    "Tell it how you sound",
+    "Dile cómo quieres sonar"
+  ],
+  [
+    "Your agent can wire up duckalization, configure your languages, and keep translations part of its development workflow. You stay focused on the app.",
+    "Tu agente puede integrar duckalization, configurar los idiomas e incluir las traducciones en su flujo de desarrollo. Tú te concentras en la app."
+  ],
+  [
+    "Read the agent guide",
+    "Lee la guía para agentes"
+  ],
+  [
+    "Main navigation",
+    "Navegación principal"
+  ],
+  [
+    "Copied",
+    "Copiado"
+  ],
+  [
+    "Translations are up to date.",
+    "Traducciones al día."
+  ]
 ];
 
 export const ES_CATALOG: Catalog = Object.fromEntries(PAIRS.map(([en, es]) => [messageId(en), es]));

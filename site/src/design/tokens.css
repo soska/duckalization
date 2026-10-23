@@ -29,6 +29,7 @@
   --dk-color-yellow-500-a20: #ffc21a33;
   --dk-color-yellow-500-a34: #ffc21a57;
   --dk-color-orange-100: #fde7d4;
+  --dk-color-orange-200: #eeb78a;
   --dk-color-orange-400: #ff8a3d;
   --dk-color-orange-500: #ee5f1b;
   --dk-color-orange-900: #402915;
@@ -201,7 +202,7 @@
   --dk-text-button-line-height: var(--dk-font-line-height-120);
   --dk-text-note-family: var(--dk-font-family-sans);
   --dk-text-note-weight: var(--dk-font-weight-650);
-  --dk-text-note-size: var(--dk-font-size-13);
+  --dk-text-note-size: var(--dk-font-size-14);
   --dk-text-note-line-height: var(--dk-font-line-height-130);
   --dk-text-wordmark-family: var(--dk-font-family-sans);
   --dk-text-wordmark-weight: var(--dk-font-weight-750);
@@ -215,23 +216,23 @@
   --dk-text-eyebrow-letter-spacing: var(--dk-font-letter-spacing-wide);
   --dk-text-code-family: var(--dk-font-family-mono);
   --dk-text-code-weight: var(--dk-font-weight-500);
-  --dk-text-code-size: var(--dk-font-size-12);
+  --dk-text-code-size: var(--dk-font-size-14);
   --dk-text-code-line-height: var(--dk-font-line-height-165);
   --dk-text-terminal-family: var(--dk-font-family-mono);
   --dk-text-terminal-weight: var(--dk-font-weight-500);
-  --dk-text-terminal-size: var(--dk-font-size-12);
+  --dk-text-terminal-size: var(--dk-font-size-14);
   --dk-text-terminal-line-height: var(--dk-font-line-height-165);
   --dk-text-editor-family: var(--dk-font-family-mono);
   --dk-text-editor-weight: var(--dk-font-weight-500);
-  --dk-text-editor-size: var(--dk-font-size-12);
+  --dk-text-editor-size: var(--dk-font-size-14);
   --dk-text-editor-line-height: var(--dk-font-line-height-175);
   --dk-text-code-label-family: var(--dk-font-family-mono);
   --dk-text-code-label-weight: var(--dk-font-weight-700);
-  --dk-text-code-label-size: var(--dk-font-size-13);
+  --dk-text-code-label-size: var(--dk-font-size-14);
   --dk-text-code-label-line-height: var(--dk-font-line-height-120);
   --dk-text-tag-family: var(--dk-font-family-mono);
   --dk-text-tag-weight: var(--dk-font-weight-600);
-  --dk-text-tag-size: var(--dk-font-size-10);
+  --dk-text-tag-size: var(--dk-font-size-14);
   --dk-text-tag-line-height: var(--dk-font-line-height-100);
   --dk-text-tag-letter-spacing: var(--dk-font-letter-spacing-wide);
   --dk-text-app-heading-family: var(--dk-font-family-sans);
@@ -289,6 +290,7 @@
   --dk-color-terminal-ok: var(--dk-color-green-300);
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
+  --dk-color-terminal-keyword: var(--dk-color-orange-200);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
   --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
@@ -332,6 +334,7 @@
     --dk-color-terminal-ok: var(--dk-color-green-300);
     --dk-color-terminal-err: var(--dk-color-red-300);
     --dk-color-terminal-warn: var(--dk-color-yellow-300);
+    --dk-color-terminal-keyword: var(--dk-color-orange-200);
     --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
     --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);
@@ -375,6 +378,7 @@
   --dk-color-terminal-ok: var(--dk-color-green-300);
   --dk-color-terminal-err: var(--dk-color-red-300);
   --dk-color-terminal-warn: var(--dk-color-yellow-300);
+  --dk-color-terminal-keyword: var(--dk-color-orange-200);
   --dk-color-terminal-hit: var(--dk-color-yellow-500-a20);
 
   --dk-shadow-sticker-sm: 2px 2px 0px 0px var(--dk-color-shadow-sticker);

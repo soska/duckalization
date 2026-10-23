@@ -154,7 +154,7 @@
       "$value": {
         "fontFamily": "{font.family.sans}",
         "fontWeight": "{font.weight.650}",
-        "fontSize": "{font.size.13}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.130}"
       },
       "$description": "Sticker notes beside code."
@@ -183,7 +183,7 @@
       "$value": {
         "fontFamily": "{font.family.mono}",
         "fontWeight": "{font.weight.500}",
-        "fontSize": "{font.size.12}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.165}"
       },
       "$description": "Code listings and JSON."
@@ -192,7 +192,7 @@
       "$value": {
         "fontFamily": "{font.family.mono}",
         "fontWeight": "{font.weight.500}",
-        "fontSize": "{font.size.12}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.165}"
       },
       "$description": "Terminal output."
@@ -201,7 +201,7 @@
       "$value": {
         "fontFamily": "{font.family.mono}",
         "fontWeight": "{font.weight.500}",
-        "fontSize": "{font.size.12}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.175}"
       },
       "$description": "The editor pane."
@@ -210,7 +210,7 @@
       "$value": {
         "fontFamily": "{font.family.mono}",
         "fontWeight": "{font.weight.700}",
-        "fontSize": "{font.size.13}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.120}"
       },
       "$description": "Mono labels: pane titles, zone labels."
@@ -219,7 +219,7 @@
       "$value": {
         "fontFamily": "{font.family.mono}",
         "fontWeight": "{font.weight.600}",
-        "fontSize": "{font.size.10}",
+        "fontSize": "{font.size.14}",
         "lineHeight": "{font.lineHeight.100}",
         "letterSpacing": "{font.letterSpacing.wide}"
       },

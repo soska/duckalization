@@ -236,11 +236,9 @@ export function Preview({
         </div>
       </div>
 
-      <div className="hk-status">
-        <p className="hk-status-text" aria-live={pinned ? 'polite' : undefined}>
-          {status[state]}
-        </p>
-      </div>
+      <p className="hk-status" aria-live={pinned ? 'polite' : undefined}>
+        {status[state]}
+      </p>
     </div>
   );
 }

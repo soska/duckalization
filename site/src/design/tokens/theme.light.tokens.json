@@ -153,6 +153,10 @@
         "$value": "{color.yellow.300}",
         "$description": "Warning output."
       },
+      "keyword": {
+        "$value": "{color.orange.200}",
+        "$description": "Keywords in code listings."
+      },
       "hit": {
         "$value": "{color.yellow.500-a20}",
         "$description": "Highlighted code line."

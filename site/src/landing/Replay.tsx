@@ -300,7 +300,9 @@ function fmt(ms: number) {
 export function Replay() {
   const { __, __s } = useT();
   const reduced = useReducedMotion();
-  const tabbed = useMedia('(max-width: 859px)');
+  // Phones get one actor at a time. Anything wider stacks the three panes,
+// so the proof — you, the CLI, the agent — stays on one page.
+const tabbed = useMedia('(max-width: 559px)');
   const [t, setT] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -431,7 +433,7 @@ export function Replay() {
       <div className="fk-wrap">
         <div className="fk-replay-head">
           <div>
-            <SectionTitle id="fk-replay-title" eyebrow={__('Proof')} title={__('Now watch a real run.')} />
+            <SectionTitle id="fk-replay-title" eyebrow={__('Proof')} title={__('Every line the CLI printed.')} />
           </div>
           <p className="fk-replay-lede">
             {__(

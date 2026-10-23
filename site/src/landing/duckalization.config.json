@@ -1,6 +1,13 @@
 {
-  "include": ["*.tsx"],
-  "functions": ["__", "__s"],
+  "include": [
+    "Page.tsx",
+    "Flow.tsx",
+    "StyleExamples.tsx"
+  ],
+  "functions": [
+    "__",
+    "__s"
+  ],
   "outDir": "locales",
   "sourceLocale": "en"
 }
