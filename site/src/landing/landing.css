@@ -59,7 +59,7 @@
 /* Guardrails: why it's safe to let an agent translate. Every claim maps to
    documented CLI/runtime behavior (llms.txt: apply validation, fallback,
    glossary sign-off gate). */
-.guardrails { padding-block: 96px; background: var(--dk-color-wash-pond); border-bottom: 1px solid var(--dk-color-border-default); }
+.guardrails { position: relative; padding-block: 96px; background: var(--dk-color-wash-pond); border-bottom: 1px solid var(--dk-color-border-default); }
 .guardrails h2 { max-width: 15em; }
 .guardrails-lede { max-width: 40em; font-size: 18px; margin-top: 20px; color: var(--dk-color-text-muted); text-wrap: pretty; }
 .guardrails-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 48px; }
